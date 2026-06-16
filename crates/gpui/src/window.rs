@@ -63,7 +63,6 @@ pub(crate) mod a11y;
 mod prompts;
 
 use self::a11y::A11y;
-#[cfg(not(target_family = "wasm"))]
 use self::a11y::ROOT_NODE_ID;
 use crate::util::{
     atomic_incr_if_not_zero, ceil_to_device_pixel, floor_to_device_pixel, round_half_toward_zero,
@@ -1359,7 +1358,6 @@ impl Window {
         let accessibility_force_disabled = cx.accessibility_force_disabled;
         let a11y_active_flag = Arc::new(AtomicBool::new(false));
 
-        #[cfg(not(target_family = "wasm"))]
         if !accessibility_force_disabled {
             let initial_tree = accesskit::TreeUpdate {
                 nodes: vec![(ROOT_NODE_ID, accesskit::Node::new(accesskit::Role::Window))],
@@ -5492,7 +5490,6 @@ impl Window {
             .push((action, Box::new(listener)));
     }
 
-    #[cfg(not(target_family = "wasm"))]
     pub(crate) fn handle_a11y_action(&mut self, request: accesskit::ActionRequest, cx: &mut App) {
         // Take listeners out temporarily so the closures can borrow Window
         // mutably, then restore them afterward.

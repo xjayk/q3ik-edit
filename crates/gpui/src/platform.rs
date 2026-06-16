@@ -2,10 +2,6 @@ mod app_menu;
 mod keyboard;
 mod keystroke;
 
-#[cfg(all(target_os = "linux", feature = "wayland"))]
-#[expect(missing_docs)]
-pub mod layer_shell;
-
 #[cfg(any(test, feature = "bench"))]
 mod bench_dispatcher;
 
@@ -15,21 +11,10 @@ mod test;
 #[cfg(all(target_os = "macos", any(test, feature = "test-support")))]
 mod visual_test;
 
-#[cfg(all(
-    feature = "screen-capture",
-    any(target_os = "windows", target_os = "linux", target_os = "freebsd",)
-))]
-pub mod scap_screen_capture;
-
-#[cfg(all(
-    any(target_os = "windows", target_os = "linux"),
-    feature = "screen-capture"
-))]
-pub(crate) type PlatformScreenCaptureFrame = scap::frame::Frame;
+#[cfg(feature = "screen-capture")]
+pub(crate) type PlatformScreenCaptureFrame = core_video::image_buffer::CVImageBuffer;
 #[cfg(not(feature = "screen-capture"))]
 pub(crate) type PlatformScreenCaptureFrame = ();
-#[cfg(all(target_os = "macos", feature = "screen-capture"))]
-pub(crate) type PlatformScreenCaptureFrame = core_video::image_buffer::CVImageBuffer;
 
 use crate::{
     Action, AnyWindowHandle, App, AsyncWindowContext, BackgroundExecutor, Bounds,
@@ -40,8 +25,6 @@ use crate::{
     SystemWindowTab, Task, Window, WindowControlArea, hash, point, px, size,
 };
 use anyhow::Result;
-#[cfg(any(target_os = "linux", target_os = "freebsd"))]
-use anyhow::bail;
 use async_task::Runnable;
 use futures::channel::oneshot;
 #[cfg(any(test, feature = "test-support"))]
@@ -85,38 +68,6 @@ pub use bench_dispatcher::BenchDispatcher;
 
 #[cfg(all(target_os = "macos", any(test, feature = "test-support")))]
 pub use visual_test::VisualTestPlatform;
-
-// TODO(jk): return an enum instead of a string
-/// Return which compositor we're guessing we'll use.
-/// Does not attempt to connect to the given compositor.
-#[cfg(any(target_os = "linux", target_os = "freebsd"))]
-#[inline]
-pub fn guess_compositor() -> &'static str {
-    if std::env::var_os("ZED_HEADLESS").is_some() {
-        return "Headless";
-    }
-
-    #[cfg(feature = "wayland")]
-    let wayland_display = std::env::var_os("WAYLAND_DISPLAY");
-    #[cfg(not(feature = "wayland"))]
-    let wayland_display: Option<std::ffi::OsString> = None;
-
-    #[cfg(feature = "x11")]
-    let x11_display = std::env::var_os("DISPLAY");
-    #[cfg(not(feature = "x11"))]
-    let x11_display: Option<std::ffi::OsString> = None;
-
-    let use_wayland = wayland_display.is_some_and(|display| !display.is_empty());
-    let use_x11 = x11_display.is_some_and(|display| !display.is_empty());
-
-    if use_wayland {
-        "Wayland"
-    } else if use_x11 {
-        "X11"
-    } else {
-        "Headless"
-    }
-}
 
 #[expect(missing_docs)]
 pub trait Platform: 'static {
@@ -231,14 +182,7 @@ pub trait Platform: 'static {
     fn read_from_clipboard(&self) -> Option<ClipboardItem>;
     fn write_to_clipboard(&self, item: ClipboardItem);
 
-    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
-    fn read_from_primary(&self) -> Option<ClipboardItem>;
-    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
-    fn write_to_primary(&self, item: ClipboardItem);
-
-    #[cfg(target_os = "macos")]
     fn read_from_find_pasteboard(&self) -> Option<ClipboardItem>;
-    #[cfg(target_os = "macos")]
     fn write_to_find_pasteboard(&self, item: ClipboardItem);
 
     fn write_credentials(&self, url: &str, username: &str, password: &[u8]) -> Task<Result<()>>;
@@ -449,7 +393,6 @@ impl WindowButton {
         }
     }
 
-    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
     fn index(&self) -> usize {
         match self {
             WindowButton::Minimize => 0,
@@ -474,7 +417,6 @@ pub struct WindowButtonLayout {
     pub right: [Option<WindowButton>; MAX_BUTTONS_PER_SIDE],
 }
 
-#[cfg(any(target_os = "linux", target_os = "freebsd"))]
 impl WindowButtonLayout {
     /// Returns Zed's built-in fallback button layout for Linux titlebars.
     pub fn linux_default() -> Self {
@@ -537,7 +479,7 @@ impl WindowButtonLayout {
             && layout.left.iter().all(Option::is_none)
             && layout.right.iter().all(Option::is_none)
         {
-            bail!(
+            anyhow::bail!(
                 "button layout string {:?} contains no valid buttons (unrecognized: {})",
                 layout_string,
                 unrecognized.join(", ")
@@ -676,7 +618,6 @@ pub trait PlatformWindow: HasWindowHandle + HasDisplayHandle {
     }
     fn set_edited(&mut self, _edited: bool) {}
     fn set_document_path(&self, _path: Option<&std::path::Path>) {}
-    #[cfg(target_os = "macos")]
     fn set_traffic_light_position(&self, _position: Point<Pixels>) {}
     fn show_character_palette(&self) {}
     fn titlebar_double_click(&self) {}
@@ -690,10 +631,6 @@ pub trait PlatformWindow: HasWindowHandle + HasDisplayHandle {
     fn toggle_window_tab_overview(&self) {}
     fn set_tabbing_identifier(&self, _identifier: Option<String>) {}
 
-    #[cfg(target_os = "windows")]
-    fn get_raw_handle(&self) -> windows::Win32::Foundation::HWND;
-
-    // Linux specific methods
     fn inner_window_bounds(&self) -> WindowBounds {
         self.window_bounds()
     }
@@ -1017,13 +954,6 @@ pub enum AtlasKey {
 }
 
 impl AtlasKey {
-    #[cfg_attr(
-        all(
-            any(target_os = "linux", target_os = "freebsd"),
-            not(any(feature = "x11", feature = "wayland"))
-        ),
-        allow(dead_code)
-    )]
     /// Returns the texture kind for this atlas key.
     pub fn texture_kind(&self) -> AtlasTextureKind {
         match self {
@@ -1133,13 +1063,6 @@ pub struct AtlasTextureId {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 #[repr(C)]
-#[cfg_attr(
-    all(
-        any(target_os = "linux", target_os = "freebsd"),
-        not(any(feature = "x11", feature = "wayland"))
-    ),
-    allow(dead_code)
-)]
 #[expect(missing_docs)]
 pub enum AtlasTextureKind {
     Monochrome = 0,
@@ -1171,13 +1094,6 @@ pub struct PlatformInputHandler {
 }
 
 #[expect(missing_docs)]
-#[cfg_attr(
-    all(
-        any(target_os = "linux", target_os = "freebsd"),
-        not(any(feature = "x11", feature = "wayland"))
-    ),
-    allow(dead_code)
-)]
 impl PlatformInputHandler {
     pub fn new(cx: AsyncWindowContext, handler: Box<dyn InputHandler>) -> Self {
         Self { cx, handler }
@@ -1529,55 +1445,35 @@ pub struct WindowOptions {
 
 /// The variables that can be configured when creating a new window
 #[derive(Debug)]
-#[cfg_attr(
-    all(
-        any(target_os = "linux", target_os = "freebsd"),
-        not(any(feature = "x11", feature = "wayland"))
-    ),
-    allow(dead_code)
-)]
 #[allow(missing_docs)]
 pub struct WindowParams {
     pub bounds: Bounds<Pixels>,
 
     /// The titlebar configuration of the window
-    #[cfg_attr(feature = "wayland", allow(dead_code))]
     pub titlebar: Option<TitlebarOptions>,
 
     /// The kind of window to create
-    #[cfg_attr(any(target_os = "linux", target_os = "freebsd"), allow(dead_code))]
     pub kind: WindowKind,
 
     /// Whether the window should be movable by the user
-    #[cfg_attr(any(target_os = "linux", target_os = "freebsd"), allow(dead_code))]
     pub is_movable: bool,
 
     /// Whether the window should be resizable by the user
-    #[cfg_attr(any(target_os = "linux", target_os = "freebsd"), allow(dead_code))]
     pub is_resizable: bool,
 
     /// Whether the window should be minimized by the user
-    #[cfg_attr(any(target_os = "linux", target_os = "freebsd"), allow(dead_code))]
     pub is_minimizable: bool,
 
-    #[cfg_attr(
-        any(target_os = "linux", target_os = "freebsd", target_os = "windows"),
-        allow(dead_code)
-    )]
     pub focus: bool,
 
-    #[cfg_attr(any(target_os = "linux", target_os = "freebsd"), allow(dead_code))]
     pub show: bool,
 
     /// An image to set as the window icon (x11 only)
-    #[cfg_attr(feature = "wayland", allow(dead_code))]
     pub icon: Option<Arc<image::RgbaImage>>,
 
-    #[cfg_attr(feature = "wayland", allow(dead_code))]
     pub display_id: Option<DisplayId>,
 
     pub window_min_size: Option<Size<Pixels>>,
-    #[cfg(target_os = "macos")]
     pub tabbing_identifier: Option<String>,
 }
 
@@ -1668,11 +1564,6 @@ pub enum WindowKind {
 
     /// A floating window that appears on top of its parent window
     Floating,
-
-    /// A Wayland LayerShell window, used to draw overlays or backgrounds for applications such as
-    /// docks, notifications or wallpapers.
-    #[cfg(all(target_os = "linux", feature = "wayland"))]
-    LayerShell(layer_shell::LayerShellOptions),
 
     /// A window that appears on top of its parent window and blocks interaction with it
     /// until the modal window is closed
@@ -2335,7 +2226,7 @@ mod image_tests {
     }
 }
 
-#[cfg(all(test, any(target_os = "linux", target_os = "freebsd")))]
+#[cfg(test)]
 mod tests {
     use super::*;
     use std::collections::HashSet;

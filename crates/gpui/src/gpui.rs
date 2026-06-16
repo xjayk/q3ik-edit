@@ -35,13 +35,7 @@ mod platform;
 pub mod prelude;
 /// Profiling utilities for task, frame, and thread performance tracking.
 pub mod profiler;
-#[cfg(any(
-    test,
-    target_os = "windows",
-    target_os = "linux",
-    target_family = "wasm",
-    feature = "bench"
-))]
+#[cfg(any(test, feature = "bench"))]
 #[expect(missing_docs)]
 pub mod queue;
 mod scene;
@@ -137,7 +131,7 @@ pub use keymap::*;
 pub use path_builder::*;
 pub use platform::*;
 pub use profiler::*;
-#[cfg(any(target_os = "windows", target_os = "linux", target_family = "wasm"))]
+#[cfg(any(test, feature = "bench"))]
 pub use queue::{PriorityQueueReceiver, PriorityQueueSender};
 pub use refineable::*;
 pub use scene::*;

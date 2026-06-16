@@ -1269,26 +1269,11 @@ impl App {
         self.platform.write_to_clipboard(item)
     }
 
-    /// Reads data from the primary selection buffer.
-    /// Only available on Linux.
-    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
-    pub fn read_from_primary(&self) -> Option<ClipboardItem> {
-        self.platform.read_from_primary()
-    }
-
-    /// Writes data to the primary selection buffer.
-    /// Only available on Linux.
-    #[cfg(any(target_os = "linux", target_os = "freebsd"))]
-    pub fn write_to_primary(&self, item: ClipboardItem) {
-        self.platform.write_to_primary(item)
-    }
-
     /// Reads data from macOS's "Find" pasteboard.
     ///
     /// Used to share the current search string between apps.
     ///
     /// https://developer.apple.com/documentation/appkit/nspasteboard/name-swift.struct/find
-    #[cfg(target_os = "macos")]
     pub fn read_from_find_pasteboard(&self) -> Option<ClipboardItem> {
         self.platform.read_from_find_pasteboard()
     }
@@ -1298,7 +1283,6 @@ impl App {
     /// Used to share the current search string between apps.
     ///
     /// https://developer.apple.com/documentation/appkit/nspasteboard/name-swift.struct/find
-    #[cfg(target_os = "macos")]
     pub fn write_to_find_pasteboard(&self, item: ClipboardItem) {
         self.platform.write_to_find_pasteboard(item)
     }

@@ -118,7 +118,7 @@ git_ui = { workspace = true, features = ["call"] }
 go_to_line.workspace = true
 system_specs.workspace = true
 gpui = { workspace = true, features = ["input-latency-histogram"] }
-gpui_platform = {workspace = true, features=["screen-capture", "font-kit", "wayland", "x11"]}
+gpui_platform = {workspace = true, features=["screen-capture", "font-kit"]}
 hdrhistogram.workspace = true
 image = { workspace = true, optional = true }
 itertools.workspace = true
@@ -227,32 +227,8 @@ zed_env_vars.workspace = true
 zlog.workspace = true
 zlog_settings.workspace = true
 
-[target.'cfg(target_os = "windows")'.dependencies]
-etw_tracing.workspace = true
-windows.workspace = true
-gpui = { workspace = true, features = [
-    "input-latency-histogram",
-    "windows-manifest",
-] }
-
 [build-dependencies]
 windows_resources = { path = "../windows_resources" }
-
-[target.'cfg(any(target_os = "linux", target_os = "freebsd"))'.dependencies]
-gpui = { workspace = true, features = [
-    "input-latency-histogram",
-    "wayland",
-    "x11",
-] }
-ashpd.workspace = true
-image.workspace = true
-
-[target.'cfg(any(target_os = "linux", target_os = "freebsd"))'.build-dependencies]
-image.workspace = true
-
-
-[target.'cfg(target_os = "linux")'.build-dependencies]
-pkg-config = "0.3.22"
 
 [dev-dependencies]
 call = { workspace = true, features = ["test-support"] }
