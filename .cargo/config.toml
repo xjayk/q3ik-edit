@@ -1,6 +1,13 @@
 [build]
 # v0 mangling scheme provides more detailed backtraces around closures
 rustflags = ["-C", "symbol-mangling-version=v0", "--cfg", "tokio_unstable"]
+rustc-wrapper = "/Users/jkubik/.gemini/antigravity/bin/sccache"
+
+[profile.dev]
+incremental = false
+
+[profile.test]
+incremental = false
 
 [alias]
 xtask = "run --package xtask --"
