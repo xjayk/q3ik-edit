@@ -32,8 +32,26 @@ use git::repository::get_git_committer;
 use git_store::{Repository, RepositoryId};
 pub mod search_history;
 pub mod yarn;
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum VariableScope {
+    Global,
+    Local,
+}
 
-use dap::inline_value::{InlineValueLocation, VariableLookupKind, VariableScope};
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum VariableLookupKind {
+    Variable,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct InlineValueLocation {
+    pub variable_name: String,
+    pub scope: VariableScope,
+    pub lookup: VariableLookupKind,
+    pub row: usize,
+    pub column: usize,
+}
+
 use itertools::{Either, Itertools};
 
 use crate::{

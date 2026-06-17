@@ -10,7 +10,6 @@ use std::{
 
 use anyhow::Result;
 use collections::{HashMap, HashSet, VecDeque};
-use dap::DapRegistry;
 use gpui::{App, AppContext as _, Context, Entity, SharedString, Task, WeakEntity};
 use itertools::Itertools;
 use language::{
@@ -357,19 +356,7 @@ impl Inventory {
 
         let last_scheduled_scenarios = self.last_scheduled_scenarios.iter().cloned().collect();
 
-        let adapter = task_contexts.location().and_then(|location| {
-            let buffer = location.buffer.read(cx);
-            let adapter = LanguageSettings::for_buffer(&buffer, cx)
-                .debuggers
-                .first()
-                .map(SharedString::from)
-                .or_else(|| {
-                    buffer
-                        .language()
-                        .and_then(|l| l.config().debuggers.first().map(SharedString::from))
-                });
-            adapter.map(|adapter| (adapter, DapRegistry::global(cx).locators()))
-        });
+        let adapter: Option<(SharedString, ())> = None;
         cx.background_spawn(async move {
             if let Some((adapter, locators)) = adapter {
                 for (kind, task) in
