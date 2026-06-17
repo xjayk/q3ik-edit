@@ -193,8 +193,6 @@ pub trait TerminalProvider {
     ) -> Task<Option<Result<ExitStatus>>>;
 }
 
-
-
 /// Opens a file or directory.
 #[derive(Clone, PartialEq, Deserialize, JsonSchema, Action)]
 #[action(namespace = workspace)]

@@ -6,8 +6,8 @@ use gpui::{AppContext, AsyncWindowContext, Context, Entity, Task, TaskExt, WeakE
 use project::{TaskSourceKind, WorktreeId};
 use remote::ConnectionState;
 use task::{
-    ResolvedTask, SaveStrategy, SpawnInTerminal, TaskContext, TaskHook, TaskTemplate, TaskVariables,
-    VariableName,
+    ResolvedTask, SaveStrategy, SpawnInTerminal, TaskContext, TaskHook, TaskTemplate,
+    TaskVariables, VariableName,
 };
 use ui::Window;
 use util::TryFutureExt;
