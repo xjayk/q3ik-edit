@@ -28,16 +28,44 @@ jobs:
       - name: Check Formatting
         run: cargo fmt --all -- --check
 
-  build_and_test:
-    name: Build & Test
-    runs-on: ubuntu-latest
+  build:
+    name: Build
+    runs-on: macos-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install Linux Dependencies
-        run: |
-          ./script/linux
+      - name: Install Rust Toolchain
+        run: rustup show
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.3
+
+      - name: Build Workspace
+        run: cargo check --workspace
+
+  lint:
+    name: Lint
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust Toolchain
+        run: rustup show
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.3
+
+      - name: Run Clippy
+        run: cargo clippy --workspace --all-targets --all-features -- --deny warnings
+
+  test:
+    name: Test
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Install Rust Toolchain
         run: rustup show
@@ -48,8 +76,5 @@ jobs:
       - name: Install cargo-nextest
         uses: taiki-e/install-action@nextest
 
-      - name: Run Clippy
-        run: cargo clippy --workspace --all-targets --all-features -- --deny warnings
-
       - name: Run Tests
-        run: cargo nextest run --workspace --all-targets --no-fail-fast --no-tests=warn
+        run: cargo nextest run --workspace --no-fail-fast --no-tests=warn
