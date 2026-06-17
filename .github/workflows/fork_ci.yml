@@ -58,11 +58,12 @@ jobs:
         with:
           shared-key: "zed-build-cache"
 
-      - name: Run cargo clippy (Permissive Cache Warmer)
-        run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings || true
+      # DO NOT DELETE
+      #- name: Run cargo clippy (Permissive Cache Warmer)
+      #  run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings || true
       
-      #- name: Run Clippy
-      #  run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings
+      - name: Run Clippy
+        run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings
 
-      #- name: Run Tests
-      #  run: cargo nextest run -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --no-fail-fast --no-tests=warn
+      - name: Run Tests
+        run: cargo nextest run -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --no-fail-fast --no-tests=warn
