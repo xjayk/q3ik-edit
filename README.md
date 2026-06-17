@@ -1,19 +1,17 @@
-# Zed (q3ik-edit fork)
+# q3ik Edit (workspace-free Zed edition)
+[![Zed Fork](https://img.shields.io/badge/Fork-zed--industries%2Fzed-blue)](https://github.com/zed-industries/zed)
 
-[![Zed Fork](https://img.shields.io/badge/Fork-xjayk%2Fq3ik--edit-blue)](https://github.com/xjayk/q3ik-edit)
-[![License: GPL-3.0](https://img.shields.io/badge/License-GPL%203.0-blue.svg)](LICENSE-GPL)
+A lightweight, workspace-free fork of [Zed Industries' Zed](https://github.com/zed-industries/zed). This version is designed to eliminate project clutter by enforcing a single global session, supporting standalone tabs, and providing instant hot-exit capabilities.
 
-Welcome to **Zed (q3ik-edit)**, a fork of the high-performance, multiplayer code editor from the creators of [Atom](https://github.com/atom/atom) and [Tree-sitter](https://github.com/tree-sitter/tree-sitter).
 
----
+## Key Enhancements
 
-> [!IMPORTANT]
-> **Repository Boundary Rule**  
-> This project operates strictly under a repository boundary.
-> - **Allowed Target**: All commits, pushes, and Pull Requests MUST be targetted exclusively to this fork repository: `https://github.com/xjayk/q3ik-edit`.
-> - **Forbidden Target**: Under no circumstances should any modifications or pull requests be pushed or opened against the upstream repository `https://github.com/zed-industries/zed`.
+Unlike standard Zed, which revolves around project workspaces and folders, this build treats files as independent, lightweight entities.
 
----
+* **Workspace-Free Architecture:** No project sidebars, folder indexing, or multi-file project clutter.
+* **Single Global Session:** Open files instantly from anywhere in your system into one unified instance.
+* **Standalone Tabs:** Every file behaves as an independent, floating tab context.
+* **Instant Hot-Exit:** Close the application instantly without prompts. Your un-saved changes are cached globally and restored immediately upon relaunch.
 
 ## Workspace Customizations
 
@@ -21,26 +19,21 @@ This fork features a modified workspace optimized for a leaner codebase footprin
 - **No REPL / Notebook Support**: The `repl` crate has been completely removed.
 - **No Debugger / DAP Support**: The debugger UI (`debugger_ui`), debugger tools (`debugger_tools`), DAP client/adapters (`dap`, `dap_adapters`), and related settings/menu options have been removed.
 
----
-
-## Developing
-
-### Platform-Specific Guides
-- [Building Zed for macOS](./docs/src/development/macos.md)
-- [Building Zed for Linux](./docs/src/development/linux.md)
-- [Building Zed for Windows](./docs/src/development/windows.md)
 
 ---
 
-## Contributing
-
-Please review the contribution guidelines in [CONTRIBUTING.md](./CONTRIBUTING.md) (or checkout the rules in [.rules](./.rules)) for coding standards, pull request hygiene, and GPUI development practices.
-
-All agent-driven edits must comply with the repository boundary rules described above.
-
+> [!IMPORTANT]
+> **Repository Boundary Rule**  
+> This repository has been **intentionally detached** from the upstream GitHub fork network. 
+> The project operates strictly under a repository boundary.
+> - **Allowed Target**: All commits, pushes, and Pull Requests MUST be targetted exclusively to this fork repository: `https://github.com/xjayk/q3ik-edit`.
+> - **Forbidden Target**: Under no circumstances should any modifications or pull requests be pushed or opened against the upstream repository `https://github.com/zed-industries/zed`.
+>
+> All feature development, bug fixes, and internal pull requests must be directed **strictly to this repository**.
 ---
 
-## Licensing
-
-Zed source code is licensed primarily under the GPL-3.0-or-later license, with Apache-2.0 components where marked.
-For details on open-source dependencies and license compliance, see the main [LICENSE-GPL](LICENSE-GPL) and [LICENSE-APACHE](LICENSE-APACHE) files.
+## Licensing & Credits
+This project is a modified derivative of the open-source editor created by **Zed Industries, Inc.** 
+In compliance with open-source licensing constraints, this software remains distributed under the original licenses provided by the upstream authors:
+* The editor codebase is licensed under the **GNU General Public License v3.0** (`GPL-3.0`).
+* Server components are licensed under the **GNU Affero General Public License v3.0** (`AGPL-3.0`).
