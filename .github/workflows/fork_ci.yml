@@ -1,0 +1,70 @@
+# Expedite the addition of this workflow file to  allow the main branch to start building it's cache
+name: Fork CI
+
+on:
+  push:
+    branches:
+      - main
+      - v[0-9]+.[0-9]+.x
+  pull_request:
+    branches:
+      - '**'
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: '1'
+  CARGO_INCREMENTAL: '0'
+  # Force sccache to inject seamlessly into cargo
+  RUSTC_WRAPPER: sccache
+
+jobs:
+  check_style:
+    name: Check Style
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust Toolchain
+        run: rustup show
+
+      - name: Cargo Cache Setup (Style)
+        uses: swatinem/rust-cache@v2
+
+      - name: Check Formatting
+        run: cargo fmt --all -- --check
+
+  build_and_test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Linux Dependencies
+        run: |
+          ./script/linux
+
+      - name: Install Rust Toolchain
+        run: rustup show
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.3
+
+      - name: Install cargo-nextest
+        uses: taiki-e/install-action@nextest
+        
+      - name: Cargo Cache Setup (Build)
+        uses: swatinem/rust-cache@v2
+        with:
+          shared-key: "zed-build-cache"
+
+      # DO NOT DELETE
+      - name: Run cargo clippy (Permissive Cache Warmer)
+        run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings || true
+      
+      #- name: Run Clippy
+      #  run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings#
+
+      #- name: Run Tests
+      #  run: cargo nextest run -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --no-fail-fast --no-tests=warn
