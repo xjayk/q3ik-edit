@@ -27,7 +27,7 @@ use command_palette_hooks::CommandPaletteFilter;
 use gpui::{
     Action, Anchor, Animation, AnimationExt, AnyElement, App, Context, Element, Entity, Focusable,
     InteractiveElement, IntoElement, MouseButton, ParentElement, Render,
-    StatefulInteractiveElement, Styled, Subscription, TaskExt, WeakEntity, Window, actions, div,
+    StatefulInteractiveElement, Styled, Subscription, WeakEntity, Window, actions, div,
     pulsating_between,
 };
 use onboarding_banner::OnboardingBanner;
@@ -45,7 +45,7 @@ use theme::ActiveTheme;
 use title_bar_settings::TitleBarSettings;
 use ui::{
     Avatar, ButtonLike, ContextMenu, ContextMenuEntry, IconWithIndicator, Indicator, PopoverMenu,
-    PopoverMenuHandle, TintColor, Tooltip, prelude::*, utils::platform_title_bar_height,
+    TintColor, Tooltip, prelude::*, utils::platform_title_bar_height,
 };
 use update_version::UpdateVersion;
 use util::ResultExt;
@@ -493,7 +493,7 @@ impl TitleBar {
 
         let banner = None;
 
-        let mut this = Self {
+        let this = Self {
             platform_titlebar,
             application_menu,
             workspace: workspace.weak_handle(),
@@ -1296,10 +1296,6 @@ impl TitleBar {
                     .action(
                         "Icon Themes…",
                         zed_actions::icon_theme_selector::Toggle::default().boxed_clone(),
-                    )
-                    .action(
-                        "Extensions",
-                        zed_actions::Extensions::default().boxed_clone(),
                     )
                     .when(ai_enabled, |menu| {
                         menu.separator()
