@@ -47,8 +47,8 @@ use util::{
     rel_path::RelPath,
 };
 use workspace::{
-    ModalView, OpenOptions, OpenVisible, SplitDirection, Workspace,
-    item::PreviewTabsSettings, notifications::NotifyResultExt, pane,
+    ModalView, OpenOptions, OpenVisible, SplitDirection, Workspace, item::PreviewTabsSettings,
+    notifications::NotifyResultExt, pane,
 };
 use zed_actions::search::ToggleIncludeIgnored;
 
@@ -1515,8 +1515,7 @@ impl FileFinderDelegate {
                     let project_path =
                         project_path_for_search_match(workspace.project(), &path_match.0, cx);
                     split_or_open(workspace, project_path, window, cx)
-                }
-                // All match variants are handled above.
+                } // All match variants are handled above.
             }
         });
 

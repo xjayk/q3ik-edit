@@ -605,7 +605,6 @@ impl ActivityIndicator {
             });
         }
 
-
         None
     }
 }

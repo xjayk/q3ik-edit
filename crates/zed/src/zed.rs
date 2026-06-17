@@ -2521,7 +2521,6 @@ fn open_settings_file(
     .detach_and_log_err(cx);
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -77,8 +77,6 @@ pub fn init(cx: &mut App) -> Arc<AgentCliAppState> {
 
     let user_store = cx.new(|cx| UserStore::new(client.clone(), cx));
 
-
-
     let (mut node_options_tx, node_options_rx) = watch::channel(None);
     cx.observe_global::<SettingsStore>(move |cx| {
         let settings = &ProjectSettings::get_global(cx).node;

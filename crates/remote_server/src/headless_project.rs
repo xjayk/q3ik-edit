@@ -2,13 +2,13 @@ use anyhow::{Context as _, Result, anyhow};
 use client::ProjectId;
 use collections::HashMap;
 use collections::HashSet;
-use gpui::TasksIncluded;
-use language::File;
-use lsp::LanguageServerId;
 use fs::Fs;
+use gpui::TasksIncluded;
 use gpui::{App, AppContext as _, AsyncApp, Context, Entity, PromptLevel, TaskExt};
 use http_client::HttpClient;
+use language::File;
 use language::{Buffer, BufferEvent, LanguageRegistry, proto::serialize_operation};
+use lsp::LanguageServerId;
 use node_runtime::NodeRuntime;
 use project::{
     AgentRegistryStore, LspStore, LspStoreEvent, ManifestTree, PrettierStore, ProjectEnvironment,

@@ -2096,7 +2096,6 @@ impl RemoteServerProjects {
                     }
                 };
 
-
             entity
                 .update(cx, |this, cx| {
                     this.allow_dismissal = true;

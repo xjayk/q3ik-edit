@@ -1,11 +1,6 @@
 use gpui::{App, Window, actions};
 
-actions!(
-    dev,
-    [
-        DumpInputLatencyHistogram,
-    ]
-);
+actions!(dev, [DumpInputLatencyHistogram,]);
 
 pub fn format_input_latency_report(_window: &Window, _cx: &mut App) -> String {
     String::new()

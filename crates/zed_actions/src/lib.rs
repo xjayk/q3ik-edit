@@ -80,7 +80,6 @@ actions!(
     ]
 );
 
-
 /// Opens the ACP registry.
 #[derive(PartialEq, Clone, Default, Debug, Deserialize, JsonSchema, Action)]
 #[action(namespace = zed)]
