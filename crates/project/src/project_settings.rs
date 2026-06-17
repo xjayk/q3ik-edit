@@ -738,7 +738,7 @@ impl Settings for ProjectSettings {
                 .dap
                 .clone()
                 .into_iter()
-                .map(|(key, value)| (DebugAdapterName(key.into()), DapSettings::from(value)))
+                .map(|(key, value)| (DebugAdapterName(key), DapSettings::from(value)))
                 .collect(),
             diagnostics: DiagnosticsSettings {
                 button: diagnostics.button.unwrap(),
