@@ -6417,6 +6417,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "gpui_linux"
+version = "0.1.0"
+dependencies = [
+ "gpui",
+]
+
+[[package]]
 name = "gpui_macos"
 version = "0.1.0"
 dependencies = [
@@ -6478,6 +6485,7 @@ name = "gpui_platform"
 version = "0.1.0"
 dependencies = [
  "gpui",
+ "gpui_linux",
  "gpui_macos",
 ]
 
