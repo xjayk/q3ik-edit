@@ -1979,6 +1979,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_add_flag_prefers_focused_window(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 

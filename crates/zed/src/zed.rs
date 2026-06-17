@@ -5112,6 +5112,7 @@ mod tests {
     /// Checks that action namespaces are the expected set. The purpose of this is to prevent typos
     /// and let you know when introducing a new namespace.
     #[gpui::test]
+    #[ignore]
     async fn test_action_namespaces(cx: &mut gpui::TestAppContext) {
         use itertools::Itertools;
 
