@@ -72,8 +72,8 @@ impl Editor {
                 }
 
                 cx.spawn_in(window, {
-                    let buffer = buffer.clone();
-                    async move |editor, cx| {
+                    let _buffer = buffer.clone();
+                    async move |_editor, cx| {
                         let task_context = match workspace {
                             Some(ws) => task_context_task
                                 .await

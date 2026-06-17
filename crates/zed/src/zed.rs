@@ -2296,7 +2296,6 @@ fn open_project_tasks_file(
     )
 }
 
-
 fn open_local_file(
     workspace: &mut Workspace,
     settings_relative_path: &'static RelPath,

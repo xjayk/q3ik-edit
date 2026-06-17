@@ -1621,15 +1621,6 @@ pub enum DapBinary {
 }
 
 #[derive(
-    Clone,
-    Debug,
-    PartialEq,
-    Eq,
-    Hash,
-    PartialOrd,
-    Ord,
-    Serialize,
-    Deserialize,
-    JsonSchema,
+    Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
 )]
 pub struct DebugAdapterName(pub Arc<str>);

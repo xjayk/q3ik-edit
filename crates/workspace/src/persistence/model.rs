@@ -13,14 +13,21 @@ use db::sqlez::{
 use gpui::{AsyncWindowContext, Entity, WeakEntity, WindowId};
 
 use language::{Toolchain, ToolchainScope};
-use project::{
-    Project, ProjectGroupKey, bookmark_store::SerializedBookmark,
-};
+use project::{Project, ProjectGroupKey, bookmark_store::SerializedBookmark};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum BreakpointState {
     Enabled,
     Disabled,
+}
+
+impl BreakpointState {
+    pub fn to_int(&self) -> i32 {
+        match self {
+            Self::Enabled => 0,
+            Self::Disabled => 1,
+        }
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

@@ -2439,7 +2439,6 @@ impl EditorElement {
         })
     }
 
-
     fn should_render_diff_review_button(
         &self,
         range: Range<DisplayRow>,
@@ -2490,7 +2489,7 @@ impl EditorElement {
         &self,
         gutter: &Gutter,
         run_indicators: &HashSet<DisplayRow>,
-        breakpoints: &HashMap<DisplayRow, (Anchor, Breakpoint, Option<BreakpointSessionState>)>,
+        breakpoints: &HashMap<DisplayRow, Anchor>,
         window: &mut Window,
         cx: &mut App,
     ) -> Vec<AnyElement> {
@@ -2528,7 +2527,7 @@ impl EditorElement {
                                 .render_run_indicator(
                                     &self.style,
                                     Some(*display_row) == active_task_indicator_row,
-                                    breakpoints.get(&display_row).map(|(anchor, _, _)| *anchor),
+                                    breakpoints.get(&display_row).copied(),
                                     *display_row,
                                     cx,
                                 )
@@ -8284,17 +8283,16 @@ impl Element for EditorElement {
                         })
                         .unwrap_or_else(|| (Vec::new(), Vec::new(), HashMap::default()));
 
-                    let (selections, mut active_rows, newest_selection_head) = self
-                        .layout_selections(
-                            start_anchor,
-                            end_anchor,
-                            &local_selections,
-                            &snapshot,
-                            start_row,
-                            end_row,
-                            window,
-                            cx,
-                        );
+                    let (selections, active_rows, newest_selection_head) = self.layout_selections(
+                        start_anchor,
+                        end_anchor,
+                        &local_selections,
+                        &snapshot,
+                        start_row,
+                        end_row,
+                        window,
+                        cx,
+                    );
 
                     // relative rows are based on newest selection, even outside the visible area
                     let current_selection_head = self.editor.update(cx, |editor, cx| {
@@ -8322,7 +8320,7 @@ impl Element for EditorElement {
                         editor.active_run_indicators(start_row..end_row, window, cx)
                     });
 
-                    let mut breakpoint_rows = HashMap::default();
+                    let breakpoint_rows = HashMap::default();
 
                     let gutter = Gutter {
                         line_height,
