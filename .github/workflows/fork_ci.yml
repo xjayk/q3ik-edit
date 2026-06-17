@@ -62,8 +62,16 @@ jobs:
       #- name: Run cargo clippy (Permissive Cache Warmer)
       #  run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings || true
       
+      - name: Free Disk Space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          df -h /
+
       - name: Run Clippy
         run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings
 
       - name: Run Tests
-        run: cargo nextest run -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --no-fail-fast --no-tests=warn
+        run: cargo nextest run -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --lib --bins --tests --no-fail-fast --no-tests=warn
