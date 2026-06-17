@@ -50,10 +50,7 @@ use migrator::migrate_keymap;
 use onboarding::multibuffer_hint::MultibufferHint;
 pub use open_listener::*;
 use outline_panel::OutlinePanel;
-use paths::{
-    local_settings_file_relative_path,
-    local_tasks_file_relative_path,
-};
+use paths::{local_settings_file_relative_path, local_tasks_file_relative_path};
 use project::{DirectoryLister, DisableAiSettings, ProjectItem};
 use project_panel::ProjectPanel;
 use quick_action_bar::QuickActionBar;
@@ -64,8 +61,7 @@ use search::project_search::ProjectSearchBar;
 use settings::{
     BaseKeymap, DEFAULT_KEYMAP_PATH, DefaultOpenBehavior, InvalidSettingsError, KeybindSource,
     KeymapFile, KeymapFileLoadResult, MigrationStatus, Settings, SettingsFile, SettingsStore,
-    VIM_KEYMAP_PATH, initial_project_settings_content,
-    initial_tasks_content, update_settings_file,
+    VIM_KEYMAP_PATH, initial_project_settings_content, initial_tasks_content, update_settings_file,
 };
 use sidebar::Sidebar;
 #[cfg(debug_assertions)]
@@ -78,7 +74,7 @@ use std::{
     sync::atomic::{self, AtomicBool},
 };
 use terminal_view::terminal_panel::{self, TerminalPanel};
-use theme::{ActiveTheme};
+use theme::ActiveTheme;
 use theme_settings::ThemeSettings;
 use ui::{Navigable, NavigableEntry, PopoverMenuHandle, TintColor, prelude::*};
 use util::markdown::MarkdownString;

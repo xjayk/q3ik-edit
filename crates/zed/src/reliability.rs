@@ -31,7 +31,12 @@ pub async fn upload_previous_minidumps(_client: Arc<Client>) -> anyhow::Result<(
 }
 
 #[allow(dead_code)]
-async fn upload_minidump(_client: Arc<Client>, _endpoint: &str, _minidump: Vec<u8>, _metadata: &str) -> Result<()> {
+async fn upload_minidump(
+    _client: Arc<Client>,
+    _endpoint: &str,
+    _minidump: Vec<u8>,
+    _metadata: &str,
+) -> Result<()> {
     Ok(())
 }
 
