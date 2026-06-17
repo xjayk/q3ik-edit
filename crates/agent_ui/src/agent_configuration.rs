@@ -15,7 +15,7 @@ use editor::{Editor, MultiBufferOffset, SelectionEffects, scroll::Autoscroll};
 use fs::Fs;
 use gpui::{
     Action, Anchor, AnyView, App, AsyncWindowContext, Entity, EventEmitter, FocusHandle, Focusable,
-    ScrollHandle, Subscription, Task, TaskExt, WeakEntity,
+    ScrollHandle, Subscription, TaskExt, WeakEntity,
 };
 use itertools::Itertools;
 use language::LanguageRegistry;
@@ -24,7 +24,6 @@ use language_model::{
     ZED_CLOUD_PROVIDER_ID,
 };
 use language_models::AllLanguageModelSettings;
-use notifications::status_toast::StatusToast;
 use project::{
     agent_server_store::{AgentId, AgentServerStore, ExternalAgentSource},
     context_server_store::{ContextServerConfiguration, ContextServerStatus, ContextServerStore},

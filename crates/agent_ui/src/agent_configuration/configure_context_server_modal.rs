@@ -9,7 +9,7 @@ use gpui::{
     prelude::*,
 };
 use language::{Language, LanguageRegistry};
-use markdown::{Markdown, MarkdownElement, MarkdownStyle};
+use markdown::MarkdownStyle;
 use notifications::status_toast::StatusToast;
 use parking_lot::Mutex;
 use project::{
@@ -18,14 +18,13 @@ use project::{
         registry::ContextServerDescriptorRegistry,
     },
     project_settings::{ContextServerSettings, OAuthClientSettings, ProjectSettings},
-    worktree_store::WorktreeStore,
 };
 use serde::Deserialize;
 use settings::{Settings as _, update_settings_file};
 use std::sync::Arc;
 use theme_settings::ThemeSettings;
 use ui::{
-    CommonAnimationExt, KeyBinding, Modal, ModalFooter, ModalHeader, Section, Tooltip,
+    CommonAnimationExt, KeyBinding, Modal, ModalFooter, ModalHeader, Section,
     WithScrollbar, prelude::*,
 };
 use util::ResultExt as _;
@@ -69,7 +68,7 @@ impl ConfigurationSource {
 
     fn from_target(
         target: ConfigurationTarget,
-        language_registry: Arc<LanguageRegistry>,
+        _language_registry: Arc<LanguageRegistry>,
         jsonc_language: Option<Arc<Language>>,
         window: &mut Window,
         cx: &mut App,
