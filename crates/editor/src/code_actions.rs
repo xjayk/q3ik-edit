@@ -234,6 +234,7 @@ impl Editor {
                         cx,
                     )
                     .await
+                }))
             }
         }
     }
