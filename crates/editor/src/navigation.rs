@@ -1550,6 +1550,7 @@ impl Editor {
         }
     }
 
+    #[allow(dead_code)]
     pub(super) fn go_to_line<T: 'static>(
         &mut self,
         position: Anchor,

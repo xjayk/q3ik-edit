@@ -1724,6 +1724,7 @@ pub struct AvailableCodeAction {
 pub struct CodeActionContents {
     tasks: Option<Rc<ResolvedTasks>>,
     actions: Option<Rc<[AvailableCodeAction]>>,
+    #[allow(dead_code)]
     pub(crate) context: TaskContext,
 }
 

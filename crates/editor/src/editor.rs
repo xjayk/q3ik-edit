@@ -3908,9 +3908,6 @@ impl Editor {
             })
     }
 
-    /// Get all display points of breakpoints that will be rendered within editor
-    ///
-
     fn gutter_context_menu(
         &self,
         anchor: Anchor,
