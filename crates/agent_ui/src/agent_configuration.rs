@@ -740,7 +740,6 @@ impl AgentConfiguration {
                         .entry("Uninstall", None, {
                             let fs = fs.clone();
                             let context_server_id = context_server_id.clone();
-                            let workspace = workspace.clone();
                             move |_, cx| {
                                 update_settings_file(
                                     fs.clone(),
