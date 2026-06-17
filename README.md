@@ -17,6 +17,9 @@ Other platforms are not yet available:
 
 ### Developing Zed
 
+> [!IMPORTANT]
+> **Repository Boundary Rule**: This is a fork repository (`https://github.com/xjayk/q3ik-edit`). All contributions, commits, pushes, and Pull Requests MUST be targetted and submitted exclusively to this fork. Do not push or submit pull requests to the upstream `zed-industries/zed` repository.
+
 - [Building Zed for macOS](./docs/src/development/macos.md)
 - [Building Zed for Linux](./docs/src/development/linux.md)
 - [Building Zed for Windows](./docs/src/development/windows.md)

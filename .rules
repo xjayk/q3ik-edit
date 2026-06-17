@@ -1,3 +1,9 @@
+# Repository Boundary
+
+This project is configured as a fork of Zed. 
+- **Allowed Target**: All modifications, commits, pushes, and Pull Requests MUST be directed exclusively to the fork repository at `https://github.com/xjayk/q3ik-edit`.
+- **Forbidden Target**: Under no circumstances should any commits, pushes, or Pull Requests be opened against the upstream repository at `https://github.com/zed-industries/zed`.
+
 # Rust coding guidelines
 
 * Prioritize code correctness and clarity. Speed and efficiency are secondary priorities unless otherwise specified.
