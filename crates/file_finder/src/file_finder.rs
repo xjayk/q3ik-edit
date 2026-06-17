@@ -7,7 +7,6 @@ pub use open_path_prompt::OpenPathDelegate;
 use collections::HashMap;
 use editor::Editor;
 use file_icons::FileIcons;
-use fuzzy::{StringMatch, StringMatchCandidate};
 use fuzzy_nucleo::{PathMatch, PathMatchCandidate};
 use gpui::{
     Action, AnyElement, App, Context, DismissEvent, Empty, Entity, EventEmitter, FocusHandle,
@@ -47,8 +46,8 @@ use util::{
     rel_path::RelPath,
 };
 use workspace::{
-    ModalView, OpenOptions, OpenVisible, SplitDirection, Workspace,
-    item::PreviewTabsSettings, notifications::NotifyResultExt, pane,
+    ModalView, OpenOptions, OpenVisible, SplitDirection, Workspace, item::PreviewTabsSettings,
+    notifications::NotifyResultExt, pane,
 };
 use zed_actions::search::ToggleIncludeIgnored;
 
@@ -1515,8 +1514,7 @@ impl FileFinderDelegate {
                     let project_path =
                         project_path_for_search_match(workspace.project(), &path_match.0, cx);
                     split_or_open(workspace, project_path, window, cx)
-                }
-                // All match variants are handled above.
+                } // All match variants are handled above.
             }
         });
 
@@ -1753,17 +1751,15 @@ impl PickerDelegate for FileFinderDelegate {
 
         let (file_name_label, full_path_label) = self.labels_for_match(path_match, window, cx);
 
-        let file_icon = match path_match {
-            _ => maybe!({
-                if !settings.file_icons {
-                    return None;
-                }
-                let abs_path = path_match.abs_path(&self.project, cx)?;
-                let file_name = abs_path.file_name()?;
-                let icon = FileIcons::get_icon(file_name.as_ref(), cx)?;
-                Some(Icon::from_path(icon).color(Color::Muted))
-            }),
-        };
+        let file_icon = maybe!({
+            if !settings.file_icons {
+                return None;
+            }
+            let abs_path = path_match.abs_path(&self.project, cx)?;
+            let file_name = abs_path.file_name()?;
+            let icon = FileIcons::get_icon(file_name.as_ref(), cx)?;
+            Some(Icon::from_path(icon).color(Color::Muted))
+        });
 
         Some(
             ListItem::new(ix)

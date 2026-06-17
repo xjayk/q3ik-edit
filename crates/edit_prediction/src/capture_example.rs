@@ -145,6 +145,7 @@ pub(crate) fn write_event_with_relative_paths(
 }
 
 fn generate_timestamp_name() -> String {
+    #[allow(deprecated)]
     let format = time::format_description::parse("[year]-[month]-[day] [hour]:[minute]:[second]");
     match format {
         Ok(format) => {

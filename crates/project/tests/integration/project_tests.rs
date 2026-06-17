@@ -3,7 +3,6 @@
 mod agent_registry_store;
 mod bookmark_store;
 mod color_extractor;
-mod context_server_store;
 mod git_store;
 mod image_store;
 mod lsp_command;

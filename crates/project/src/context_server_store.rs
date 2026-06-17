@@ -35,7 +35,6 @@ const MAX_TIMEOUT_SECS: u64 = 600; // 10 minutes
 
 pub fn init(_cx: &mut App) {}
 
-
 actions!(
     context_server,
     [
@@ -201,9 +200,7 @@ impl ContextServerConfiguration {
                 command,
                 remote,
             } => Some(ContextServerConfiguration::Custom { command, remote }),
-            ContextServerSettings::Extension { .. } => {
-                None
-            }
+            ContextServerSettings::Extension { .. } => None,
             ContextServerSettings::Http {
                 enabled: _,
                 url,

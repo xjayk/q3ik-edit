@@ -65,7 +65,7 @@ use std::{
 };
 use theme::{ActiveTheme, GlobalTheme, ThemeRegistry};
 use theme_settings::load_user_theme;
-use util::{ResultExt, TryFutureExt, maybe};
+use util::ResultExt;
 use uuid::Uuid;
 use workspace::{
     AppState, MultiWorkspace, SerializedWorkspaceLocation, SessionWorkspace, Toast,
@@ -77,7 +77,7 @@ use zed::{
     handle_keymap_file_changes, initialize_workspace, open_paths_with_positions,
 };
 
-use crate::zed::{CrashHandler, OpenRequestKind, eager_load_active_theme_and_icon_theme};
+use crate::zed::{CrashHandler, OpenRequestKind};
 
 #[cfg(feature = "mimalloc")]
 #[global_allocator]

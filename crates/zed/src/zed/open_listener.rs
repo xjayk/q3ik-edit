@@ -86,10 +86,6 @@ impl std::fmt::Debug for OpenRequestKind {
         match self {
             Self::CliConnection(_) => write!(f, "CliConnection(..)"),
             Self::FocusApp => write!(f, "FocusApp"),
-            Self::Extension { extension_id } => f
-                .debug_struct("Extension")
-                .field("extension_id", extension_id)
-                .finish(),
             Self::AgentPanel {
                 external_source_prompt,
             } => f

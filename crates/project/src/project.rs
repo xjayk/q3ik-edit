@@ -33,7 +33,6 @@ use git_store::{Repository, RepositoryId};
 pub mod search_history;
 pub mod yarn;
 
-use dap::inline_value::{InlineValueLocation, VariableLookupKind, VariableScope};
 use itertools::{Either, Itertools};
 
 use crate::{
@@ -126,7 +125,7 @@ use std::{
 
 use task_store::TaskStore;
 use terminals::Terminals;
-use text::{Anchor, BufferId, Point, Rope};
+use text::{Anchor, BufferId, Rope};
 use toolchain_store::EmptyToolchainStore;
 use util::{
     ResultExt as _, maybe,
@@ -406,11 +405,6 @@ pub enum Event {
 }
 
 pub struct AgentLocationChanged;
-
-pub enum DebugAdapterClientState {
-    Starting(Task<Option<Arc<DebugAdapterClient>>>),
-    Running(Arc<DebugAdapterClient>),
-}
 
 #[derive(Clone, Debug, Eq, PartialEq, Hash, PartialOrd, Ord)]
 pub struct ProjectPath {
@@ -901,7 +895,6 @@ enum EntitySubscription {
     WorktreeStore(PendingEntitySubscription<WorktreeStore>),
     LspStore(PendingEntitySubscription<LspStore>),
     SettingsObserver(PendingEntitySubscription<SettingsObserver>),
-
 }
 
 #[derive(Debug, Clone)]
@@ -1219,8 +1212,6 @@ impl Project {
             let bookmark_store =
                 cx.new(|_| BookmarkStore::new(worktree_store.clone(), buffer_store.clone()));
 
-
-
             let image_store = cx.new(|cx| ImageStore::local(worktree_store.clone(), cx));
             cx.subscribe(&image_store, Self::on_image_store_event)
                 .detach();
@@ -1456,8 +1447,6 @@ impl Project {
             let bookmark_store =
                 cx.new(|_| BookmarkStore::new(worktree_store.clone(), buffer_store.clone()));
 
-
-
             let git_store = cx.new(|cx| {
                 GitStore::remote(
                     &worktree_store,
@@ -1649,7 +1638,7 @@ impl Project {
 
     async fn from_join_project_response(
         response: TypedEnvelope<proto::JoinProjectResponse>,
-        subscriptions: [EntitySubscription; 8],
+        subscriptions: [EntitySubscription; 6],
         client: Arc<Client>,
         run_tasks: bool,
         user_store: Entity<UserStore>,
@@ -1687,8 +1676,6 @@ impl Project {
 
         let bookmark_store =
             cx.new(|_| BookmarkStore::new(worktree_store.clone(), buffer_store.clone()));
-
-
 
         let lsp_store = cx.new(|cx| {
             LspStore::new_remote(
@@ -1776,8 +1763,6 @@ impl Project {
             cx.subscribe(&settings_observer, Self::on_settings_observer_event)
                 .detach();
 
-            cx.subscribe(&dap_store, Self::on_dap_store_event).detach();
-
             let mut project = Self {
                 buffer_ordered_messages_tx: tx,
                 buffer_store: buffer_store.clone(),
@@ -1806,6 +1791,7 @@ impl Project {
                 },
                 git_store: git_store.clone(),
                 agent_server_store,
+                bookmark_store,
                 buffers_needing_diff: Default::default(),
                 git_diff_debouncer: DebouncedDelay::new(),
                 terminals: Terminals {
@@ -2629,12 +2615,6 @@ impl Project {
                 .set_entity(&self.settings_observer, &cx.to_async()),
             self.collab_client
                 .subscribe_to_entity(project_id)?
-                .set_entity(&self.dap_store, &cx.to_async()),
-            self.collab_client
-                .subscribe_to_entity(project_id)?
-                .set_entity(&self.breakpoint_store, &cx.to_async()),
-            self.collab_client
-                .subscribe_to_entity(project_id)?
                 .set_entity(&self.git_store, &cx.to_async()),
         ]);
 
@@ -3401,8 +3381,6 @@ impl Project {
             }
         }
     }
-
-
 
     fn on_lsp_store_event(
         &mut self,
@@ -4391,8 +4369,6 @@ impl Project {
         })
     }
 
-
-
     fn search_impl(&mut self, query: SearchQuery, cx: &mut Context<Self>) -> SearchResultsHandle {
         let client: Option<(AnyProtoClient, _)> = if let Some(ssh_client) = &self.remote_client {
             Some((ssh_client.read(cx).proto_client(), 0))
@@ -5025,7 +5001,6 @@ impl Project {
             this.buffer_store.update(cx, |buffer_store, _| {
                 buffer_store.forget_shared_buffers_for(&collaborator.peer_id);
             });
-            this.breakpoint_store.read(cx).broadcast();
             cx.emit(Event::CollaboratorJoined(collaborator.peer_id));
             this.collaborators
                 .insert(collaborator.peer_id, collaborator);
@@ -6499,71 +6474,4 @@ fn proto_to_prompt(level: proto::language_server_prompt_request::Level) -> gpui:
         proto::language_server_prompt_request::Level::Warning(_) => gpui::PromptLevel::Warning,
         proto::language_server_prompt_request::Level::Critical(_) => gpui::PromptLevel::Critical,
     }
-}
-
-fn provide_inline_values(
-    captures: impl Iterator<Item = (Range<usize>, language::DebuggerTextObject)>,
-    snapshot: &language::BufferSnapshot,
-    max_row: usize,
-) -> Vec<InlineValueLocation> {
-    let mut variables = Vec::new();
-    let mut variable_position = HashSet::default();
-    let mut scopes = Vec::new();
-
-    let active_debug_line_offset = snapshot.point_to_offset(Point::new(max_row as u32, 0));
-
-    for (capture_range, capture_kind) in captures {
-        match capture_kind {
-            language::DebuggerTextObject::Variable => {
-                let variable_name = snapshot
-                    .text_for_range(capture_range.clone())
-                    .collect::<String>();
-                let point = snapshot.offset_to_point(capture_range.end);
-
-                while scopes
-                    .last()
-                    .is_some_and(|scope: &Range<_>| !scope.contains(&capture_range.start))
-                {
-                    scopes.pop();
-                }
-
-                if point.row as usize > max_row {
-                    break;
-                }
-
-                let scope = if scopes
-                    .last()
-                    .is_none_or(|scope| !scope.contains(&active_debug_line_offset))
-                {
-                    VariableScope::Global
-                } else {
-                    VariableScope::Local
-                };
-
-                if variable_position.insert(capture_range.end) {
-                    variables.push(InlineValueLocation {
-                        variable_name,
-                        scope,
-                        lookup: VariableLookupKind::Variable,
-                        row: point.row as usize,
-                        column: point.column as usize,
-                    });
-                }
-            }
-            language::DebuggerTextObject::Scope => {
-                while scopes.last().map_or_else(
-                    || false,
-                    |scope: &Range<usize>| {
-                        !(scope.contains(&capture_range.start)
-                            && scope.contains(&capture_range.end))
-                    },
-                ) {
-                    scopes.pop();
-                }
-                scopes.push(capture_range);
-            }
-        }
-    }
-
-    variables
 }
