@@ -1,48 +1,39 @@
-# Zed
+# q3ik Edit (workspace-free Zed edition)
+[![Zed Fork](https://img.shields.io/badge/Fork-zed--industries%2Fzed-blue)](https://github.com/zed-industries/zed)
 
-[![Zed](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/zed-industries/zed/main/assets/badge/v0.json)](https://zed.dev)
-[![CI](https://github.com/zed-industries/zed/actions/workflows/run_tests.yml/badge.svg)](https://github.com/zed-industries/zed/actions/workflows/run_tests.yml)
+A lightweight, workspace-free fork of [Zed Industries' Zed](https://github.com/zed-industries/zed). This version is designed to eliminate project clutter by enforcing a single global session, supporting standalone tabs, and providing instant hot-exit capabilities.
 
-Welcome to Zed, a high-performance, multiplayer code editor from the creators of [Atom](https://github.com/atom/atom) and [Tree-sitter](https://github.com/tree-sitter/tree-sitter).
+
+## Key Enhancements
+
+Unlike standard Zed, which revolves around project workspaces and folders, this build treats files as independent, lightweight entities.
+
+* **Workspace-Free Architecture:** No project sidebars, folder indexing, or multi-file project clutter.
+* **Single Global Session:** Open files instantly from anywhere in your system into one unified instance.
+* **Standalone Tabs:** Every file behaves as an independent, floating tab context.
+* **Instant Hot-Exit:** Close the application instantly without prompts. Your un-saved changes are cached globally and restored immediately upon relaunch.
+
+## Workspace Customizations
+
+This fork features a modified workspace optimized for a leaner codebase footprint:
+- **No REPL / Notebook Support**: The `repl` crate has been completely removed.
+- **No Debugger / DAP Support**: The debugger UI (`debugger_ui`), debugger tools (`debugger_tools`), DAP client/adapters (`dap`, `dap_adapters`), and related settings/menu options have been removed.
+
 
 ---
 
-### Installation
+> [!IMPORTANT]
+> **Repository Boundary Rule**  
+> This repository has been **intentionally detached** from the upstream GitHub fork network. 
+> The project operates strictly under a repository boundary.
+> - **Allowed Target**: All commits, pushes, and Pull Requests MUST be targetted exclusively to this fork repository: `https://github.com/xjayk/q3ik-edit`.
+> - **Forbidden Target**: Under no circumstances should any modifications or pull requests be pushed or opened against the upstream repository `https://github.com/zed-industries/zed`.
+>
+> All feature development, bug fixes, and internal pull requests must be directed **strictly to this repository**.
+---
 
-On macOS, Linux, and Windows you can [download Zed directly](https://zed.dev/download) or install Zed via your local package manager ([macOS](https://zed.dev/docs/installation#macos)/[Linux](https://zed.dev/docs/linux#installing-via-a-package-manager)/[Windows](https://zed.dev/docs/windows#package-managers)).
-
-Other platforms are not yet available:
-
-- Web ([tracking discussion](https://github.com/zed-industries/zed/discussions/26195))
-
-### Developing Zed
-
-- [Building Zed for macOS](./docs/src/development/macos.md)
-- [Building Zed for Linux](./docs/src/development/linux.md)
-- [Building Zed for Windows](./docs/src/development/windows.md)
-
-### Contributing
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for ways you can contribute to Zed.
-
-Also... we're hiring! Check out our [jobs](https://zed.dev/jobs) page for open roles.
-
-### Licensing
-
-Zed source code is licensed primarily under GPL-3.0-or-later, with Apache-2.0 components where marked.
-
-License information for third party dependencies must be correctly provided for CI to pass.
-
-We use [`cargo-about`](https://github.com/EmbarkStudios/cargo-about) to automatically comply with open source licenses. If CI is failing, check the following:
-
-- Is it showing a `no license specified` error for a crate you've created? If so, add `publish = false` under `[package]` in your crate's Cargo.toml.
-- Is the error `failed to satisfy license requirements` for a dependency? If so, first determine what license the project has and whether this system is sufficient to comply with this license's requirements. If you're unsure, ask a lawyer. Once you've verified that this system is acceptable add the license's SPDX identifier to the `accepted` array in `script/licenses/zed-licenses.toml`.
-- Is `cargo-about` unable to find the license for a dependency? If so, add a clarification field at the end of `script/licenses/zed-licenses.toml`, as specified in the [cargo-about book](https://embarkstudios.github.io/cargo-about/cli/generate/config.html#crate-configuration).
-
-## Sponsorship
-
-Zed is developed by **Zed Industries, Inc.**, a for-profit company.
-
-If you’d like to financially support the project, you can do so via GitHub Sponsors.
-Sponsorships go directly to Zed Industries and are used as general company revenue.
-There are no perks or entitlements associated with sponsorship.
+## Licensing & Credits
+This project is a modified derivative of the open-source editor created by **Zed Industries, Inc.** 
+In compliance with open-source licensing constraints, this software remains distributed under the original licenses provided by the upstream authors:
+* The editor codebase is licensed under the **GNU General Public License v3.0** (`GPL-3.0`).
+* Server components are licensed under the **GNU Affero General Public License v3.0** (`AGPL-3.0`).
