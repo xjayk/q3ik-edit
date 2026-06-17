@@ -7,7 +7,6 @@ pub use open_path_prompt::OpenPathDelegate;
 use collections::HashMap;
 use editor::Editor;
 use file_icons::FileIcons;
-use fuzzy::{StringMatch, StringMatchCandidate};
 use fuzzy_nucleo::{PathMatch, PathMatchCandidate};
 use gpui::{
     Action, AnyElement, App, Context, DismissEvent, Empty, Entity, EventEmitter, FocusHandle,
@@ -1752,17 +1751,15 @@ impl PickerDelegate for FileFinderDelegate {
 
         let (file_name_label, full_path_label) = self.labels_for_match(path_match, window, cx);
 
-        let file_icon = match path_match {
-            _ => maybe!({
-                if !settings.file_icons {
-                    return None;
-                }
-                let abs_path = path_match.abs_path(&self.project, cx)?;
-                let file_name = abs_path.file_name()?;
-                let icon = FileIcons::get_icon(file_name.as_ref(), cx)?;
-                Some(Icon::from_path(icon).color(Color::Muted))
-            }),
-        };
+        let file_icon = maybe!({
+            if !settings.file_icons {
+                return None;
+            }
+            let abs_path = path_match.abs_path(&self.project, cx)?;
+            let file_name = abs_path.file_name()?;
+            let icon = FileIcons::get_icon(file_name.as_ref(), cx)?;
+            Some(Icon::from_path(icon).color(Color::Muted))
+        });
 
         Some(
             ListItem::new(ix)
