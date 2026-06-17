@@ -41,7 +41,7 @@ use multi_buffer::{IndentGuide, MultiBuffer, MultiBufferOffset, MultiBufferOffse
 use parking_lot::Mutex;
 use pretty_assertions::{assert_eq, assert_ne};
 use project::{
-    FakeFs, Project, ProjectPath,
+    FakeFs, Project,
     bookmark_store::SerializedBookmark,
     project_settings::LspSettings,
     trusted_worktrees::{PathTrust, TrustedWorktrees},
