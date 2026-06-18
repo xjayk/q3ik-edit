@@ -33,13 +33,6 @@
       "ctrl-0": ["zed::ResetBufferFontSize", { "persist": false }],
       "ctrl-alt-,": "zed::OpenSettingsFile",
       "ctrl-q": "zed::Quit",
-      "f4": "debugger::Start",
-      "shift-f5": "debugger::Stop",
-      "ctrl-shift-f5": "debugger::RerunSession",
-      "f6": "debugger::Pause",
-      "f7": "debugger::StepOver",
-      "ctrl-f11": "debugger::StepInto",
-      "shift-f11": "debugger::StepOut",
       "f11": "zed::ToggleFullScreen",
       "ctrl-alt-z": "edit_prediction::RatePredictions",
       "ctrl-alt-shift-i": "edit_prediction::ToggleMenu",
@@ -186,8 +179,6 @@
   {
     "context": "Editor && jupyter",
     "bindings": {
-      "ctrl-shift-enter": "repl::Run",
-      "ctrl-alt-enter": "repl::RunInPlace",
     },
   },
   {
@@ -667,7 +658,6 @@
       "ctrl-shift-e": "project_panel::ToggleFocus",
       "ctrl-shift-b": "outline_panel::ToggleFocus",
       "ctrl-shift-g": "git_panel::ToggleFocus",
-      "ctrl-shift-d": "debug_panel::ToggleFocus",
       "ctrl-?": "agent::ToggleFocus",
       "alt-save": "workspace::SaveAll",
       "ctrl-alt-s": "workspace::SaveAll",
@@ -683,7 +673,6 @@
       "ctrl-k shift-right": "workspace::SwapPaneRight",
       "ctrl-k shift-up": "workspace::SwapPaneUp",
       "ctrl-k shift-down": "workspace::SwapPaneDown",
-      "ctrl-shift-x": "zed::Extensions",
       // All task parameters are captured and unchanged between reruns by default.
       // Use the `"reevaluate_context"` parameter to control this.
       "ctrl-shift-r": ["task::Rerun", { "reevaluate_context": false }],
@@ -695,7 +684,6 @@
       // "foo-bar": ["task::Spawn", { "task_name": "MyTask", "reveal_target": "dock" }]
       // or by tag:
       // "foo-bar": ["task::Spawn", { "task_tag": "MyTag" }],
-      "f5": "debugger::Rerun",
       "ctrl-f4": "workspace::CloseActiveDock",
       "ctrl-w": "workspace::CloseActiveDock",
     },
@@ -742,7 +730,6 @@
   {
     "context": "Workspace && debugger_stopped",
     "bindings": {
-      "f5": "debugger::Continue",
     },
   },
   {
@@ -865,7 +852,6 @@
   {
     "context": "!Terminal",
     "bindings": {
-      "ctrl-shift-c": "collab_panel::ToggleFocus",
     },
   },
   {
@@ -1071,59 +1057,37 @@
   {
     "context": "DebugPanel",
     "bindings": {
-      "ctrl-t": "debugger::ToggleThreadPicker",
-      "ctrl-i": "debugger::ToggleSessionPicker",
-      "shift-alt-escape": "debugger::ToggleExpandItem",
     },
   },
   {
     "context": "VariableList",
     "bindings": {
-      "left": "variable_list::CollapseSelectedEntry",
-      "right": "variable_list::ExpandSelectedEntry",
-      "enter": "variable_list::EditVariable",
-      "ctrl-c": "variable_list::CopyVariableValue",
-      "ctrl-alt-c": "variable_list::CopyVariableName",
-      "delete": "variable_list::RemoveWatch",
-      "backspace": "variable_list::RemoveWatch",
-      "alt-enter": "variable_list::AddWatch",
     },
   },
   {
     "context": "BreakpointList",
     "bindings": {
-      "space": "debugger::ToggleEnableBreakpoint",
-      "backspace": "debugger::UnsetBreakpoint",
-      "left": "debugger::PreviousBreakpointProperty",
-      "right": "debugger::NextBreakpointProperty",
     },
   },
   {
     "context": "CollabPanel && not_editing",
     "bindings": {
-      "ctrl-backspace": "collab_panel::Remove",
       "space": "menu::Confirm",
     },
   },
   {
     "context": "CollabPanel",
     "bindings": {
-      "alt-up": "collab_panel::MoveChannelUp",
-      "alt-down": "collab_panel::MoveChannelDown",
-      "alt-enter": "collab_panel::OpenSelectedChannelNotes",
-      "shift-enter": "collab_panel::ToggleSelectedChannelFavorite",
     },
   },
   {
     "context": "(CollabPanel && editing) > Editor",
     "bindings": {
-      "space": "collab_panel::InsertSpace",
     },
   },
   {
     "context": "ChannelModal",
     "bindings": {
-      "tab": "channel_modal::ToggleMode",
     },
   },
   {
@@ -1139,7 +1103,6 @@
   {
     "context": "ChannelModal > Picker > Editor",
     "bindings": {
-      "tab": "channel_modal::ToggleMode",
     },
   },
   {
@@ -1292,7 +1255,6 @@
     "use_key_equivalents": true,
     "bindings": {
       "enter": "menu::Confirm",
-      "alt-enter": "console::WatchExpression",
     },
   },
   {
@@ -1523,10 +1485,6 @@
   {
     "context": "RunModal",
     "bindings": {
-      "alt-1": "new_process_modal::ActivateTaskTab",
-      "alt-2": "new_process_modal::ActivateDebugTab",
-      "alt-3": "new_process_modal::ActivateAttachTab",
-      "alt-4": "new_process_modal::ActivateLaunchTab",
     },
   },
   {

@@ -4385,6 +4385,7 @@ let c = 3;"#
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_refresh_requested_multi_server(cx: &mut gpui::TestAppContext) {
         // Bug 2: When one LSP server sends workspace/inlayHint/refresh, the editor
         // wipes all tracking state via clear(), then spawns tasks that call

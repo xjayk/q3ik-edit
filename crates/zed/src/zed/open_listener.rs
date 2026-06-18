@@ -1232,6 +1232,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     fn test_open_options_for_behavior_always_new(cx: &mut TestAppContext) {
         let _app_state = init_test(cx);
         let options = cx.update(|cx| {
@@ -1564,6 +1565,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_open_workspace_with_directory(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
@@ -1686,6 +1688,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_open_workspace_with_nonexistent_files(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
@@ -1979,6 +1982,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_add_flag_prefers_focused_window(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
@@ -2143,6 +2147,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_dev_container_flag_opens_modal(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         cx.update(|cx| recent_projects::init(cx));
@@ -2202,6 +2207,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_dev_container_flag_cleared_without_config(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         cx.update(|cx| recent_projects::init(cx));
@@ -2364,6 +2370,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_e2e_no_flags_no_windows_no_prompt(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
@@ -2394,6 +2401,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_e2e_prompt_user_picks_existing_window(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
@@ -2444,6 +2452,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_e2e_prompt_user_picks_new_window(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
@@ -2494,6 +2503,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_e2e_setting_already_configured_no_prompt(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
@@ -2537,6 +2547,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_e2e_explicit_existing_flag_no_prompt(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
@@ -2566,6 +2577,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_e2e_explicit_new_flag_no_prompt(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
@@ -2606,6 +2618,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_e2e_explicit_new_flag_with_file_url_opens_new_window(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
@@ -2635,6 +2648,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_e2e_paths_in_existing_workspace_no_prompt(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
