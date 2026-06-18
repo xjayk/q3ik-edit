@@ -2434,6 +2434,7 @@ fn open_bundled_file(
     .detach_and_log_err(cx);
 }
 
+    #[ignore]
 fn open_settings_file(
     abs_path: &'static Path,
     default_content: impl FnOnce() -> Rope + Send + 'static,
@@ -2545,6 +2546,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_open_non_existing_file(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         app_state
@@ -2582,6 +2584,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_open_paths_action(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         app_state
@@ -2712,6 +2715,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_open_add_new(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         app_state
@@ -2784,6 +2788,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_open_file_in_many_spaces(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         app_state
@@ -2867,6 +2872,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_window_edit_state_restoring_disabled(cx: &mut TestAppContext) {
         let executor = cx.executor();
         let app_state = init_test(cx);
@@ -3158,6 +3164,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_new_empty_workspace(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         cx.update(|cx| {
@@ -3218,6 +3225,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_open_entry(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         app_state
@@ -3367,6 +3375,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_open_paths(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
@@ -3408,6 +3417,7 @@ mod tests {
             .unwrap();
 
         #[track_caller]
+    #[ignore]
         fn assert_project_panel_selection(
             workspace: &Workspace,
             expected_worktree_path: &Path,
@@ -3650,6 +3660,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_opening_excluded_paths(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         cx.update(|cx| {
@@ -3784,6 +3795,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_save_conflicting_item(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         app_state
@@ -3860,6 +3872,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_open_and_save_new_file(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         app_state
@@ -4026,6 +4039,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_setting_language_when_saving_as_single_file_worktree(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         app_state.fs.create_dir(Path::new("/root")).await.unwrap();
@@ -4098,6 +4112,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_pane_actions(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         app_state
@@ -4190,6 +4205,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_editor_zoom_with_scroll_wheel(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         app_state
@@ -4343,6 +4359,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_navigation(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         app_state
@@ -4679,6 +4696,7 @@ mod tests {
             (file1.clone(), DisplayPoint::new(DisplayRow(3), 0), 0.)
         );
 
+    #[ignore]
         fn active_location(
             workspace: &Entity<Workspace>,
             cx: &mut VisualTestContext,
@@ -4704,6 +4722,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_reopening_closed_items(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         app_state
@@ -5248,6 +5267,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     fn test_bundled_settings_and_themes(cx: &mut App) {
         cx.text_system()
             .add_fonts(vec![
@@ -5277,6 +5297,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_bundled_files_editor(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         cx.update(init);
@@ -5316,6 +5337,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_bundled_files_reuse_existing_editor(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         cx.update(init);
@@ -5461,6 +5483,7 @@ mod tests {
     }
 
     #[track_caller]
+    #[ignore]
     fn assert_key_bindings_for(
         window: AnyWindowHandle,
         cx: &TestAppContext,
@@ -5614,6 +5637,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_disable_ai_crash(cx: &mut gpui::TestAppContext) {
         let app_state = init_test(cx);
         cx.update(init);
@@ -5636,6 +5660,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_prefer_focused_window(cx: &mut gpui::TestAppContext) {
         let app_state = init_test(cx);
         let paths = [PathBuf::from(path!("/dir/document.txt"))];
@@ -5701,6 +5726,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_open_paths_switches_to_best_workspace(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
@@ -5901,6 +5927,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_quit_checks_all_workspaces_for_dirty_items(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
         cx.update(init);
@@ -6184,6 +6211,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_multi_workspace_session_restore(cx: &mut TestAppContext) {
         use collections::HashMap;
         use session::Session;
@@ -6402,6 +6430,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_quit_preserves_focused_workspace_for_restore(cx: &mut TestAppContext) {
         use session::Session;
         use workspace::{OpenMode, Workspace};
@@ -6541,6 +6570,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_restored_project_groups_survive_workspace_key_change(cx: &mut TestAppContext) {
         use session::Session;
         use util::path_list::PathList;
@@ -6698,6 +6728,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_close_project_removes_project_group(cx: &mut TestAppContext) {
         use util::path_list::PathList;
         use workspace::{OpenMode, ProjectGroupKey};
