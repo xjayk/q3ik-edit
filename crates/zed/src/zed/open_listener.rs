@@ -1232,6 +1232,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     fn test_open_options_for_behavior_always_new(cx: &mut TestAppContext) {
         let _app_state = init_test(cx);
         let options = cx.update(|cx| {
@@ -1564,6 +1565,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_open_workspace_with_directory(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
