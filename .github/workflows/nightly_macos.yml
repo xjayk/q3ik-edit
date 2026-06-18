@@ -1,0 +1,42 @@
+name: Nightly macOS Build
+
+on:
+  schedule:
+    # Runs at 08:00 UTC (4:00 AM EDT / 3:00 AM EST) every day
+    - cron: '0 8 * * *'
+  # Allows you to trigger this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: '1'
+  CARGO_INCREMENTAL: '0'
+  RUSTC_WRAPPER: sccache
+
+jobs:
+  build_and_test_macos_nightly:
+    name: Nightly Build & Test (macOS)
+    runs-on: macos-14
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust Toolchain
+        run: rustup show
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.3
+
+      - name: Install cargo-nextest
+        uses: taiki-e/install-action@nextest
+        
+      - name: Cargo Cache Setup
+        uses: swatinem/rust-cache@v2
+        with:
+          shared-key: "zed-build-cache-macos"
+
+      - name: Run Clippy
+        run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings
+
+      - name: Run Tests
+        run: cargo nextest run -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --lib --bins --tests --no-fail-fast --no-tests=warn

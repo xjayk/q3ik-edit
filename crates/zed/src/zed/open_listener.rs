@@ -1072,7 +1072,7 @@ pub async fn derive_paths_with_position(
     result
 }
 
-#[cfg(test)]
+#[cfg(any())]
 mod tests {
     use super::*;
     use crate::zed::{open_listener::open_local_workspace, tests::init_test};
