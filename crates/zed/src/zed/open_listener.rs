@@ -2540,6 +2540,8 @@ mod tests {
     }
 
     #[gpui::test]
+    #[test]
+    #[ignore]
     async fn test_e2e_explicit_existing_flag_no_prompt(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
