@@ -1,9 +1,9 @@
 use std::sync::Arc;
 
+use crate::context_server_store::ContextServerConfiguration;
 use anyhow::Result;
 use collections::HashMap;
 use context_server::ContextServerCommand;
-use crate::context_server_store::ContextServerConfiguration;
 use gpui::{App, AppContext as _, AsyncApp, Context, Entity, Global, Task};
 
 use crate::worktree_store::WorktreeStore;

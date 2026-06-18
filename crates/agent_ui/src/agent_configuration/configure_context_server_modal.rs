@@ -24,8 +24,8 @@ use settings::{Settings as _, update_settings_file};
 use std::sync::Arc;
 use theme_settings::ThemeSettings;
 use ui::{
-    CommonAnimationExt, KeyBinding, Modal, ModalFooter, ModalHeader, Section,
-    WithScrollbar, prelude::*,
+    CommonAnimationExt, KeyBinding, Modal, ModalFooter, ModalHeader, Section, WithScrollbar,
+    prelude::*,
 };
 use util::ResultExt as _;
 use workspace::{ModalView, Workspace};
@@ -302,7 +302,6 @@ fn parse_http_input(
         value.oauth,
     ))
 }
-
 
 enum State {
     Idle,
@@ -713,7 +712,11 @@ impl ConfigureContextServerModal {
         ModalHeader::new().headline(text)
     }
 
-    fn render_modal_description(&self, _window: &mut Window, _cx: &mut Context<Self>) -> AnyElement {
+    fn render_modal_description(
+        &self,
+        _window: &mut Window,
+        _cx: &mut Context<Self>,
+    ) -> AnyElement {
         const MODAL_DESCRIPTION: &str =
             "Check the server docs for required arguments and environment variables.";
 
@@ -824,49 +827,45 @@ impl ConfigureContextServerModal {
         let focus_handle = self.focus_handle(cx);
         let is_busy = matches!(self.state, State::Waiting | State::Authenticating { .. });
 
-        ModalFooter::new()
-            .start_slot::<Button>(None)
-            .end_slot(
-                h_flex()
-                    .gap_2()
-                    .child(
-                        Button::new(
-                            "cancel",
-                            if self.source.has_configuration_options() {
-                                "Cancel"
-                            } else {
-                                "Dismiss"
-                            },
-                        )
-                        .key_binding(
-                            KeyBinding::for_action_in(&menu::Cancel, &focus_handle, cx)
-                                .map(|kb| kb.size(rems_from_px(12.))),
-                        )
-                        .on_click(
-                            cx.listener(|this, _event, _window, cx| this.cancel(&menu::Cancel, cx)),
-                        ),
+        ModalFooter::new().start_slot::<Button>(None).end_slot(
+            h_flex()
+                .gap_2()
+                .child(
+                    Button::new(
+                        "cancel",
+                        if self.source.has_configuration_options() {
+                            "Cancel"
+                        } else {
+                            "Dismiss"
+                        },
                     )
-                    .children(self.source.has_configuration_options().then(|| {
-                        Button::new(
-                            "add-server",
-                            if self.source.is_new() {
-                                "Add Server"
-                            } else {
-                                "Configure Server"
-                            },
-                        )
-                        .disabled(is_busy)
-                        .key_binding(
-                            KeyBinding::for_action_in(&menu::Confirm, &focus_handle, cx)
-                                .map(|kb| kb.size(rems_from_px(12.))),
-                        )
-                        .on_click(
-                            cx.listener(|this, _event, _window, cx| {
-                                this.confirm(&menu::Confirm, cx)
-                            }),
-                        )
-                    })),
-            )
+                    .key_binding(
+                        KeyBinding::for_action_in(&menu::Cancel, &focus_handle, cx)
+                            .map(|kb| kb.size(rems_from_px(12.))),
+                    )
+                    .on_click(
+                        cx.listener(|this, _event, _window, cx| this.cancel(&menu::Cancel, cx)),
+                    ),
+                )
+                .children(self.source.has_configuration_options().then(|| {
+                    Button::new(
+                        "add-server",
+                        if self.source.is_new() {
+                            "Add Server"
+                        } else {
+                            "Configure Server"
+                        },
+                    )
+                    .disabled(is_busy)
+                    .key_binding(
+                        KeyBinding::for_action_in(&menu::Confirm, &focus_handle, cx)
+                            .map(|kb| kb.size(rems_from_px(12.))),
+                    )
+                    .on_click(
+                        cx.listener(|this, _event, _window, cx| this.confirm(&menu::Confirm, cx)),
+                    )
+                })),
+        )
     }
 
     fn render_loading(&self, label: impl Into<SharedString>) -> Div {

@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use ::settings::{Settings, SettingsStore};
 use client::{Client, UserStore};
-use collections::{HashMap, HashSet};
+use collections::HashMap;
 use credentials_provider::CredentialsProvider;
 use gpui::{App, Context, Entity};
 use language_model::{

@@ -6,7 +6,6 @@ mod remote_editing_tests;
 #[cfg(windows)]
 pub mod windows;
 
-pub use headless_project::{HeadlessAppState, HeadlessProject};
 use anyhow::{Context as _, Result, anyhow};
 use clap::Subcommand;
 use client::ProxySettings;
@@ -20,6 +19,7 @@ use futures::{
 use git::GitHostingProviderRegistry;
 use gpui::{App, AppContext as _, Context, Entity, UpdateGlobal as _};
 use gpui_tokio::Tokio;
+pub use headless_project::{HeadlessAppState, HeadlessProject};
 use http_client::{Url, read_proxy_from_env};
 use language::LanguageRegistry;
 use net::async_net::{UnixListener, UnixStream};
@@ -641,7 +641,6 @@ pub fn execute_run(
 
         GitHostingProviderRegistry::set_global(git_hosting_provider_registry, cx);
         git_hosting_providers::init(cx);
-        dap_adapters::init(cx);
 
         json_schema_store::init(cx);
 

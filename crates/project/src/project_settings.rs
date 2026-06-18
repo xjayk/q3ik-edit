@@ -1,7 +1,6 @@
 use anyhow::Context as _;
 use collections::HashMap;
 use context_server::ContextServerCommand;
-use dap::adapters::DebugAdapterName;
 use fs::Fs;
 use futures::StreamExt as _;
 use git::repository::DEFAULT_WORKTREE_DIRECTORY;
@@ -739,7 +738,7 @@ impl Settings for ProjectSettings {
                 .dap
                 .clone()
                 .into_iter()
-                .map(|(key, value)| (DebugAdapterName(key.into()), DapSettings::from(value)))
+                .map(|(key, value)| (DebugAdapterName(key), DapSettings::from(value)))
                 .collect(),
             diagnostics: DiagnosticsSettings {
                 button: diagnostics.button.unwrap(),
@@ -1620,3 +1619,8 @@ pub enum DapBinary {
     Default,
     Custom(String),
 }
+
+#[derive(
+    Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
+pub struct DebugAdapterName(pub Arc<str>);

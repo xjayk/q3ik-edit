@@ -419,7 +419,6 @@ pub async fn open_remote_project(
         break;
     }
 
-
     Ok(window)
 }
 

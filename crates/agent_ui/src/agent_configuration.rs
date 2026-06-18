@@ -35,8 +35,8 @@ use ui::{
     Switch, Tooltip, WithScrollbar, prelude::*,
 };
 use util::ResultExt as _;
-use zed_actions::OpenBrowser;
 use workspace::{Workspace, create_and_open_local_file};
+use zed_actions::OpenBrowser;
 
 pub(crate) use configure_context_server_modal::ConfigureContextServerModal;
 pub(crate) use configure_context_server_tools_modal::ConfigureContextServerToolsModal;
@@ -740,7 +740,6 @@ impl AgentConfiguration {
                         .entry("Uninstall", None, {
                             let fs = fs.clone();
                             let context_server_id = context_server_id.clone();
-                            let workspace = workspace.clone();
                             move |_, cx| {
                                 update_settings_file(
                                     fs.clone(),
@@ -1242,7 +1241,6 @@ impl Render for AgentConfiguration {
             )
     }
 }
-
 
 async fn open_new_agent_servers_entry_in_settings_editor(
     workspace: WeakEntity<Workspace>,

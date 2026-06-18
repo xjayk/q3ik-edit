@@ -1508,8 +1508,6 @@ impl AgentPanel {
             )
         });
 
-
-
         let connection_store = cx.new(|cx| AgentConnectionStore::new(project.clone(), cx));
         let _project_subscription =
             cx.subscribe(&project, |this, _project, event, cx| match event {
@@ -4316,7 +4314,6 @@ impl AgentPanel {
             )
         })
     }
-
 
     pub fn new_agent_thread_with_external_source_prompt(
         &mut self,

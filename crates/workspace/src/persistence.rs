@@ -23,7 +23,6 @@ use gpui::{Axis, Bounds, Task, WindowBounds, WindowId, point, size};
 use project::{
     ProjectGroupKey,
     bookmark_store::SerializedBookmark,
-    debugger::breakpoint_store::{BreakpointState, SourceBreakpoint},
     trusted_worktrees::{DbTrustedPaths, RemoteHostLocation},
 };
 
@@ -50,8 +49,8 @@ use crate::{
 };
 
 use model::{
-    GroupId, ItemId, PaneId, RemoteConnectionId, SerializedItem, SerializedPane,
-    SerializedPaneGroup, SerializedWorkspace,
+    BreakpointState, GroupId, ItemId, PaneId, RemoteConnectionId, SerializedItem, SerializedPane,
+    SerializedPaneGroup, SerializedWorkspace, SourceBreakpoint,
 };
 
 use self::model::{DockStructure, SerializedWorkspaceLocation, SessionWorkspace};
@@ -1356,11 +1355,11 @@ impl WorkspaceDb {
                 for (path, breakpoint) in bp {
                     let path: Arc<Path> = path.into();
                     map.entry(path.clone()).or_default().push(SourceBreakpoint {
-                        row: breakpoint.position,
+                        row: breakpoint.position as usize,
                         path,
-                        message: breakpoint.message,
-                        condition: breakpoint.condition,
-                        hit_condition: breakpoint.hit_condition,
+                        message: breakpoint.message.map(|s| s.to_string()),
+                        condition: breakpoint.condition.map(|s| s.to_string()),
+                        hit_condition: breakpoint.hit_condition.map(|s| s.to_string()),
                         state: breakpoint.state,
                     });
                 }

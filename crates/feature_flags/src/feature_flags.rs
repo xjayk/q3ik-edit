@@ -11,7 +11,8 @@ pub static ZED_DISABLE_STAFF: LazyLock<bool> = LazyLock::new(|| {
     std::env::var("ZED_DISABLE_STAFF").is_ok_and(|value| !value.is_empty() && value != "0")
 });
 
-pub trait FeatureFlagValue: Sized + Clone + Eq + Default + std::fmt::Debug + Send + Sync + 'static
+pub trait FeatureFlagValue:
+    Sized + Clone + Eq + Default + std::fmt::Debug + Send + Sync + 'static
 {
     fn all_variants() -> &'static [Self];
     fn override_key(&self) -> &'static str;
@@ -75,7 +76,8 @@ pub trait FeatureFlag {
         false
     }
     fn watch<V: 'static>(cx: &mut Context<V>) {
-        cx.observe_global::<FeatureFlagStore>(|_, cx| cx.notify()).detach();
+        cx.observe_global::<FeatureFlagStore>(|_, cx| cx.notify())
+            .detach();
     }
 }
 
@@ -248,11 +250,7 @@ impl FeatureFlagStore {
         T::enabled_for_all() || (T::enabled_for_staff() && !*ZED_DISABLE_STAFF)
     }
 
-    pub fn resolved_key(
-        &self,
-        descriptor: &FeatureFlagDescriptor,
-        _cx: &App,
-    ) -> &'static str {
+    pub fn resolved_key(&self, descriptor: &FeatureFlagDescriptor, _cx: &App) -> &'static str {
         (descriptor.default_variant_key)()
     }
 
@@ -274,7 +272,9 @@ pub struct FeatureFlagsSettings {
 
 impl settings::Settings for FeatureFlagsSettings {
     fn from_settings(_content: &settings::SettingsContent) -> Self {
-        Self { overrides: HashMap::default() }
+        Self {
+            overrides: HashMap::default(),
+        }
     }
 }
 

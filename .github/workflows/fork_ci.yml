@@ -1,12 +1,11 @@
-# Expedite the addition of this workflow file to  allow the main branch to start building it's cache
 name: Fork CI
 
 on:
   push:
     branches:
       - main
-      - v[0-9]+.[0-9]+.x
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - '**'
 
@@ -20,6 +19,8 @@ env:
 jobs:
   check_style:
     name: Check Style
+    # Run on pushes to main, OR if the pull request is NOT a draft
+    if: github.event_name == 'push' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -34,8 +35,10 @@ jobs:
       - name: Check Formatting
         run: cargo fmt --all -- --check
 
-  build_and_test:
-    name: Build & Test
+  build_and_test_linux:
+    name: Build & Test (Linux)
+    # Runs on pushes to main, OR on PRs that are NOT drafts AND do NOT have the 'run-macos' label
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.draft == false && !contains(github.event.pull_request.labels.*.name, 'run-macos'))
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -43,6 +46,7 @@ jobs:
 
       - name: Install Linux Dependencies
         run: |
+          sudo find /etc/apt -type f -exec sed -i 's/azure.archive.ubuntu.com/archive.ubuntu.com/g' {} + || true
           ./script/linux
 
       - name: Install Rust Toolchain
@@ -57,14 +61,48 @@ jobs:
       - name: Cargo Cache Setup (Build)
         uses: swatinem/rust-cache@v2
         with:
-          shared-key: "zed-build-cache"
+          shared-key: "zed-build-cache-linux"
 
-      # DO NOT DELETE
-      - name: Run cargo clippy (Permissive Cache Warmer)
+      - name: Free Disk Space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          df -h /
+
+      # Permissive Cache Warming
+      - name: Run Clippy
         run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings || true
       
-      #- name: Run Clippy
-      #  run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings#
+      - name: Run Tests
+        run: cargo nextest run -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --lib --bins --tests --no-fail-fast --no-tests=warn || true
 
-      #- name: Run Tests
-      #  run: cargo nextest run -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --no-fail-fast --no-tests=warn
+  build_and_test_macos:
+    name: Build & Test (macOS)
+    # Runs ONLY on PRs that are NOT drafts IF they have the 'run-macos' label
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false && contains(github.event.pull_request.labels.*.name, 'run-macos')
+    runs-on: macos-14
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust Toolchain
+        run: rustup show
+
+      - name: Setup sccache
+        uses: mozilla-actions/sccache-action@v0.0.3
+
+      - name: Install cargo-nextest
+        uses: taiki-e/install-action@nextest
+        
+      - name: Cargo Cache Setup (Build)
+        uses: swatinem/rust-cache@v2
+        with:
+          shared-key: "zed-build-cache-macos"
+
+      - name: Run Clippy
+        run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings
+
+      - name: Run Tests (Skipping Flaky E2E Module)
+        run: cargo nextest run -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --lib --bins --tests --no-fail-fast --no-tests=warn

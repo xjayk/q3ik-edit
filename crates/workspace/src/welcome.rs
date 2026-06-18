@@ -205,7 +205,6 @@ const CONTENT: (Section<4>, Section<2>) = (
                 action: &OpenKeymap,
                 visibility_guard: SectionVisibility::Always,
             },
-
         ],
     },
 );

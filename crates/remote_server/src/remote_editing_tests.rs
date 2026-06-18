@@ -10,8 +10,6 @@ use agent::{
 use client::{Client, UserStore};
 use clock::FakeSystemClock;
 use collections::{HashMap, HashSet};
-use language_model::{LanguageModelRegistry, LanguageModelToolResultContent};
-use languages::rust_lang;
 use fs::{FakeFs, Fs};
 use git::{
     Oid,
@@ -23,6 +21,8 @@ use language::{
     Buffer, FakeLspAdapter, LanguageConfig, LanguageMatcher, LanguageRegistry, LineEnding,
     language_settings::{AllLanguageSettings, LanguageSettings},
 };
+use language_model::{LanguageModelRegistry, LanguageModelToolResultContent};
+use languages::rust_lang;
 use lsp::{
     CompletionContext, CompletionResponse, CompletionTriggerKind, DEFAULT_LSP_REQUEST_TIMEOUT,
     LanguageServerName,
