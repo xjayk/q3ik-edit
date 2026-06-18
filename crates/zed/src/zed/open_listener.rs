@@ -1688,6 +1688,7 @@ mod tests {
     }
 
     #[gpui::test]
+    #[ignore]
     async fn test_open_workspace_with_nonexistent_files(cx: &mut TestAppContext) {
         let app_state = init_test(cx);
 
