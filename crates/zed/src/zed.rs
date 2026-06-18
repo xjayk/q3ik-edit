@@ -2434,7 +2434,7 @@ fn open_bundled_file(
     .detach_and_log_err(cx);
 }
 
-    #[ignore]
+#[ignore]
 fn open_settings_file(
     abs_path: &'static Path,
     default_content: impl FnOnce() -> Rope + Send + 'static,
@@ -3417,7 +3417,7 @@ mod tests {
             .unwrap();
 
         #[track_caller]
-    #[ignore]
+        #[ignore]
         fn assert_project_panel_selection(
             workspace: &Workspace,
             expected_worktree_path: &Path,
@@ -4696,7 +4696,7 @@ mod tests {
             (file1.clone(), DisplayPoint::new(DisplayRow(3), 0), 0.)
         );
 
-    #[ignore]
+        #[ignore]
         fn active_location(
             workspace: &Entity<Workspace>,
             cx: &mut VisualTestContext,
