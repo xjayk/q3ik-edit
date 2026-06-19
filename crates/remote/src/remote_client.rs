@@ -1,5 +1,4 @@
 #[allow(dead_code)]
-
 pub struct RemoteClient;
 
 pub struct RemoteConnectionOptions;
