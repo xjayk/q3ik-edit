@@ -177,7 +177,9 @@ macro_rules! register_feature_flag {
 #[derive(Default)]
 pub struct FeatureFlagStore {
     staff: bool,
+    #[allow(dead_code)]
     server_flags: collections::HashMap<String, String>,
+    #[allow(dead_code)]
     server_flags_received: bool,
     _settings_subscription: Option<Subscription>,
 }
