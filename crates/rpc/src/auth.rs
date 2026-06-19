@@ -73,9 +73,7 @@ impl PrivateKey {
         let bytes = self
             .0
             .decrypt(oaep_sha256_padding(), &encrypted_bytes)
-            .or_else(|_err| {
-                self.0.decrypt(Pkcs1v15Encrypt, &encrypted_bytes)
-            })
+            .or_else(|_err| self.0.decrypt(Pkcs1v15Encrypt, &encrypted_bytes))
             .context("failed to decrypt string with private key")?;
         let string = String::from_utf8(bytes).context("decrypted content was not valid utf8")?;
         Ok(string)

@@ -17,7 +17,9 @@ pub struct EventRequestBody {
 }
 
 impl EventRequestBody {
-    pub fn semver(&self) -> Option<semver::Version> { self.app_version.parse().ok() }
+    pub fn semver(&self) -> Option<semver::Version> {
+        self.app_version.parse().ok()
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -39,7 +41,10 @@ pub struct FlexibleEvent {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
-pub enum EditPredictionRating { Positive, Negative }
+pub enum EditPredictionRating {
+    Positive,
+    Negative,
+}
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct AssistantEventData {
@@ -55,18 +60,29 @@ pub struct AssistantEventData {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-pub enum AssistantKind { Panel, Inline, InlineTerminal }
+pub enum AssistantKind {
+    Panel,
+    Inline,
+    InlineTerminal,
+}
 
 impl std::fmt::Display for AssistantKind {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result { write!(f, "panel") }
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "panel")
+    }
 }
 
 #[derive(Default, Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub enum AssistantPhase {
-    #[default] Response,
-    Invoked, Accepted, Rejected,
+    #[default]
+    Response,
+    Invoked,
+    Accepted,
+    Rejected,
 }
 
 impl std::fmt::Display for AssistantPhase {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result { write!(f, "response") }
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "response")
+    }
 }

@@ -11,8 +11,12 @@ macro_rules! event {
 
 #[macro_export]
 macro_rules! serialize_property {
-    ($key:ident) => { $key };
-    ($key:ident = $value:expr) => { $value };
+    ($key:ident) => {
+        $key
+    };
+    ($key:ident = $value:expr) => {
+        $value
+    };
 }
 
 pub fn send_event(_event: Event) {}

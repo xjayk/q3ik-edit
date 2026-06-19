@@ -1,10 +1,10 @@
 #![allow(unused_variables)]
-use std::sync::Arc;
+use crate::proto;
 use anyhow::Result;
 use futures::future::BoxFuture;
 use futures::stream::{BoxStream, StreamExt};
+use std::sync::Arc;
 use std::time::Duration;
-use crate::proto;
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Debug)]
 pub struct ConnectionId {
@@ -43,20 +43,15 @@ impl Peer {
     {
         let (_, rx) = futures::channel::mpsc::unbounded();
         (
-            ConnectionId {
-                owner_id: 0,
-                id: 0,
-            },
+            ConnectionId { owner_id: 0, id: 0 },
             Box::pin(async move { Ok(()) }),
             rx.boxed(),
         )
     }
 
-    pub fn disconnect(&self, connection_id: ConnectionId) {
-    }
+    pub fn disconnect(&self, connection_id: ConnectionId) {}
 
-    pub fn teardown(&self) {
-    }
+    pub fn teardown(&self) {}
 
     pub fn request_envelope<T: proto::RequestMessage>(
         &self,
@@ -70,7 +65,8 @@ impl Peer {
         &self,
         connection_id: ConnectionId,
         request: T,
-    ) -> impl std::future::Future<Output = Result<BoxStream<'static, Result<proto::Envelope>>>> + 'static {
+    ) -> impl std::future::Future<Output = Result<BoxStream<'static, Result<proto::Envelope>>>> + 'static
+    {
         async move { Err(anyhow::anyhow!("stubbed")) }
     }
 
@@ -130,10 +126,7 @@ impl Peer {
     ) {
         let (_, incoming) = futures::channel::mpsc::unbounded();
         (
-            ConnectionId {
-                owner_id: 0,
-                id: 0,
-            },
+            ConnectionId { owner_id: 0, id: 0 },
             Box::pin(async move { Ok(()) }),
             incoming,
         )

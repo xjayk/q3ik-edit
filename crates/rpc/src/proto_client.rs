@@ -1,11 +1,11 @@
 #![allow(unused_variables)]
-use std::sync::Arc;
 use anyhow::Result;
+use collections::{HashMap, TypeIdHashMap};
 use futures::future::{BoxFuture, LocalBoxFuture};
 use futures::stream::BoxStream;
-use collections::{HashMap, TypeIdHashMap};
 use gpui::{AnyEntity, AnyWeakEntity, AsyncApp, Entity};
 use parking_lot::Mutex;
+use std::sync::Arc;
 
 pub trait ProtoClient: Send + Sync {
     fn request(
@@ -36,7 +36,14 @@ pub enum EntityMessageSubscriber {
 }
 
 pub type ProtoMessageHandler = Arc<
-    dyn Send + Sync + Fn(AnyEntity, Box<dyn proto::AnyTypedEnvelope>, AnyProtoClient, AsyncApp) -> LocalBoxFuture<'static, Result<()>>
+    dyn Send
+        + Sync
+        + Fn(
+            AnyEntity,
+            Box<dyn proto::AnyTypedEnvelope>,
+            AnyProtoClient,
+            AsyncApp,
+        ) -> LocalBoxFuture<'static, Result<()>>,
 >;
 
 pub struct ProtoMessageHandlerSet {
@@ -56,7 +63,12 @@ impl ProtoMessageHandlerSet {
         self.message_handlers.clear();
     }
 
-    pub fn handle_message(this: &Mutex<Self>, message: Box<dyn proto::AnyTypedEnvelope>, client: AnyProtoClient, cx: AsyncApp) -> Option<LocalBoxFuture<'static, Result<()>>> {
+    pub fn handle_message(
+        this: &Mutex<Self>,
+        message: Box<dyn proto::AnyTypedEnvelope>,
+        client: AnyProtoClient,
+        cx: AsyncApp,
+    ) -> Option<LocalBoxFuture<'static, Result<()>>> {
         None
     }
 }
@@ -100,7 +112,11 @@ impl AnyProtoClient {
         Ok(())
     }
 
-    pub fn send_response<T: proto::EnvelopedMessage>(&self, _request_id: u32, _request: T) -> Result<()> {
+    pub fn send_response<T: proto::EnvelopedMessage>(
+        &self,
+        _request_id: u32,
+        _request: T,
+    ) -> Result<()> {
         Ok(())
     }
 
@@ -109,14 +125,18 @@ impl AnyProtoClient {
         M: proto::RequestMessage,
         E: 'static,
         H: 'static + Sync + Fn(gpui::Entity<E>, proto::TypedEnvelope<M>, AsyncApp) -> F,
-        F: std::future::Future<Output = Result<M::Response>> + 'static {}
+        F: std::future::Future<Output = Result<M::Response>> + 'static,
+    {
+    }
 
     pub fn add_entity_message_handler<M, E, H, F>(&self, _handler: H)
     where
         M: proto::EnvelopedMessage,
         E: 'static,
         H: 'static + Sync + Send + Fn(gpui::Entity<E>, proto::TypedEnvelope<M>, AsyncApp) -> F,
-        F: std::future::Future<Output = Result<()>> + 'static {}
+        F: std::future::Future<Output = Result<()>> + 'static,
+    {
+    }
 
     pub fn subscribe_to_entity<E: 'static>(&self, _remote_id: u64, _entity: &gpui::Entity<E>) {}
 }
@@ -133,16 +153,26 @@ pub struct NoopProtoClient {
 
 impl NoopProtoClient {
     pub fn new() -> Arc<Self> {
-        Arc::new(Self { handler_set: Mutex::new(ProtoMessageHandlerSet::default()) })
+        Arc::new(Self {
+            handler_set: Mutex::new(ProtoMessageHandlerSet::default()),
+        })
     }
 }
 
 impl ProtoClient for NoopProtoClient {
-    fn request(&self, _: proto::Envelope, _: &'static str) -> BoxFuture<'static, Result<proto::Envelope>> {
+    fn request(
+        &self,
+        _: proto::Envelope,
+        _: &'static str,
+    ) -> BoxFuture<'static, Result<proto::Envelope>> {
         Box::pin(async { Err(anyhow::anyhow!("stubbed")) })
     }
 
-    fn request_stream(&self, _: proto::Envelope, _: &'static str) -> BoxFuture<'static, Result<BoxStream<'static, Result<proto::Envelope>>>> {
+    fn request_stream(
+        &self,
+        _: proto::Envelope,
+        _: &'static str,
+    ) -> BoxFuture<'static, Result<BoxStream<'static, Result<proto::Envelope>>>> {
         Box::pin(async { Err(anyhow::anyhow!("stubbed")) })
     }
 

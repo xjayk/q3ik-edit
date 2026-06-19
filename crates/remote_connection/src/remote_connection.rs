@@ -21,11 +21,7 @@ pub fn connect_reusing_pool(
     Task::ready(Err(anyhow::anyhow!("not implemented")))
 }
 
-pub fn connect(
-    _connection_options: (),
-    _window: &mut Window,
-    _cx: &mut App,
-) -> Task<Result<()>> {
+pub fn connect(_connection_options: (), _window: &mut Window, _cx: &mut App) -> Task<Result<()>> {
     Task::ready(Ok(()))
 }
 

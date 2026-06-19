@@ -88,5 +88,3 @@ pub fn line_endings(input: TokenStream) -> TokenStream {
         #text
     })
 }
-
-
