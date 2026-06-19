@@ -128,3 +128,114 @@ impl FeatureFlagStore {
 }
 
 impl Global for FeatureFlagStore {}
+
+// ---------------------------------------------------------------------------
+// Stub feature flags — retained so that crates referencing them still compile
+// after the Phase 0 pruning removed the real definitions.
+// ---------------------------------------------------------------------------
+
+pub struct AcpBetaFeatureFlag;
+impl FeatureFlag for AcpBetaFeatureFlag {
+    const NAME: &'static str = "acp_beta";
+    type Value = PresenceFlag;
+}
+
+pub struct DiffReviewFeatureFlag;
+impl FeatureFlag for DiffReviewFeatureFlag {
+    const NAME: &'static str = "diff_review";
+    type Value = PresenceFlag;
+}
+
+pub struct SandboxingFeatureFlag;
+impl FeatureFlag for SandboxingFeatureFlag {
+    const NAME: &'static str = "sandboxing";
+    type Value = PresenceFlag;
+}
+
+pub struct AgentSharingFeatureFlag;
+impl FeatureFlag for AgentSharingFeatureFlag {
+    const NAME: &'static str = "agent_sharing";
+    type Value = PresenceFlag;
+}
+
+pub struct CreateThreadToolFeatureFlag;
+impl FeatureFlag for CreateThreadToolFeatureFlag {
+    const NAME: &'static str = "create_thread_tool";
+    type Value = PresenceFlag;
+}
+
+pub struct PanicFeatureFlag;
+impl FeatureFlag for PanicFeatureFlag {
+    const NAME: &'static str = "panic";
+    type Value = PresenceFlag;
+}
+
+pub struct DebuggerFeatureFlag;
+impl FeatureFlag for DebuggerFeatureFlag {
+    const NAME: &'static str = "debugger";
+    type Value = PresenceFlag;
+}
+
+pub struct ProjectPanelUndoRedoFeatureFlag;
+impl FeatureFlag for ProjectPanelUndoRedoFeatureFlag {
+    const NAME: &'static str = "project_panel_undo_redo";
+    type Value = PresenceFlag;
+}
+
+pub struct LspToolFeatureFlag;
+impl FeatureFlag for LspToolFeatureFlag {
+    const NAME: &'static str = "lsp_tool";
+    type Value = PresenceFlag;
+}
+
+pub struct RenameToolFeatureFlag;
+impl FeatureFlag for RenameToolFeatureFlag {
+    const NAME: &'static str = "rename_tool";
+    type Value = PresenceFlag;
+}
+
+/// Controls how worktree labels are displayed in the sidebar.
+#[derive(Clone, Copy, Default, PartialEq, Eq, Debug)]
+pub enum AgentThreadWorktreeLabel {
+    #[default]
+    Both,
+    Worktree,
+    Branch,
+}
+
+impl FeatureFlagValue for AgentThreadWorktreeLabel {
+    fn all_variants() -> &'static [Self] {
+        &[Self::Both, Self::Worktree, Self::Branch]
+    }
+    fn override_key(&self) -> &'static str {
+        match self {
+            Self::Both => "both",
+            Self::Worktree => "worktree",
+            Self::Branch => "branch",
+        }
+    }
+    fn label(&self) -> &'static str {
+        match self {
+            Self::Both => "Both",
+            Self::Worktree => "Worktree",
+            Self::Branch => "Branch",
+        }
+    }
+    fn from_wire(wire: &str) -> Option<Self> {
+        match wire {
+            "both" => Some(Self::Both),
+            "worktree" => Some(Self::Worktree),
+            "branch" => Some(Self::Branch),
+            _ => None,
+        }
+    }
+    fn on_variant() -> Self {
+        Self::Both
+    }
+}
+
+pub struct AgentThreadWorktreeLabelFlag;
+impl FeatureFlag for AgentThreadWorktreeLabelFlag {
+    const NAME: &'static str = "agent_thread_worktree_label";
+    type Value = AgentThreadWorktreeLabel;
+}
