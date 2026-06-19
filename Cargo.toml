@@ -39,7 +39,6 @@ members = [
     "crates/context_server",
     "crates/copilot",
     "crates/copilot_chat",
-    "crates/crashes",
     "crates/credentials_provider",
     "crates/csv_preview",
     "crates/db",
@@ -61,8 +60,6 @@ members = [
     "crates/eval_cli",
     "crates/eval_utils",
     "crates/explorer_command_injector",
-    "crates/feature_flags",
-    "crates/feature_flags_macros",
     "crates/feedback",
     "crates/file_finder",
     "crates/file_icons",
@@ -144,13 +141,8 @@ members = [
     "crates/recent_projects",
     "crates/refineable",
     "crates/refineable/derive_refineable",
-    "crates/release_channel",
-    "crates/remote",
-    "crates/remote_connection",
-    "crates/remote_server",
     "crates/reqwest_client",
     "crates/rope",
-    "crates/rpc",
     "crates/sandbox",
     "crates/scheduler",
     "crates/schema_generator",
@@ -177,8 +169,6 @@ members = [
     "crates/tab_switcher",
     "crates/task",
     "crates/tasks_ui",
-    "crates/telemetry",
-    "crates/telemetry_events",
     "crates/terminal",
     "crates/terminal_view",
     "crates/text",
@@ -215,12 +205,6 @@ members = [
     "crates/zlog_settings",
     "crates/ztracing",
     "crates/ztracing_macro",
-
-
-    #
-    # Tooling
-    #
-
 ]
 default-members = ["crates/zed"]
 
@@ -271,7 +255,6 @@ context_server = { path = "crates/context_server" }
 copilot = { path = "crates/copilot" }
 copilot_chat = { path = "crates/copilot_chat" }
 copilot_ui = { path = "crates/copilot_ui" }
-crashes = { path = "crates/crashes" }
 credentials_provider = { path = "crates/credentials_provider" }
 crossbeam = "0.8.4"
 csv_preview = { path = "crates/csv_preview"}
@@ -286,8 +269,6 @@ encoding_selector = { path = "crates/encoding_selector" }
 env_var = { path = "crates/env_var" }
 etw_tracing = { path = "crates/etw_tracing" }
 eval_utils = { path = "crates/eval_utils" }
-feature_flags = { path = "crates/feature_flags" }
-feature_flags_macros = { path = "crates/feature_flags_macros" }
 feedback = { path = "crates/feedback" }
 file_finder = { path = "crates/file_finder" }
 file_icons = { path = "crates/file_icons" }
@@ -370,14 +351,9 @@ prompt_store = { path = "crates/prompt_store" }
 proto = { path = "crates/proto" }
 recent_projects = { path = "crates/recent_projects" }
 refineable = { path = "crates/refineable" }
-release_channel = { path = "crates/release_channel" }
-remote = { path = "crates/remote" }
-remote_connection = { path = "crates/remote_connection" }
-remote_server = { path = "crates/remote_server" }
 reqwest_client = { path = "crates/reqwest_client" }
 rodio = { git = "https://github.com/RustAudio/rodio", rev = "e50e726ddd0292f6ef9de0dda6b90af4ed1fb66a", features = ["wav", "playback", "wav_output", "recording"] }
 rope = { path = "crates/rope" }
-rpc = { path = "crates/rpc" }
 scheduler = { path = "crates/scheduler" }
 sandbox = { path = "crates/sandbox" }
 search = { path = "crates/search" }
@@ -402,8 +378,6 @@ syntax_theme = { path = "crates/syntax_theme" }
 tab_switcher = { path = "crates/tab_switcher" }
 task = { path = "crates/task" }
 tasks_ui = { path = "crates/tasks_ui" }
-telemetry = { path = "crates/telemetry" }
-telemetry_events = { path = "crates/telemetry_events" }
 terminal = { path = "crates/terminal" }
 terminal_view = { path = "crates/terminal_view" }
 text = { path = "crates/text" }
@@ -537,7 +511,6 @@ futures = "0.3.32"
 futures-concurrency = "7.7.1"
 futures-lite = "1.13"
 futures-util = "0.3.32"
-gh-workflow = { git = "https://github.com/zed-industries/gh-workflow", rev = "37f3c0575d379c218a9c455ee67585184e40d43f" }
 
 globset = "0.4"
 heapless = "0.9.2"
@@ -561,14 +534,11 @@ inventory = "0.3.19"
 itertools = "0.14.0"
 json_dotpath = "1.1"
 jsonschema = "0.37.0"
-jsonwebtoken = "10.0"
 jupyter-protocol = "1.4.0"
 jupyter-websocket-client = "1.1.0"
 libc = "0.2"
 libsqlite3-sys = { version = "0.30.1", features = ["bundled"] }
 linkify = "0.10.0"
-libwebrtc = "0.3.26"
-livekit = { version = "0.7.32", features = ["tokio", "rustls-tls-native-roots"] }
 log = { version = "0.4.16", features = ["kv_unstable_serde", "serde"] }
 lru = "0.16"
 lsp-types = { git = "https://github.com/zed-industries/lsp-types", rev = "f4dfa89a21ca35cd929b70354b1583fabae325f8" }
@@ -774,7 +744,6 @@ wax = "0.7"
 which = "6.0.0"
 wasm-bindgen = "0.2.120"
 web-time = "1.1.0"
-webrtc-sys = "0.3.23"
 windows-core = "0.61"
 yaml-rust2 = "0.8"
 yawc = "0.2.5"
@@ -845,10 +814,8 @@ features = [
 async-process = { git = "https://github.com/zed-industries/async-process.git", rev = "0b6d6713570af61806e1e5cb40e0f757cb93fd9d" }
 async-task = { git = "https://github.com/smol-rs/async-task.git", rev = "b4486cd71e4e94fbda54ce6302444de14f4d190e" }
 windows-capture = { git = "https://github.com/zed-industries/windows-capture.git", rev = "f0d6c1b6691db75461b732f6d5ff56eed002eeb9" }
-libwebrtc = { git = "https://github.com/zed-industries/livekit-rust-sdks", rev = "c3a55bbc207008f1ca3474b6037fdd3c443cad0f" }
 notify = { git = "https://github.com/zed-industries/notify", rev = "faecbc33db4f59313e5225ef766bfd9e54a54cfd" }
 notify-types = { git = "https://github.com/zed-industries/notify", rev = "faecbc33db4f59313e5225ef766bfd9e54a54cfd" }
-webrtc-sys = { git = "https://github.com/zed-industries/livekit-rust-sdks", rev = "c3a55bbc207008f1ca3474b6037fdd3c443cad0f" }
 
 [profile.dev]
 split-debuginfo = "unpacked"
@@ -875,7 +842,6 @@ debug = "full"
 # proc-macros start
 gpui_macros = { opt-level = 3 }
 derive_refineable = { opt-level = 3 }
-feature_flags_macros = { opt-level = 3 }
 settings_macros = { opt-level = 3 }
 sqlez_macros = { opt-level = 3, codegen-units = 1 }
 ui_macros = { opt-level = 3 }
@@ -901,7 +867,6 @@ breadcrumbs = { codegen-units = 1 }
 collections = { codegen-units = 1 }
 command_palette = { codegen-units = 1 }
 command_palette_hooks = { codegen-units = 1 }
-feature_flags = { codegen-units = 1 }
 file_icons = { codegen-units = 1 }
 image_viewer = { codegen-units = 1 }
 edit_prediction_ui = { codegen-units = 1 }
@@ -917,13 +882,11 @@ paths = { codegen-units = 1 }
 prettier = { codegen-units = 1 }
 project_symbols = { codegen-units = 1 }
 refineable = { codegen-units = 1 }
-release_channel = { codegen-units = 1 }
 reqwest_client = { codegen-units = 1 }
 session = { codegen-units = 1 }
 sidebar = { codegen-units = 1 }
 snippet = { codegen-units = 1 }
 snippets_ui = { codegen-units = 1 }
-telemetry_events = { codegen-units = 1 }
 theme_selector = { codegen-units = 1 }
 time_format = { codegen-units = 1 }
 ui_input = { codegen-units = 1 }
