@@ -17,7 +17,7 @@ impl AnyProtoClient {
     pub fn request<T: crate::proto::RequestMessage>(
         &self,
         _request: T,
-    ) -> impl std::future::Future<Output = anyhow::Result<T::Response>> {
+    ) -> impl std::future::Future<Output = anyhow::Result<T::Response>> + use<T> {
         async move { Err(anyhow::anyhow!("stubbed")) }
     }
 }
