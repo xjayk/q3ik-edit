@@ -142,6 +142,7 @@ members = [
     "crates/recent_projects",
     "crates/refineable",
     "crates/refineable/derive_refineable",
+    "crates/release_channel",
     "crates/remote",
     "crates/reqwest_client",
     "crates/rope",
@@ -357,6 +358,7 @@ prompt_store = { path = "crates/prompt_store" }
 proto = { path = "crates/proto" }
 recent_projects = { path = "crates/recent_projects" }
 refineable = { path = "crates/refineable" }
+release_channel = { path = "crates/release_channel" }
 remote = { path = "crates/remote" }
 reqwest_client = { path = "crates/reqwest_client" }
 rodio = { git = "https://github.com/RustAudio/rodio", rev = "e50e726ddd0292f6ef9de0dda6b90af4ed1fb66a", features = ["wav", "playback", "wav_output", "recording"] }
