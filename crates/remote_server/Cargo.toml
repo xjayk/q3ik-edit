@@ -1,0 +1,11 @@
+[package]
+name = "remote_server"
+description = "Stub — remote editing daemon removed in Phase 0"
+edition.workspace = true
+version = "0.1.0"
+publish.workspace = true
+license = "GPL-3.0-or-later"
+
+[[bin]]
+name = "remote_server"
+path = "src/main.rs"
