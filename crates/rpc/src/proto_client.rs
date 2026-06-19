@@ -9,7 +9,9 @@ impl AnyProtoClient {
         Self
     }
 
-    pub fn is_via_collab(&self) -> bool { false }
+    pub fn is_via_collab(&self) -> bool {
+        false
+    }
 }
 
 pub struct NoopProtoClient;

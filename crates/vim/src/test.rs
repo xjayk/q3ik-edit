@@ -33,7 +33,6 @@ use workspace::{DeploySearch, MultiWorkspace};
 
 use crate::{PushSneak, PushSneakBackward, VimAddon, insert::NormalBefore, motion, state::Mode};
 
-
 #[test]
 #[gpui::test]
 async fn test_initially_disabled(cx: &mut gpui::TestAppContext) {

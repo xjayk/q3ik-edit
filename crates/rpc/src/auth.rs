@@ -1,6 +1,9 @@
 use anyhow::Result;
 
-pub enum EncryptionFormat { V0, V1 }
+pub enum EncryptionFormat {
+    V0,
+    V1,
+}
 pub struct PublicKey;
 pub struct PrivateKey;
 
