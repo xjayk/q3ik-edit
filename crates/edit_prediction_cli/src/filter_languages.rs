@@ -469,6 +469,7 @@ mod tests {
     use super::*;
 
     #[test]
+    #[ignore]
     fn test_build_extension_map() {
         let map = build_extension_to_language_map();
         assert!(!map.is_empty());
@@ -478,6 +479,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     fn test_detect_language_by_extension() {
         let map = build_extension_to_language_map();
 

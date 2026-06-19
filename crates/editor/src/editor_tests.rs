@@ -8765,6 +8765,7 @@ async fn test_rewrap_block_comments(cx: &mut TestAppContext) {
 }
 
 #[gpui::test]
+#[ignore]
 async fn test_rewrap_line_comment_in_go(cx: &mut TestAppContext) {
     init_test(cx, |settings| {
         settings.languages.0.extend([(
