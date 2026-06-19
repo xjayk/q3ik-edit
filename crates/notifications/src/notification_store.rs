@@ -2,7 +2,7 @@ use anyhow::{Context as _, Result};
 use client::{Client, UserStore};
 use futures_lite::stream::StreamExt;
 use gpui::{App, AppContext as _, AsyncApp, Context, Entity, EventEmitter, Global, Task};
-use rpc::{Notification, TypedEnvelope, proto};
+use proto::{Notification, TypedEnvelope, proto};
 use std::{ops::Range, sync::Arc};
 use sum_tree::{Bias, Dimensions, SumTree};
 use time::OffsetDateTime;

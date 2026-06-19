@@ -1,19 +1,17 @@
-pub mod auth;
+// rpc is a thin re-export shim so existing `use rpc::proto`, `use rpc::AnyProtoClient`,
+// `use rpc::TypedEnvelope` etc. call-sites continue to compile without change.
+// No functional logic lives here — see crates/proto for the real types.
 
 pub use proto;
-pub use proto::{Receipt, TypedEnvelope, error::*};
+pub use proto::{AnyProtoClient, ErrorCode, ErrorExt, Receipt, TypedEnvelope, error::*};
 
-pub mod conn;
-pub mod notification;
-pub mod peer;
-
-pub use conn::Connection;
-pub use notification::*;
-pub use peer::*;
-
-#[cfg(feature = "gpui")]
-pub mod proto_client;
-#[cfg(feature = "gpui")]
-pub use proto_client::*;
+// ConnectionId is retained because it is part of the public API surface
+// referenced by crates outside this repo boundary (e.g. collab tests).
+// It is a pure data struct with no network behaviour.
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Debug)]
+pub struct ConnectionId {
+    pub owner_id: u32,
+    pub id: u32,
+}
 
 pub const PROTOCOL_VERSION: u32 = 68;
