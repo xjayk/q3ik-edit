@@ -60,6 +60,7 @@ members = [
     "crates/eval_cli",
     "crates/eval_utils",
     "crates/explorer_command_injector",
+    "crates/feature_flags",
     "crates/feedback",
     "crates/file_finder",
     "crates/file_icons",
@@ -169,6 +170,8 @@ members = [
     "crates/tab_switcher",
     "crates/task",
     "crates/tasks_ui",
+    "crates/telemetry",
+    "crates/telemetry_events",
     "crates/terminal",
     "crates/terminal_view",
     "crates/text",
@@ -269,6 +272,7 @@ encoding_selector = { path = "crates/encoding_selector" }
 env_var = { path = "crates/env_var" }
 etw_tracing = { path = "crates/etw_tracing" }
 eval_utils = { path = "crates/eval_utils" }
+feature_flags = { path = "crates/feature_flags" }
 feedback = { path = "crates/feedback" }
 file_finder = { path = "crates/file_finder" }
 file_icons = { path = "crates/file_icons" }
@@ -378,6 +382,8 @@ syntax_theme = { path = "crates/syntax_theme" }
 tab_switcher = { path = "crates/tab_switcher" }
 task = { path = "crates/task" }
 tasks_ui = { path = "crates/tasks_ui" }
+telemetry = { path = "crates/telemetry" }
+telemetry_events = { path = "crates/telemetry_events" }
 terminal = { path = "crates/terminal" }
 terminal_view = { path = "crates/terminal_view" }
 text = { path = "crates/text" }
