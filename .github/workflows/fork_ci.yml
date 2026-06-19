@@ -71,7 +71,6 @@ jobs:
           sudo rm -rf /opt/hostedtoolcache/CodeQL
           df -h /
 
-      # Permissive Cache Warming
       - name: Run Clippy
         run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings
       
