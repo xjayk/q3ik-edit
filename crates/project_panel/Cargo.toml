@@ -49,6 +49,9 @@ zed_actions.workspace = true
 notifications.workspace = true
 fs.workspace = true
 
+telemetry.workspace = true
+feature_flags.workspace = true
+remote_connection = { workspace = true, features = ["test-support"] }
 [dev-dependencies]
 client = { workspace = true, features = ["test-support"] }
 criterion.workspace = true

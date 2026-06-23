@@ -46,3 +46,6 @@ theme.workspace = true
 theme_settings.workspace = true
 util.workspace = true
 watch.workspace = true
+
+feature_flags.workspace = true
+release_channel.workspace = true

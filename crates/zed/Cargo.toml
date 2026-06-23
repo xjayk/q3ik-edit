@@ -207,6 +207,11 @@ zed_env_vars.workspace = true
 zlog.workspace = true
 zlog_settings.workspace = true
 
+feature_flags.workspace = true
+release_channel.workspace = true
+remote.workspace = true
+telemetry.workspace = true
+telemetry_events.workspace = true
 [target.'cfg(target_os = "windows")'.dependencies]
 etw_tracing.workspace = true
 windows.workspace = true

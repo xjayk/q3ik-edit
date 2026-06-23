@@ -16,6 +16,7 @@ workspace.workspace = true
 log.workspace = true
 text.workspace = true
 
+feature_flags.workspace = true
 [features]
 dev-tools = []
 

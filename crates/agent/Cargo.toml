@@ -76,6 +76,8 @@ web_search.workspace = true
 zed_env_vars.workspace = true
 zstd.workspace = true
 
+feature_flags.workspace = true
+telemetry.workspace = true
 [dev-dependencies]
 assets.workspace = true
 async-io.workspace = true

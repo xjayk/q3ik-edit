@@ -30,3 +30,6 @@ ui.workspace = true
 util.workspace = true
 workspace.workspace = true
 zed_actions.workspace = true
+
+release_channel.workspace = true
+telemetry.workspace = true

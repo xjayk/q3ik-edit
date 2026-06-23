@@ -75,6 +75,7 @@ zlog.workspace = true
 ztracing.workspace = true
 diffy = "0.4.2"
 
+rpc.workspace = true
 [dev-dependencies]
 collections = { workspace = true, features = ["test-support"] }
 ctor.workspace = true

@@ -101,6 +101,10 @@ workspace.workspace = true
 zed_actions.workspace = true
 zlog.workspace = true
 
+feature_flags.workspace = true
+rpc.workspace = true
+telemetry.workspace = true
+release_channel.workspace = true
 [dev-dependencies]
 ctor.workspace = true
 gpui = { workspace = true, features = ["test-support"] }

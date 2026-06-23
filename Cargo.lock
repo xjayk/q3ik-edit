@@ -48,6 +48,7 @@ dependencies = [
  "chrono",
  "collections",
  "env_logger 0.11.10",
+ "feature_flags",
  "file_icons",
  "futures 0.3.32",
  "gpui",
@@ -69,6 +70,7 @@ dependencies = [
  "serde_json",
  "settings",
  "task",
+ "telemetry",
  "terminal",
  "text",
  "ui",
@@ -121,6 +123,7 @@ dependencies = [
  "rand 0.9.4",
  "serde_json",
  "settings",
+ "telemetry",
  "text",
  "util",
  "watch",
@@ -198,6 +201,7 @@ dependencies = [
  "editor",
  "env_logger 0.11.10",
  "eval_utils",
+ "feature_flags",
  "fs",
  "futures 0.3.32",
  "git",
@@ -236,6 +240,7 @@ dependencies = [
  "streaming_diff",
  "strsim 0.11.1",
  "task",
+ "telemetry",
  "tempfile",
  "text",
  "theme",
@@ -314,6 +319,7 @@ dependencies = [
  "client",
  "collections",
  "env_logger 0.11.10",
+ "feature_flags",
  "fs",
  "futures 0.3.32",
  "google_ai",
@@ -326,6 +332,8 @@ dependencies = [
  "log",
  "nix 0.29.0",
  "project",
+ "release_channel",
+ "remote",
  "reqwest_client",
  "serde",
  "serde_json",
@@ -410,6 +418,7 @@ dependencies = [
  "db",
  "editor",
  "eval_utils",
+ "feature_flags",
  "file_icons",
  "fs",
  "futures 0.3.32",
@@ -448,6 +457,10 @@ dependencies = [
  "prompt_store",
  "proto",
  "rand 0.9.4",
+ "release_channel",
+ "remote",
+ "remote_connection",
+ "remote_server",
  "reqwest_client",
  "rope",
  "schemars 1.2.1",
@@ -459,6 +472,7 @@ dependencies = [
  "settings",
  "streaming_diff",
  "task",
+ "telemetry",
  "tempfile",
  "terminal",
  "terminal_view",
@@ -513,6 +527,7 @@ dependencies = [
  "language_model",
  "serde",
  "smallvec 1.15.2",
+ "telemetry",
  "ui",
  "zed_actions",
 ]
@@ -1160,6 +1175,7 @@ dependencies = [
  "log",
  "parking_lot",
  "paths",
+ "release_channel",
  "semver",
  "serde",
  "serde_json",
@@ -1199,10 +1215,12 @@ dependencies = [
  "markdown_preview",
  "notifications",
  "prompt_store",
+ "release_channel",
  "semver",
  "serde",
  "serde_json",
  "smol",
+ "telemetry",
  "ui",
  "util",
  "workspace",
@@ -2449,6 +2467,7 @@ dependencies = [
  "paths",
  "plist",
  "rayon",
+ "release_channel",
  "serde",
  "serde_json",
  "tempfile",
@@ -2474,6 +2493,7 @@ dependencies = [
  "collections",
  "credentials_provider",
  "derive_more",
+ "feature_flags",
  "fs",
  "futures 0.3.32",
  "gpui",
@@ -2488,6 +2508,8 @@ dependencies = [
  "postage",
  "rand 0.9.4",
  "regex",
+ "release_channel",
+ "rpc",
  "rustls-pki-types",
  "semver",
  "serde",
@@ -2496,6 +2518,8 @@ dependencies = [
  "settings",
  "sha2 0.10.9",
  "smol",
+ "telemetry",
+ "telemetry_events",
  "text",
  "thiserror 2.0.18",
  "time",
@@ -2744,6 +2768,7 @@ dependencies = [
  "project",
  "serde",
  "settings",
+ "telemetry",
  "theme",
  "theme_settings",
  "time",
@@ -2796,6 +2821,7 @@ dependencies = [
  "node_runtime",
  "notifications",
  "project",
+ "release_channel",
  "reqwest_client",
  "session",
  "settings",
@@ -2962,6 +2988,7 @@ dependencies = [
  "paths",
  "pretty_assertions",
  "project",
+ "rpc",
  "serde",
  "serde_json",
  "settings",
@@ -3546,6 +3573,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "editor",
+ "feature_flags",
  "gpui",
  "log",
  "text",
@@ -3783,6 +3811,7 @@ dependencies = [
  "inventory",
  "log",
  "paths",
+ "release_channel",
  "sqlez",
  "sqlez_macros",
  "tempfile",
@@ -4236,6 +4265,7 @@ dependencies = [
  "edit_prediction_context",
  "edit_prediction_metrics",
  "edit_prediction_types",
+ "feature_flags",
  "fs",
  "futures 0.3.32",
  "git",
@@ -4258,11 +4288,14 @@ dependencies = [
  "pulldown-cmark 0.13.4",
  "rand 0.9.4",
  "regex",
+ "release_channel",
  "semver",
  "serde",
  "serde_json",
  "settings",
  "strum 0.27.2",
+ "telemetry",
+ "telemetry_events",
  "text",
  "thiserror 2.0.18",
  "time",
@@ -4317,6 +4350,7 @@ dependencies = [
  "project",
  "prompt_store",
  "rand 0.9.4",
+ "release_channel",
  "reqwest_client",
  "rust-embed",
  "serde",
@@ -4328,6 +4362,7 @@ dependencies = [
  "sqlez",
  "sqlez_macros",
  "strum 0.27.2",
+ "telemetry_events",
  "tempfile",
  "terminal_view",
  "toml 0.8.23",
@@ -4359,6 +4394,7 @@ dependencies = [
  "serde_json",
  "settings",
  "smallvec 1.15.2",
+ "telemetry",
  "text",
  "tree-sitter",
  "util",
@@ -4407,6 +4443,7 @@ dependencies = [
  "edit_prediction",
  "edit_prediction_types",
  "editor",
+ "feature_flags",
  "fs",
  "futures 0.3.32",
  "gpui",
@@ -4419,6 +4456,7 @@ dependencies = [
  "project",
  "regex",
  "settings",
+ "telemetry",
  "text",
  "theme",
  "theme_settings",
@@ -4448,6 +4486,7 @@ dependencies = [
  "db",
  "edit_prediction_types",
  "emojis",
+ "feature_flags",
  "file_icons",
  "fs",
  "futures 0.3.32",
@@ -4473,7 +4512,9 @@ dependencies = [
  "proptest-derive",
  "rand 0.9.4",
  "regex",
+ "release_channel",
  "rope",
+ "rpc",
  "schemars 1.2.1",
  "semver",
  "serde",
@@ -4483,6 +4524,7 @@ dependencies = [
  "snippet",
  "sum_tree",
  "task",
+ "telemetry",
  "text",
  "theme",
  "theme_settings",
@@ -4524,6 +4566,7 @@ dependencies = [
  "language",
  "multi_buffer",
  "project",
+ "release_channel",
  "semver",
  "settings",
  "theme",
@@ -4820,6 +4863,7 @@ dependencies = [
  "ctrlc",
  "db",
  "env_logger 0.11.10",
+ "feature_flags",
  "fs",
  "futures 0.3.32",
  "gpui",
@@ -4833,6 +4877,7 @@ dependencies = [
  "paths",
  "project",
  "prompt_store",
+ "release_channel",
  "reqwest_client",
  "serde",
  "serde_json",
@@ -4986,6 +5031,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "feature_flags"
+version = "0.1.0"
+dependencies = [
+ "feature_flags_macros",
+ "gpui",
+]
+
+[[package]]
+name = "feature_flags_macros"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.118",
+]
+
+[[package]]
 name = "feedback"
 version = "0.1.0"
 dependencies = [
@@ -5019,6 +5081,7 @@ dependencies = [
  "pretty_assertions",
  "project",
  "project_panel",
+ "remote_connection",
  "serde",
  "serde_json",
  "settings",
@@ -5281,6 +5344,7 @@ dependencies = [
  "serde",
  "serde_json",
  "smol",
+ "telemetry",
  "tempfile",
  "text",
  "thiserror 2.0.18",
@@ -5737,6 +5801,9 @@ dependencies = [
  "prompt_store",
  "proto",
  "rand 0.9.4",
+ "release_channel",
+ "remote",
+ "remote_connection",
  "schemars 1.2.1",
  "search",
  "serde",
@@ -5746,6 +5813,7 @@ dependencies = [
  "strum 0.27.2",
  "sysinfo 0.37.2",
  "task",
+ "telemetry",
  "terminal",
  "theme",
  "theme_settings",
@@ -7154,6 +7222,7 @@ dependencies = [
  "anyhow",
  "client",
  "gpui",
+ "release_channel",
  "smol",
  "util",
  "workspace",
@@ -7432,6 +7501,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "collections",
+ "feature_flags",
  "gpui",
  "language",
  "parking_lot",
@@ -7510,6 +7580,7 @@ dependencies = [
  "serde",
  "serde_json",
  "settings",
+ "telemetry",
  "tempfile",
  "theme",
  "theme_settings",
@@ -7648,6 +7719,7 @@ dependencies = [
  "pretty_assertions",
  "rand 0.9.4",
  "regex",
+ "rpc",
  "semver",
  "serde",
  "serde_json",
@@ -7771,6 +7843,7 @@ dependencies = [
  "credentials_provider",
  "db",
  "deepseek",
+ "feature_flags",
  "fs",
  "futures 0.3.32",
  "google_ai",
@@ -7792,6 +7865,7 @@ dependencies = [
  "parking_lot",
  "pretty_assertions",
  "rand 0.9.4",
+ "release_channel",
  "schemars 1.2.1",
  "serde",
  "serde_json",
@@ -7878,10 +7952,12 @@ dependencies = [
  "menu",
  "project",
  "proto",
+ "release_channel",
  "semver",
  "serde_json",
  "settings",
  "sysinfo 0.37.2",
+ "telemetry",
  "theme",
  "theme_settings",
  "tree-sitter",
@@ -8320,6 +8396,7 @@ dependencies = [
  "lsp-types",
  "parking_lot",
  "postage",
+ "release_channel",
  "schemars 1.2.1",
  "semver",
  "serde",
@@ -9155,6 +9232,7 @@ dependencies = [
  "component",
  "futures-lite 1.13.0",
  "gpui",
+ "rpc",
  "sum_tree",
  "time",
  "ui",
@@ -9745,6 +9823,7 @@ dependencies = [
  "schemars 1.2.1",
  "serde",
  "settings",
+ "telemetry",
  "theme",
  "theme_settings",
  "ui",
@@ -11277,6 +11356,9 @@ dependencies = [
  "project",
  "rand 0.9.4",
  "regex",
+ "release_channel",
+ "remote",
+ "rpc",
  "schemars 1.2.1",
  "semver",
  "serde",
@@ -11323,6 +11405,8 @@ dependencies = [
  "language",
  "node_runtime",
  "project",
+ "release_channel",
+ "remote",
  "rpassword",
  "semver",
  "settings",
@@ -11339,6 +11423,7 @@ dependencies = [
  "command_palette_hooks",
  "criterion",
  "editor",
+ "feature_flags",
  "file_icons",
  "fs",
  "futures 0.3.32",
@@ -11352,12 +11437,14 @@ dependencies = [
  "pretty_assertions",
  "project",
  "rayon",
+ "remote_connection",
  "schemars 1.2.1",
  "search",
  "serde",
  "serde_json",
  "settings",
  "smallvec 1.15.2",
+ "telemetry",
  "tempfile",
  "theme",
  "theme_settings",
@@ -11382,6 +11469,7 @@ dependencies = [
  "ordered-float",
  "picker",
  "project",
+ "release_channel",
  "semver",
  "serde_json",
  "settings",
@@ -12064,11 +12152,16 @@ dependencies = [
  "paths",
  "picker",
  "project",
+ "release_channel",
+ "remote",
+ "remote_connection",
+ "remote_server",
  "semver",
  "serde",
  "serde_json",
  "settings",
  "task",
+ "telemetry",
  "ui",
  "ui_input",
  "util",
@@ -12209,6 +12302,38 @@ name = "regex-syntax"
 version = "0.8.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d6f6ff9a378485b298a5286656da665ba74413d36db0979633275d2e708145d4"
+
+[[package]]
+name = "release_channel"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "gpui",
+ "semver",
+]
+
+[[package]]
+name = "remote"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "release_channel",
+ "rpc",
+]
+
+[[package]]
+name = "remote_connection"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "gpui",
+ "release_channel",
+ "remote",
+]
+
+[[package]]
+name = "remote_server"
+version = "0.1.0"
 
 [[package]]
 name = "reqwest"
@@ -12390,6 +12515,17 @@ dependencies = [
  "libc",
  "rtoolbox",
  "windows-sys 0.61.2",
+]
+
+[[package]]
+name = "rpc"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "futures 0.3.32",
+ "gpui",
+ "parking_lot",
+ "proto",
 ]
 
 [[package]]
@@ -13138,6 +13274,7 @@ dependencies = [
  "migrator",
  "paths",
  "pretty_assertions",
+ "release_channel",
  "rust-embed",
  "schemars 1.2.1",
  "serde",
@@ -13234,6 +13371,7 @@ dependencies = [
  "edit_prediction",
  "edit_prediction_ui",
  "editor",
+ "feature_flags",
  "fs",
  "futures 0.3.32",
  "fuzzy",
@@ -13250,6 +13388,7 @@ dependencies = [
  "pretty_assertions",
  "project",
  "regex",
+ "release_channel",
  "rodio",
  "schemars 1.2.1",
  "search",
@@ -13259,6 +13398,7 @@ dependencies = [
  "settings",
  "shell_command_parser",
  "strum 0.27.2",
+ "telemetry",
  "theme",
  "theme_settings",
  "title_bar",
@@ -13396,6 +13536,7 @@ dependencies = [
  "clock",
  "db",
  "editor",
+ "feature_flags",
  "fs",
  "git",
  "gpui",
@@ -13412,10 +13553,15 @@ dependencies = [
  "project",
  "prompt_store",
  "recent_projects",
+ "release_channel",
+ "remote",
+ "remote_connection",
+ "remote_server",
  "semver",
  "serde",
  "serde_json",
  "settings",
+ "telemetry",
  "theme",
  "theme_settings",
  "ui",
@@ -14276,6 +14422,7 @@ dependencies = [
  "gpui",
  "human_bytes",
  "pciid-parser",
+ "release_channel",
  "semver",
  "serde",
  "sysinfo 0.37.2",
@@ -14391,6 +14538,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "telemetry"
+version = "0.1.0"
+dependencies = [
+ "futures 0.3.32",
+ "gpui",
+ "telemetry_events",
+]
+
+[[package]]
+name = "telemetry_events"
+version = "0.1.0"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "tempfile"
 version = "3.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -14452,6 +14615,7 @@ dependencies = [
  "percent-encoding",
  "rand 0.9.4",
  "regex",
+ "release_channel",
  "schemars 1.2.1",
  "serde",
  "settings",
@@ -14498,6 +14662,9 @@ dependencies = [
  "pretty_assertions",
  "project",
  "regex",
+ "release_channel",
+ "remote",
+ "rpc",
  "schemars 1.2.1",
  "semver",
  "serde",
@@ -14590,6 +14757,7 @@ dependencies = [
  "serde",
  "serde_json",
  "settings",
+ "telemetry",
  "theme",
  "theme_settings",
  "ui",
@@ -14827,11 +14995,15 @@ dependencies = [
  "platform_title_bar",
  "project",
  "recent_projects",
+ "release_channel",
+ "remote",
+ "remote_connection",
  "schemars 1.2.1",
  "semver",
  "serde",
  "settings",
  "smallvec 1.15.2",
+ "telemetry",
  "theme",
  "ui",
  "util",
@@ -17741,6 +17913,7 @@ dependencies = [
  "project",
  "proptest",
  "proptest-derive",
+ "remote",
  "schemars 1.2.1",
  "serde",
  "serde_json",
@@ -17750,6 +17923,7 @@ dependencies = [
  "sqlez",
  "strum 0.27.2",
  "task",
+ "telemetry",
  "tempfile",
  "theme",
  "theme_settings",
@@ -17786,6 +17960,7 @@ dependencies = [
  "postage",
  "pretty_assertions",
  "rand 0.9.4",
+ "rpc",
  "serde",
  "serde_json",
  "settings",
@@ -18088,6 +18263,7 @@ dependencies = [
  "encoding_selector",
  "env_logger 0.11.10",
  "etw_tracing",
+ "feature_flags",
  "feedback",
  "file_finder",
  "fs",
@@ -18143,6 +18319,8 @@ dependencies = [
  "proto",
  "rayon",
  "recent_projects",
+ "release_channel",
+ "remote",
  "reqwest_client",
  "rope",
  "sandbox",
@@ -18165,6 +18343,8 @@ dependencies = [
  "tab_switcher",
  "task",
  "tasks_ui",
+ "telemetry",
+ "telemetry_events",
  "tempfile",
  "terminal_view",
  "theme",
@@ -18311,6 +18491,7 @@ dependencies = [
  "futures 0.3.32",
  "gpui",
  "paths",
+ "release_channel",
  "serde",
  "serde_json",
 ]

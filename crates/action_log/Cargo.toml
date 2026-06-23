@@ -30,6 +30,7 @@ util.workspace = true
 watch.workspace = true
 
 
+telemetry.workspace = true
 [dev-dependencies]
 buffer_diff = { workspace = true, features = ["test-support"] }
 clock = { workspace = true, features = ["test-support"] }

@@ -36,6 +36,7 @@ tempfile.workspace = true
 rayon.workspace = true
 walkdir = "2.5"
 
+release_channel.workspace = true
 [dev-dependencies]
 serde_json.workspace = true
 util = { workspace = true, features = ["test-support"] }

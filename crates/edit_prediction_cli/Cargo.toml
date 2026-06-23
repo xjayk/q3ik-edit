@@ -73,6 +73,8 @@ gaoya = "0.2.0"
 #
 # If we don't enable these features we get crashes when creating
 # a Tree-sitter WasmStore.
+release_channel.workspace = true
+telemetry_events.workspace = true
 [features]
 dynamic_prompts = []
 

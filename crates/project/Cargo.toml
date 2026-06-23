@@ -23,6 +23,7 @@ test-support = [
     "buffer_diff/test-support",
     "client/test-support",
     "language/test-support",
+    "remote/test-support",
     "settings/test-support",
     "snippet_provider/test-support",
     "text/test-support",
@@ -98,6 +99,10 @@ zeroize.workspace = true
 zlog.workspace = true
 ztracing.workspace = true
 tracing.workspace = true
+
+release_channel.workspace = true
+rpc = { workspace = true, features = ["test-support"] }
+remote = { workspace = true, features = ["test-support"] }
 
 [dev-dependencies]
 client = { workspace = true, features = ["test-support"] }

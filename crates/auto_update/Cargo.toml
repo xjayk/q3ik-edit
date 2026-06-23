@@ -30,6 +30,7 @@ tempfile.workspace = true
 util.workspace = true
 workspace.workspace = true
 
+release_channel.workspace = true
 [target.'cfg(not(target_os = "windows"))'.dependencies]
 which.workspace = true
 

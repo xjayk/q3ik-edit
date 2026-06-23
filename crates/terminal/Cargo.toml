@@ -46,6 +46,7 @@ vte.workspace = true
 parking_lot.workspace = true
 percent-encoding.workspace = true
 
+release_channel.workspace = true
 [target.'cfg(windows)'.dependencies]
 windows.workspace = true
 

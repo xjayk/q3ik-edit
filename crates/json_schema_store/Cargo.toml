@@ -34,3 +34,5 @@ snippet_provider.workspace = true
 task.workspace = true
 theme.workspace = true
 util.workspace = true
+
+feature_flags.workspace = true

@@ -38,6 +38,7 @@ ui_input.workspace = true
 uuid.workspace = true
 workspace.workspace = true
 
+release_channel.workspace = true
 [dev-dependencies]
 assets.workspace = true
 editor.workspace = true

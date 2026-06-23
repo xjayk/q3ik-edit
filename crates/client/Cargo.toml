@@ -13,7 +13,7 @@ path = "src/client.rs"
 doctest = false
 
 [features]
-test-support = ["clock/test-support", "collections/test-support", "gpui/test-support"]
+test-support = ["clock/test-support", "collections/test-support", "gpui/test-support", "rpc/test-support"]
 
 [dependencies]
 anyhow.workspace = true
@@ -58,7 +58,13 @@ util.workspace = true
 worktree.workspace = true
 zed_credentials_provider.workspace = true
 
+feature_flags.workspace = true
+release_channel.workspace = true
+rpc = { workspace = true, features = ["gpui"] }
+telemetry.workspace = true
+telemetry_events.workspace = true
 [dev-dependencies]
+rpc = { workspace = true, features = ["test-support"] }
 clock = { workspace = true, features = ["test-support"] }
 collections = { workspace = true, features = ["test-support"] }
 fs.workspace = true

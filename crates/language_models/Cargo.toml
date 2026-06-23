@@ -65,6 +65,8 @@ url.workspace = true
 util.workspace = true
 x_ai = { workspace = true, features = ["schemars"] }
 
+release_channel.workspace = true
+feature_flags.workspace = true
 [dev-dependencies]
 client = { workspace = true, features = ["test-support"] }
 clock = { workspace = true, features = ["test-support"] }

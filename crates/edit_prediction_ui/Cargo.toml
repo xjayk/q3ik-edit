@@ -47,6 +47,8 @@ workspace.workspace = true
 zed_actions.workspace = true
 zeta_prompt.workspace = true
 
+feature_flags.workspace = true
+telemetry.workspace = true
 [dev-dependencies]
 copilot = { workspace = true, features = ["test-support"] }
 editor = { workspace = true, features = ["test-support"] }

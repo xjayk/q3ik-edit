@@ -21,5 +21,7 @@ semver.workspace = true
 settings.workspace = true
 watch.workspace = true
 
+release_channel.workspace = true
+remote = { workspace = true, features = ["build-remote-server-binary"] }
 [lints]
 workspace = true

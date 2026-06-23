@@ -69,6 +69,10 @@ zed_credentials_provider.workspace = true
 zeta_prompt.workspace = true
 zstd.workspace = true
 
+feature_flags.workspace = true
+release_channel.workspace = true
+telemetry.workspace = true
+telemetry_events.workspace = true
 [dev-dependencies]
 criterion.workspace = true
 fs = { workspace = true, features = ["test-support"] }

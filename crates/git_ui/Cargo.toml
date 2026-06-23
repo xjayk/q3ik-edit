@@ -13,7 +13,7 @@ name = "git_ui"
 path = "src/git_ui.rs"
 
 [features]
-test-support = ["multi_buffer/test-support"]
+test-support = ["multi_buffer/test-support", "remote_connection/test-support"]
 
 
 [dependencies]
@@ -72,6 +72,10 @@ zeroize.workspace = true
 ztracing.workspace = true
 tracing.workspace = true
 
+release_channel.workspace = true
+remote.workspace = true
+telemetry.workspace = true
+remote_connection = { workspace = true, features = ["test-support"] }
 [target.'cfg(windows)'.dependencies]
 windows.workspace = true
 

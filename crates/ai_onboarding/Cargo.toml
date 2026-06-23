@@ -24,3 +24,5 @@ serde.workspace = true
 smallvec.workspace = true
 ui.workspace = true
 zed_actions.workspace = true
+
+telemetry.workspace = true

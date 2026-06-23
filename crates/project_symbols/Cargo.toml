@@ -27,6 +27,7 @@ theme_settings.workspace = true
 util.workspace = true
 workspace.workspace = true
 
+release_channel.workspace = true
 [dev-dependencies]
 editor = { workspace = true, features = ["test-support"] }
 futures.workspace = true

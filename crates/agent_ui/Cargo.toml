@@ -108,6 +108,12 @@ zed_actions.workspace = true
 image.workspace = true
 reqwest_client = { workspace = true, optional = true }
 
+feature_flags.workspace = true
+release_channel.workspace = true
+telemetry.workspace = true
+remote = { workspace = true, features = ["test-support"] }
+remote_connection = { workspace = true, features = ["test-support"] }
+remote_server = { workspace = true, features = ["test-support"] }
 [dev-dependencies]
 acp_thread = { workspace = true, features = ["test-support"] }
 agent = { workspace = true, features = ["test-support"] }

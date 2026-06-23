@@ -58,6 +58,9 @@ util.workspace = true
 watch.workspace = true
 zed_credentials_provider.workspace = true
 
+feature_flags.workspace = true
+release_channel.workspace = true
+remote.workspace = true
 [target.'cfg(unix)'.dependencies]
 libc.workspace = true
 nix.workspace = true

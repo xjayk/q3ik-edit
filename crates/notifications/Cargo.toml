@@ -15,6 +15,7 @@ doctest = false
 [features]
 test-support = [
     "gpui/test-support",
+    "rpc/test-support",
 ]
 
 [dependencies]
@@ -29,6 +30,8 @@ ui.workspace = true
 util.workspace = true
 workspace.workspace = true
 zed_actions.workspace = true
+
+rpc = { workspace = true, features = ["test-support"] }
 
 [dev-dependencies]
 client = { workspace = true, features = ["test-support"] }

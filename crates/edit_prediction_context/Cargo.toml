@@ -29,6 +29,7 @@ tree-sitter.workspace = true
 util.workspace = true
 zeta_prompt.workspace = true
 
+telemetry.workspace = true
 [dev-dependencies]
 env_logger.workspace = true
 indoc.workspace = true

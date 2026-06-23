@@ -37,6 +37,7 @@ workspace.workspace = true
 zed_actions.workspace = true
 project_panel.workspace = true
 
+remote_connection = { workspace = true, features = ["test-support"] }
 [dev-dependencies]
 ctor.workspace = true
 editor = { workspace = true, features = ["test-support"] }
