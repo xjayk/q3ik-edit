@@ -23,7 +23,6 @@ client.workspace = true
 ctrlc = { version = "3.5", features = ["termination"] }
 db.workspace = true
 env_logger.workspace = true
-feature_flags.workspace = true
 fs.workspace = true
 futures.workspace = true
 gpui.workspace = true
@@ -37,7 +36,6 @@ node_runtime.workspace = true
 paths.workspace = true
 project.workspace = true
 prompt_store.workspace = true
-release_channel.workspace = true
 reqwest_client.workspace = true
 serde.workspace = true
 serde_json.workspace = true

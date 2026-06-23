@@ -12,7 +12,6 @@ gpui_platform.workspace = true
 language.workspace = true
 multi_buffer.workspace = true
 project.workspace = true
-release_channel.workspace = true
 semver.workspace = true
 settings.workspace = true
 theme.workspace = true

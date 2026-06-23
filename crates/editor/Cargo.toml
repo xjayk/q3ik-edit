@@ -43,7 +43,6 @@ convert_case.workspace = true
 db.workspace = true
 buffer_diff.workspace = true
 emojis.workspace = true
-feature_flags.workspace = true
 file_icons.workspace = true
 futures.workspace = true
 futures-lite.workspace = true
@@ -69,7 +68,6 @@ proptest = { workspace = true, optional = true }
 proptest-derive = { workspace = true, optional = true }
 rand.workspace = true
 regex.workspace = true
-rpc.workspace = true
 rope.workspace = true
 schemars.workspace = true
 serde.workspace = true
@@ -79,7 +77,6 @@ smallvec.workspace = true
 snippet.workspace = true
 sum_tree.workspace = true
 task.workspace = true
-telemetry.workspace = true
 text.workspace = true
 time.workspace = true
 theme.workspace = true
@@ -115,7 +112,6 @@ multi_buffer = { workspace = true, features = ["test-support"] }
 project = { workspace = true, features = ["test-support"] }
 proptest.workspace = true
 proptest-derive.workspace = true
-release_channel.workspace = true
 rand.workspace = true
 semver.workspace = true
 settings = { workspace = true, features = ["test-support"] }

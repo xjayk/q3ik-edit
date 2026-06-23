@@ -39,7 +39,6 @@ members = [
     "crates/context_server",
     "crates/copilot",
     "crates/copilot_chat",
-    "crates/crashes",
     "crates/credentials_provider",
     "crates/csv_preview",
     "crates/db",
@@ -61,8 +60,6 @@ members = [
     "crates/eval_cli",
     "crates/eval_utils",
     "crates/explorer_command_injector",
-    "crates/feature_flags",
-    "crates/feature_flags_macros",
     "crates/feedback",
     "crates/file_finder",
     "crates/file_icons",
@@ -144,13 +141,8 @@ members = [
     "crates/recent_projects",
     "crates/refineable",
     "crates/refineable/derive_refineable",
-    "crates/release_channel",
-    "crates/remote",
-    "crates/remote_connection",
-    "crates/remote_server",
     "crates/reqwest_client",
     "crates/rope",
-    "crates/rpc",
     "crates/sandbox",
     "crates/scheduler",
     "crates/schema_generator",
@@ -177,8 +169,6 @@ members = [
     "crates/tab_switcher",
     "crates/task",
     "crates/tasks_ui",
-    "crates/telemetry",
-    "crates/telemetry_events",
     "crates/terminal",
     "crates/terminal_view",
     "crates/text",
@@ -271,7 +261,6 @@ context_server = { path = "crates/context_server" }
 copilot = { path = "crates/copilot" }
 copilot_chat = { path = "crates/copilot_chat" }
 copilot_ui = { path = "crates/copilot_ui" }
-crashes = { path = "crates/crashes" }
 credentials_provider = { path = "crates/credentials_provider" }
 crossbeam = "0.8.4"
 csv_preview = { path = "crates/csv_preview"}
@@ -286,8 +275,6 @@ encoding_selector = { path = "crates/encoding_selector" }
 env_var = { path = "crates/env_var" }
 etw_tracing = { path = "crates/etw_tracing" }
 eval_utils = { path = "crates/eval_utils" }
-feature_flags = { path = "crates/feature_flags" }
-feature_flags_macros = { path = "crates/feature_flags_macros" }
 feedback = { path = "crates/feedback" }
 file_finder = { path = "crates/file_finder" }
 file_icons = { path = "crates/file_icons" }
@@ -370,14 +357,9 @@ prompt_store = { path = "crates/prompt_store" }
 proto = { path = "crates/proto" }
 recent_projects = { path = "crates/recent_projects" }
 refineable = { path = "crates/refineable" }
-release_channel = { path = "crates/release_channel" }
-remote = { path = "crates/remote" }
-remote_connection = { path = "crates/remote_connection" }
-remote_server = { path = "crates/remote_server" }
 reqwest_client = { path = "crates/reqwest_client" }
 rodio = { git = "https://github.com/RustAudio/rodio", rev = "e50e726ddd0292f6ef9de0dda6b90af4ed1fb66a", features = ["wav", "playback", "wav_output", "recording"] }
 rope = { path = "crates/rope" }
-rpc = { path = "crates/rpc" }
 scheduler = { path = "crates/scheduler" }
 sandbox = { path = "crates/sandbox" }
 search = { path = "crates/search" }
@@ -402,8 +384,6 @@ syntax_theme = { path = "crates/syntax_theme" }
 tab_switcher = { path = "crates/tab_switcher" }
 task = { path = "crates/task" }
 tasks_ui = { path = "crates/tasks_ui" }
-telemetry = { path = "crates/telemetry" }
-telemetry_events = { path = "crates/telemetry_events" }
 terminal = { path = "crates/terminal" }
 terminal_view = { path = "crates/terminal_view" }
 text = { path = "crates/text" }
@@ -875,7 +855,6 @@ debug = "full"
 # proc-macros start
 gpui_macros = { opt-level = 3 }
 derive_refineable = { opt-level = 3 }
-feature_flags_macros = { opt-level = 3 }
 settings_macros = { opt-level = 3 }
 sqlez_macros = { opt-level = 3, codegen-units = 1 }
 ui_macros = { opt-level = 3 }
@@ -901,7 +880,6 @@ breadcrumbs = { codegen-units = 1 }
 collections = { codegen-units = 1 }
 command_palette = { codegen-units = 1 }
 command_palette_hooks = { codegen-units = 1 }
-feature_flags = { codegen-units = 1 }
 file_icons = { codegen-units = 1 }
 image_viewer = { codegen-units = 1 }
 edit_prediction_ui = { codegen-units = 1 }
@@ -917,13 +895,11 @@ paths = { codegen-units = 1 }
 prettier = { codegen-units = 1 }
 project_symbols = { codegen-units = 1 }
 refineable = { codegen-units = 1 }
-release_channel = { codegen-units = 1 }
 reqwest_client = { codegen-units = 1 }
 session = { codegen-units = 1 }
 sidebar = { codegen-units = 1 }
 snippet = { codegen-units = 1 }
 snippets_ui = { codegen-units = 1 }
-telemetry_events = { codegen-units = 1 }
 theme_selector = { codegen-units = 1 }
 time_format = { codegen-units = 1 }
 ui_input = { codegen-units = 1 }

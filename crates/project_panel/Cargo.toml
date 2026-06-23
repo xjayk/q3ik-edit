@@ -46,9 +46,7 @@ worktree.workspace = true
 workspace.workspace = true
 language.workspace = true
 zed_actions.workspace = true
-telemetry.workspace = true
 notifications.workspace = true
-feature_flags.workspace = true
 fs.workspace = true
 
 [dev-dependencies]
@@ -58,7 +56,6 @@ editor = { workspace = true, features = ["test-support"] }
 git_ui = { workspace = true, features = ["test-support"] }
 gpui = { workspace = true, features = ["test-support"] }
 language = { workspace = true, features = ["test-support"] }
-remote_connection = { workspace = true, features = ["test-support"] }
 serde_json.workspace = true
 tempfile.workspace = true
 workspace = { workspace = true, features = ["test-support"] }
