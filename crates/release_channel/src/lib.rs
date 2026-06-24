@@ -37,21 +37,11 @@ impl Default for ReleaseChannel {
     }
 }
 
-pub struct AppVersion {
-    version: semver::Version,
-}
-
+pub struct AppVersion;
 impl AppVersion {
-    pub fn global(cx: &App) -> Self {
-        Self {
-            version: semver::Version::new(0, 0, 0),
-        }
-    }
-}
-
-impl std::fmt::Display for AppVersion {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.version)
+    pub fn global(_cx: &App) -> semver::Version {
+        semver::Version::new(0, 0, 0)
     }
 }
 
@@ -62,3 +52,13 @@ pub static RELEASE_CHANNEL: LazyLock<ReleaseChannel> = LazyLock::new(|| ReleaseC
 pub fn init(version: semver::Version, cx: &mut App) {}
 
 pub fn init_test(version: semver::Version, channel: ReleaseChannel, cx: &mut App) {}
+
+pub fn docs_url(slug: &str, _cx: &App) -> String {
+    format!("https://zed.dev/docs/{}", slug)
+}
+
+pub fn app_identifier() -> &'static str {
+    "Zed-Editor-Dev"
+}
+
+pub static RELEASE_CHANNEL_NAME: LazyLock<String> = LazyLock::new(|| "dev".to_string());

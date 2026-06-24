@@ -3,5 +3,10 @@ pub enum ConnectionIdentifier {
     Workspace(i64),
 }
 
-pub use crate::Interactive;
+impl ConnectionIdentifier {
+    pub fn setup() -> Self {
+        Self::Setup(0)
+    }
+}
 
+pub use crate::Interactive;

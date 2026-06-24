@@ -3,16 +3,16 @@ pub mod notification;
 pub use notification::*;
 
 pub use proto;
-pub use proto::{error, ErrorCode, ErrorExt, Receipt, TypedEnvelope};
 pub use proto::Envelope;
+pub use proto::{ErrorCode, ErrorExt, Receipt, TypedEnvelope, error};
 
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 
 use anyhow::Result;
-use futures::{Future, StreamExt};
 use futures::future::BoxFuture;
 use futures::stream::BoxStream;
+use futures::{Future, StreamExt};
 
 pub const PROTOCOL_VERSION: u32 = 68;
 
@@ -102,18 +102,10 @@ impl Peer {
     ) -> gpui::Task<Result<BoxStream<'static, Result<proto::Envelope>>>> {
         gpui::Task::ready(Err(anyhow::anyhow!("peer stub")))
     }
-    pub fn send<T: proto::EnvelopedMessage>(
-        &self,
-        _: ConnectionId,
-        _: T,
-    ) -> Result<()> {
+    pub fn send<T: proto::EnvelopedMessage>(&self, _: ConnectionId, _: T) -> Result<()> {
         Ok(())
     }
-    pub fn send_dynamic(
-        &self,
-        _: ConnectionId,
-        _: proto::Envelope,
-    ) -> Result<()> {
+    pub fn send_dynamic(&self, _: ConnectionId, _: proto::Envelope) -> Result<()> {
         Ok(())
     }
     pub fn respond_with_unhandled_message(
@@ -129,8 +121,8 @@ impl Peer {
 #[cfg(feature = "gpui")]
 mod gpui_impl {
     use super::*;
-    use gpui::{AnyEntity, AnyWeakEntity, AsyncApp};
     use futures::future::LocalBoxFuture;
+    use gpui::{AnyEntity, AnyWeakEntity, AsyncApp};
     use parking_lot::Mutex;
     use std::any::TypeId;
     use std::collections::HashMap;
@@ -148,10 +140,8 @@ mod gpui_impl {
 
     pub struct ProtoMessageHandlerSet {
         pub entity_types_by_message_type: HashMap<TypeId, TypeId>,
-        pub entities_by_type_and_remote_id:
-            HashMap<(TypeId, u64), EntityMessageSubscriber>,
-        pub entity_id_extractors:
-            HashMap<TypeId, fn(&dyn proto::AnyTypedEnvelope) -> u64>,
+        pub entities_by_type_and_remote_id: HashMap<(TypeId, u64), EntityMessageSubscriber>,
+        pub entity_id_extractors: HashMap<TypeId, fn(&dyn proto::AnyTypedEnvelope) -> u64>,
         pub entities_by_message_type: HashMap<TypeId, AnyWeakEntity>,
         pub message_handlers: HashMap<TypeId, ProtoMessageHandler>,
     }
@@ -180,9 +170,7 @@ mod gpui_impl {
     }
 
     pub enum EntityMessageSubscriber {
-        Entity {
-            handle: AnyWeakEntity,
-        },
+        Entity { handle: AnyWeakEntity },
         Pending(Vec<Box<dyn proto::AnyTypedEnvelope>>),
     }
 }
@@ -227,11 +215,7 @@ mod proto_client {
     }
 
     impl ProtoClient for NoopProtoClient {
-        fn request(
-            &self,
-            _: Envelope,
-            _: &'static str,
-        ) -> BoxFuture<'static, Result<Envelope>> {
+        fn request(&self, _: Envelope, _: &'static str) -> BoxFuture<'static, Result<Envelope>> {
             Box::pin(async { Err(anyhow::anyhow!("noop")) })
         }
         fn request_stream(
@@ -279,10 +263,7 @@ mod proto_client {
             F: 'static + std::future::Future<Output = Result<()>>,
         {
         }
-        pub fn request<T: RequestMessage>(
-            &self,
-            _: T,
-        ) -> gpui::Task<anyhow::Result<T::Response>> {
+        pub fn request<T: RequestMessage>(&self, _: T) -> gpui::Task<anyhow::Result<T::Response>> {
             gpui::Task::ready(Err(anyhow::anyhow!("rpc stub")))
         }
         pub fn request_stream<T: RequestMessage>(
@@ -294,11 +275,7 @@ mod proto_client {
         pub fn send<T: EnvelopedMessage>(&self, _: T) -> anyhow::Result<()> {
             Ok(())
         }
-        pub fn send_response<T: EnvelopedMessage>(
-            &self,
-            _: u32,
-            _: T,
-        ) -> anyhow::Result<()> {
+        pub fn send_response<T: EnvelopedMessage>(&self, _: u32, _: T) -> anyhow::Result<()> {
             Ok(())
         }
         pub fn send_lsp_response<T: proto::LspRequestMessage>(
@@ -309,11 +286,7 @@ mod proto_client {
         ) -> anyhow::Result<()> {
             Ok(())
         }
-        pub fn handle_lsp_response(
-            &self,
-            _: TypedEnvelope<proto::LspQueryResponse>,
-        ) {
-        }
+        pub fn handle_lsp_response(&self, _: TypedEnvelope<proto::LspQueryResponse>) {}
         pub fn is_via_collab(&self) -> bool {
             false
         }
@@ -336,7 +309,9 @@ mod proto_client {
             _: std::time::Duration,
             _: gpui::BackgroundExecutor,
             _: T,
-        ) -> gpui::Task<anyhow::Result<Option<proto::TypedEnvelope<Vec<proto::ProtoLspResponse<T::Response>>>>>>
+        ) -> gpui::Task<
+            anyhow::Result<Option<proto::TypedEnvelope<Vec<proto::ProtoLspResponse<T::Response>>>>>,
+        >
         where
             T: proto::LspRequestMessage,
         {
@@ -350,8 +325,7 @@ mod proto_client {
             F: 'static + std::future::Future<Output = Result<M::Response>>,
         {
         }
-        pub fn subscribe_to_entity<E: 'static>(&self, _: u64, _: &gpui::Entity<E>) {
-        }
+        pub fn subscribe_to_entity<E: 'static>(&self, _: u64, _: &gpui::Entity<E>) {}
     }
 
     impl<T: ProtoClient + 'static> From<Arc<T>> for AnyProtoClient {

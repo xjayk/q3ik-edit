@@ -8,7 +8,9 @@ impl WslConnectionOptions {
     pub fn abs_windows_path_to_wsl_path(
         &self,
         _: &std::path::Path,
-    ) -> std::pin::Pin<Box<dyn std::future::Future<Output = anyhow::Result<std::path::PathBuf>> + Send>> {
+    ) -> std::pin::Pin<
+        Box<dyn std::future::Future<Output = anyhow::Result<std::path::PathBuf>> + Send>,
+    > {
         Box::pin(std::future::ready(Ok(std::path::PathBuf::new())))
     }
 }

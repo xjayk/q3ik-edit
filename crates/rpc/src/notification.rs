@@ -4,8 +4,12 @@ use strum::VariantNames;
 #[derive(Debug, Clone, PartialEq, Eq, VariantNames, Serialize, Deserialize)]
 #[serde(tag = "kind")]
 pub enum Notification {
-    ContactRequest { sender_id: u64 },
-    ContactRequestAccepted { responder_id: u64 },
+    ContactRequest {
+        sender_id: u64,
+    },
+    ContactRequestAccepted {
+        responder_id: u64,
+    },
     ChannelInvitation {
         channel_id: u64,
         channel_name: String,

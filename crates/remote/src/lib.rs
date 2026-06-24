@@ -13,7 +13,9 @@ pub use transport::wsl::WslConnectionOptions;
 pub use transport::wsl::wsl_path_to_windows_path;
 
 #[cfg(any(test, feature = "test-support"))]
-pub use transport::mock::{MockConnection, MockConnectionOptions, MockConnectionRegistry, MockDelegate};
+pub use transport::mock::{
+    MockConnection, MockConnectionOptions, MockConnectionRegistry, MockDelegate,
+};
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub enum Interactive {
@@ -184,9 +186,7 @@ pub fn has_active_connection() -> bool {
     false
 }
 pub fn connect() {}
-pub fn remote_connection_identity(
-    opts: &RemoteConnectionOptions,
-) -> RemoteConnectionIdentity {
+pub fn remote_connection_identity(opts: &RemoteConnectionOptions) -> RemoteConnectionIdentity {
     match opts {
         RemoteConnectionOptions::Ssh(ssh) => RemoteConnectionIdentity::Ssh {
             username: ssh.username.clone(),
