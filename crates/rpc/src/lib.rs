@@ -1,4 +1,6 @@
 pub mod auth;
+pub mod notification;
+pub use notification::*;
 
 pub use proto;
 pub use proto::{error, ErrorCode, ErrorExt, Receipt, TypedEnvelope};
@@ -259,17 +261,23 @@ mod proto_client {
     #[derive(Clone)]
     pub struct AnyProtoClient(Arc<dyn ProtoClient>);
 
+    impl std::fmt::Debug for AnyProtoClient {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            f.debug_struct("AnyProtoClient").finish_non_exhaustive()
+        }
+    }
+
     impl AnyProtoClient {
         pub fn new(client: Arc<dyn ProtoClient>) -> Self {
             Self(client)
         }
-        pub fn add_entity_message_handler<E, M, F>(self, _: E, _: F) -> Self
+        pub fn add_entity_message_handler<M, E, H, F>(&self, _: H)
         where
+            M: EnvelopedMessage,
             E: 'static,
-            M: 'static,
-            F: 'static,
+            H: 'static + Send + Sync + Fn(gpui::Entity<E>, TypedEnvelope<M>, gpui::AsyncApp) -> F,
+            F: 'static + std::future::Future<Output = Result<()>>,
         {
-            self
         }
         pub fn request<T: RequestMessage>(
             &self,
@@ -293,11 +301,11 @@ mod proto_client {
         ) -> anyhow::Result<()> {
             Ok(())
         }
-        pub fn send_lsp_response(
+        pub fn send_lsp_response<T: proto::LspRequestMessage>(
             &self,
             _: u64,
             _: proto::LspRequestId,
-            _: std::collections::HashMap<u64, impl proto::Message>,
+            _: std::collections::HashMap<u64, T::Response, impl std::hash::BuildHasher>,
         ) -> anyhow::Result<()> {
             Ok(())
         }
@@ -305,6 +313,44 @@ mod proto_client {
             &self,
             _: TypedEnvelope<proto::LspQueryResponse>,
         ) {
+        }
+        pub fn is_via_collab(&self) -> bool {
+            false
+        }
+        pub fn has_wsl_interop(&self) -> bool {
+            false
+        }
+        pub fn add_entity_stream_request_handler<M, E, H, F, S>(&self, _: H)
+        where
+            M: EnvelopedMessage + RequestMessage + proto::EntityMessage,
+            E: 'static,
+            H: 'static + Send + Sync + Fn(gpui::Entity<E>, TypedEnvelope<M>, gpui::AsyncApp) -> F,
+            F: 'static + std::future::Future<Output = Result<S>>,
+            S: futures::Stream<Item = Result<M::Response>> + Send + 'static,
+        {
+        }
+        pub fn request_lsp<T>(
+            &self,
+            _: u64,
+            _: Option<u64>,
+            _: std::time::Duration,
+            _: gpui::BackgroundExecutor,
+            _: T,
+        ) -> gpui::Task<anyhow::Result<Option<proto::TypedEnvelope<Vec<proto::ProtoLspResponse<T::Response>>>>>>
+        where
+            T: proto::LspRequestMessage,
+        {
+            gpui::Task::ready(Ok(None))
+        }
+        pub fn add_entity_request_handler<M, E, H, F>(&self, _: H)
+        where
+            M: EnvelopedMessage + RequestMessage + proto::EntityMessage,
+            E: 'static,
+            H: 'static + Send + Sync + Fn(gpui::Entity<E>, TypedEnvelope<M>, gpui::AsyncApp) -> F,
+            F: 'static + std::future::Future<Output = Result<M::Response>>,
+        {
+        }
+        pub fn subscribe_to_entity<E: 'static>(&self, _: u64, _: &gpui::Entity<E>) {
         }
     }
 

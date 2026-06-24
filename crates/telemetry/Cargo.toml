@@ -10,5 +10,4 @@ workspace = true
 [dependencies]
 futures.workspace = true
 gpui = { workspace = true }
-
 telemetry_events.workspace = true

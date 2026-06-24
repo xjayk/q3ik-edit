@@ -18,3 +18,5 @@ futures = { workspace = true }
 gpui = { workspace = true }
 parking_lot = { workspace = true }
 proto = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+strum = { workspace = true }

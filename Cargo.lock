@@ -12317,8 +12317,13 @@ name = "remote"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "collections",
+ "futures 0.3.32",
+ "gpui",
  "release_channel",
  "rpc",
+ "serde",
+ "util",
 ]
 
 [[package]]
@@ -12526,6 +12531,8 @@ dependencies = [
  "gpui",
  "parking_lot",
  "proto",
+ "serde",
+ "strum 0.27.2",
 ]
 
 [[package]]
