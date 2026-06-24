@@ -17,6 +17,7 @@ test-support = ["remote/test-support"]
 
 [dependencies]
 anyhow.workspace = true
+futures.workspace = true
 gpui.workspace = true
 remote.workspace = true
 workspace.workspace = true

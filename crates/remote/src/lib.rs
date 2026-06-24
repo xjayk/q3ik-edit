@@ -49,6 +49,9 @@ impl RemoteClient {
     pub fn remote_connection(&self) -> Option<Arc<dyn RemoteConnection>> {
         None
     }
+    pub fn connection(&self) -> Option<Arc<dyn RemoteConnection>> {
+        None
+    }
     pub fn build_command(
         &self,
         _: Option<String>,
