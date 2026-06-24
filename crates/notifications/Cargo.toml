@@ -15,7 +15,7 @@ doctest = false
 [features]
 test-support = [
     "gpui/test-support",
-    "rpc/test-support",
+    "proto/test-support",
 ]
 
 [dependencies]
@@ -24,6 +24,7 @@ client.workspace = true
 futures-lite.workspace = true
 component.workspace = true
 gpui.workspace = true
+proto.workspace = true
 rpc.workspace = true
 sum_tree.workspace = true
 time.workspace = true
@@ -35,5 +36,5 @@ zed_actions.workspace = true
 [dev-dependencies]
 client = { workspace = true, features = ["test-support"] }
 gpui = { workspace = true, features = ["test-support"] }
-rpc = { workspace = true, features = ["test-support"] }
+proto = { workspace = true, features = ["test-support"] }
 util = { workspace = true, features = ["test-support"] }

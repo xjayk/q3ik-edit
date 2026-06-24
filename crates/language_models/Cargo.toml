@@ -51,7 +51,7 @@ open_ai = { workspace = true, features = ["schemars"] }
 opencode = { workspace = true, features = ["schemars"] }
 open_router = { workspace = true, features = ["schemars"] }
 rand.workspace = true
-release_channel.workspace = true
+
 schemars.workspace = true
 sha2.workspace = true
 serde.workspace = true

@@ -115,7 +115,7 @@ multi_buffer = { workspace = true, features = ["test-support"] }
 project = { workspace = true, features = ["test-support"] }
 proptest.workspace = true
 proptest-derive.workspace = true
-release_channel.workspace = true
+
 rand.workspace = true
 semver.workspace = true
 settings = { workspace = true, features = ["test-support"] }

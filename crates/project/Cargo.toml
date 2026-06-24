@@ -70,7 +70,6 @@ postage.workspace = true
 prettier.workspace = true
 rand.workspace = true
 regex.workspace = true
-release_channel.workspace = true
 remote.workspace = true
 rpc.workspace = true
 schemars.workspace = true

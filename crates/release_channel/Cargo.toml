@@ -3,11 +3,12 @@ name = "release_channel"
 version = "0.1.0"
 edition.workspace = true
 publish.workspace = true
-license = "GPL-3.0-or-later"
 
-[lints]
-workspace = true
+[lib]
+name = "release_channel"
+path = "src/lib.rs"
 
 [dependencies]
-gpui.workspace = true
-semver.workspace = true
+gpui = { workspace = true }
+semver = { workspace = true }
+serde = { workspace = true }
