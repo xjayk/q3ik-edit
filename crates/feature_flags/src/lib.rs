@@ -1,0 +1,44 @@
+use gpui::{App, Context, Task};
+
+pub static ZED_DISABLE_STAFF: bool = false;
+
+pub trait FeatureFlagAppExt {
+    fn on_flags_ready(&mut self, callback: impl 'static + FnMut(FlagState, &mut App)) -> Task<()>;
+    fn update_flags(&mut self, enabled: bool, flags: Vec<String>);
+    fn has_flag<F>(&self) -> bool
+    where
+        F: 'static;
+}
+
+impl FeatureFlagAppExt for App {
+    fn on_flags_ready(&mut self, _: impl 'static + FnMut(FlagState, &mut App)) -> Task<()> {
+        Task::ready(())
+    }
+    fn update_flags(&mut self, _: bool, _: Vec<String>) {}
+    fn has_flag<F: 'static>(&self) -> bool {
+        false
+    }
+}
+
+impl<T> FeatureFlagAppExt for Context<'_, T> {
+    fn on_flags_ready(&mut self, _: impl 'static + FnMut(FlagState, &mut App)) -> Task<()> {
+        Task::ready(())
+    }
+    fn update_flags(&mut self, _: bool, _: Vec<String>) {}
+    fn has_flag<F: 'static>(&self) -> bool {
+        false
+    }
+}
+
+pub struct FlagState {
+    pub is_staff: bool,
+}
+
+pub struct AcpBetaFeatureFlag;
+pub struct DiffReviewFeatureFlag;
+pub struct SandboxingFeatureFlag;
+pub struct CreateThreadToolFeatureFlag;
+pub struct LspToolFeatureFlag;
+pub struct RenameToolFeatureFlag;
+pub struct ProjectPanelUndoRedoFeatureFlag;
+pub struct AgentSharingFeatureFlag;
