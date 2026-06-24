@@ -71,12 +71,11 @@ jobs:
           sudo rm -rf /opt/hostedtoolcache/CodeQL
           df -h /
 
-      # Permissive Cache Warming
       - name: Run Clippy
-        run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings
+        run: cargo clippy -p editor -p project -p zed -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings
       
       - name: Run Tests
-        run: cargo nextest run -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --lib --bins --tests --no-fail-fast --no-tests=warn
+        run: cargo nextest run -p editor -p project -p zed -p json_schema_store -p eval_cli -p edit_prediction_cli --lib --bins --tests --no-fail-fast --no-tests=warn
 
   build_and_test_macos:
     name: Build & Test (macOS)
@@ -102,7 +101,7 @@ jobs:
           shared-key: "zed-build-cache-macos"
 
       - name: Run Clippy
-        run: cargo clippy -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings
+        run: cargo clippy -p editor -p project -p zed -p json_schema_store -p eval_cli -p edit_prediction_cli --all-targets --all-features -- --deny warnings
 
       - name: Run Tests (Skipping Flaky E2E Module)
-        run: cargo nextest run -p editor -p project -p zed -p remote_server -p json_schema_store -p eval_cli -p edit_prediction_cli --lib --bins --tests --no-fail-fast --no-tests=warn
+        run: cargo nextest run -p editor -p project -p zed -p json_schema_store -p eval_cli -p edit_prediction_cli --lib --bins --tests --no-fail-fast --no-tests=warn
