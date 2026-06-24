@@ -29,6 +29,12 @@ impl ReleaseChannel {
     pub fn global(cx: &App) -> Self {
         ReleaseChannel::Dev
     }
+
+    pub fn app_id(&self) -> &'static str {
+        "Zed-Editor-Dev"
+    }
+
+    pub const ALL: [Self; 4] = [Self::Dev, Self::Nightly, Self::Preview, Self::Stable];
 }
 
 impl Default for ReleaseChannel {
@@ -39,13 +45,21 @@ impl Default for ReleaseChannel {
 
 pub struct AppVersion;
 impl AppVersion {
-        write!(f, "{}", self.version)
     pub fn global(_cx: &App) -> semver::Version {
         semver::Version::new(0, 0, 0)
     }
 }
 
 pub struct AppCommitSha;
+
+impl AppCommitSha {
+    pub fn try_global(_cx: &App) -> Option<Self> {
+        None
+    }
+    pub fn full(&self) -> String {
+        String::new()
+    }
+}
 
 pub static RELEASE_CHANNEL: LazyLock<ReleaseChannel> = LazyLock::new(|| ReleaseChannel::Dev);
 

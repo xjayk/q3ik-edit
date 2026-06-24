@@ -40,3 +40,5 @@ pub struct SandboxingFeatureFlag;
 pub struct CreateThreadToolFeatureFlag;
 pub struct LspToolFeatureFlag;
 pub struct RenameToolFeatureFlag;
+pub struct ProjectPanelUndoRedoFeatureFlag;
+pub struct AgentSharingFeatureFlag;

@@ -1,11 +1,12 @@
 use anyhow::Result;
 use gpui::{
-    App, DismissEvent, Entity, EventEmitter, FocusHandle, Focusable, ManagedView, Render, Task,
-    Window,
+    App, AsyncWindowContext, DismissEvent, Entity, EventEmitter, FocusHandle, Focusable, Render,
+    Task, Window,
 };
 
 pub struct RemoteConnectionModal {
     _focus: FocusHandle,
+    pub prompt: Option<Entity<RemoteConnectionPrompt>>,
 }
 
 impl RemoteConnectionModal {
@@ -14,19 +15,22 @@ impl RemoteConnectionModal {
         _paths: Vec<std::path::PathBuf>,
         _window: &mut Window,
         _cx: &mut App,
-    ) -> Task<Result<Entity<Self>>> {
-        Task::ready(Err(anyhow::anyhow!("not implemented")))
+    ) -> Self {
+        Self {
+            _focus: _cx.focus_handle(),
+            prompt: None,
+        }
     }
     pub fn new_ssh(
         _connection_options: &remote::SshConnectionOptions,
         _paths: Vec<std::path::PathBuf>,
         _window: &mut Window,
         _cx: &mut App,
-    ) -> Task<Result<Entity<Self>>> {
-        Task::ready(Err(anyhow::anyhow!("not implemented")))
-    }
-    pub fn prompt(&self) -> Option<Entity<RemoteConnectionPrompt>> {
-        None
+    ) -> Self {
+        Self {
+            _focus: _cx.focus_handle(),
+            prompt: None,
+        }
     }
     pub fn finished(&mut self, _cx: &mut App) {}
 }
@@ -49,26 +53,38 @@ impl Render for RemoteConnectionModal {
     }
 }
 
-pub fn connect_with_modal(
-    _workspace: &Entity<()>,
-    _connection_options: (),
+use workspace::ModalView;
+
+impl ModalView for RemoteConnectionModal {}
+
+pub fn connect_with_modal<T>(
+    _workspace: &Entity<T>,
+    _connection_options: remote::RemoteConnectionOptions,
     _window: &mut Window,
     _cx: &mut App,
-) -> Task<Result<()>> {
-    Task::ready(Ok(()))
+) -> Task<anyhow::Result<Option<Entity<remote::RemoteClient>>>> {
+    Task::ready(Ok(None))
 }
 
-pub fn dismiss_connection_modal(_workspace: &Entity<()>, _cx: &mut App) {}
+pub fn dismiss_connection_modal<T>(_workspace: &Entity<T>, _cx: &mut AsyncWindowContext) {
+    let _ = _cx;
+}
 
 pub fn connect_reusing_pool(
-    _connection: (),
+    _connection: remote::RemoteConnectionOptions,
     _cx: &mut App,
-) -> Task<Result<Entity<RemoteConnectionModal>>> {
-    Task::ready(Err(anyhow::anyhow!("not implemented")))
+) -> Task<anyhow::Result<Option<Entity<remote::RemoteClient>>>> {
+    Task::ready(Ok(None))
 }
 
-pub fn connect(_connection_options: (), _window: &mut Window, _cx: &mut App) -> Task<Result<()>> {
-    Task::ready(Ok(()))
+pub fn connect(
+    _connection_identifier: remote::remote_client::ConnectionIdentifier,
+    _connection_options: remote::RemoteConnectionOptions,
+    _prompt: Option<Entity<RemoteConnectionPrompt>>,
+    _window: &mut Window,
+    _cx: &mut App,
+) -> Task<anyhow::Result<Option<Entity<remote::RemoteClient>>>> {
+    Task::ready(Ok(None))
 }
 
 pub trait RemoteClientDelegate {}

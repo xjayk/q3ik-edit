@@ -12334,6 +12334,7 @@ dependencies = [
  "gpui",
  "release_channel",
  "remote",
+ "workspace",
 ]
 
 [[package]]

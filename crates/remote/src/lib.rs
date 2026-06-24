@@ -182,7 +182,10 @@ impl RemoteConnectionIdentity {
 
 pub trait RemoteClientDelegate {}
 
-pub fn has_active_connection() -> bool {
+pub fn has_active_connection(
+    _connection_options: &RemoteConnectionOptions,
+    _cx: &mut gpui::App,
+) -> bool {
     false
 }
 pub fn connect() {}

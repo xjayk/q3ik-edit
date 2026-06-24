@@ -19,5 +19,6 @@ test-support = ["remote/test-support"]
 anyhow.workspace = true
 gpui.workspace = true
 remote.workspace = true
+workspace.workspace = true
 
 release_channel.workspace = true
