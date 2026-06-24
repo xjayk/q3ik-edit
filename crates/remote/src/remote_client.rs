@@ -1,6 +1,6 @@
+use crate::transport::docker::DockerConnectionOptions;
 use crate::transport::ssh::SshConnectionOptions;
 use crate::transport::wsl::WslConnectionOptions;
-use crate::transport::docker::DockerConnectionOptions;
 use anyhow::Result;
 use gpui::{App, Context, Entity, EventEmitter, Task, Window};
 use std::sync::Arc;

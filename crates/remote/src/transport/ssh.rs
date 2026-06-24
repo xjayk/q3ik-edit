@@ -29,10 +29,7 @@ impl SshConnectionOptions {
     }
 }
 
-#[derive(
-    Debug, Clone, PartialEq, Eq, Hash,
-    serde::Serialize, serde::Deserialize,
-)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize)]
 pub enum SshPortForwardOption {
     Local(Vec<String>),
     Remote(Vec<String>),

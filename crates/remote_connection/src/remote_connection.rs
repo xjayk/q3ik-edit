@@ -1,9 +1,9 @@
+use anyhow::Result;
 use gpui::{
     AnyElement, App, Context, DismissEvent, Entity, EventEmitter, FocusHandle, Focusable,
     IntoElement, SharedString, Task, WeakEntity, Window,
 };
 use remote::{RemoteClientDelegate as RemoteClientDelegateTrait, RemoteConnectionOptions};
-use anyhow::Result;
 use std::path::PathBuf;
 use std::sync::Arc;
 
@@ -18,11 +18,7 @@ pub struct SshConnectionHeader {
 }
 
 impl SshConnectionHeader {
-    pub fn render(
-        &self,
-        _window: &mut Window,
-        _cx: &mut App,
-    ) -> impl IntoElement {
+    pub fn render(&self, _window: &mut Window, _cx: &mut App) -> impl IntoElement {
         gpui::div()
     }
 }
@@ -49,10 +45,7 @@ impl RemoteConnectionPrompt {
 
     pub fn confirm(&mut self, _window: &mut Window, _cx: &mut App) {}
 
-    pub fn set_cancellation_tx(
-        &mut self,
-        _tx: futures::channel::oneshot::Sender<()>,
-    ) {}
+    pub fn set_cancellation_tx(&mut self, _tx: futures::channel::oneshot::Sender<()>) {}
 }
 
 impl Focusable for RemoteConnectionPrompt {
@@ -82,14 +75,7 @@ impl RemoteConnectionModal {
             RemoteConnectionOptions::Mock(opts) => format!("mock-{}", opts.id),
         };
         let prompt = cx.new(|cx| {
-            RemoteConnectionPrompt::new(
-                connection_string,
-                None,
-                false,
-                false,
-                window,
-                cx,
-            )
+            RemoteConnectionPrompt::new(connection_string, None, false, false, window, cx)
         });
         Self { prompt }
     }
@@ -119,7 +105,11 @@ impl RemoteClientDelegate {
         ui: WeakEntity<RemoteConnectionPrompt>,
         password: Option<askpass::EncryptedPassword>,
     ) -> Self {
-        Self { window, ui, password }
+        Self {
+            window,
+            ui,
+            password,
+        }
     }
 }
 
