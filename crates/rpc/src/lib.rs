@@ -1,4 +1,3 @@
-pub mod auth;
 pub mod notification;
 pub use notification::*;
 
@@ -10,7 +9,6 @@ use std::sync::Arc;
 use std::time::{Duration, Instant};
 
 use anyhow::Result;
-use futures::future::BoxFuture;
 use futures::stream::BoxStream;
 use futures::{Future, StreamExt};
 
