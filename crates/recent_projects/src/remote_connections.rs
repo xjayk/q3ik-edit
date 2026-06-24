@@ -2,15 +2,18 @@
 //!
 //! All SSH / WSL / RemoteClient connection logic has been eliminated via DCE.
 //! The public surface (`navigate_to_positions`, `open_remote_project`,
-//! `RemoteSettings`) is preserved as panicking / no-op stubs so that call-
-//! sites in `recent_projects.rs` continue to compile without modification.
+//! `RemoteSettings`) is preserved as no-op / error stubs so that call-sites
+//! in `recent_projects.rs` continue to compile without modification.
 //!
 //! DO NOT restore any `remote` / `remote_connection` imports here.
 
-use gpui::App;
+use anyhow::Result;
+use gpui::{AsyncApp, WindowHandle};
 use settings::Settings;
 use std::path::PathBuf;
-use workspace::{AppState, OpenOptions};
+use std::sync::Arc;
+use workspace::{AppState, MultiWorkspace, OpenOptions};
+use util::paths::PathWithPosition;
 
 // ---------------------------------------------------------------------------
 // RemoteSettings — kept as a hollow settings struct so that the Settings
@@ -28,7 +31,7 @@ impl Settings for RemoteSettings {
 
     fn load(
         sources: settings::SettingsSources<'_, Self::FileContent>,
-        _cx: &mut App,
+        _cx: &mut gpui::App,
     ) -> anyhow::Result<Self> {
         Ok(sources.user.cloned().unwrap_or_default())
     }
@@ -36,27 +39,31 @@ impl Settings for RemoteSettings {
 
 // ---------------------------------------------------------------------------
 // navigate_to_positions — no-op; remote navigation is not supported.
+// Signature kept identical to upstream so all call-sites compile.
 // ---------------------------------------------------------------------------
 
 /// Stub: does nothing. Remote navigation is not supported in this build.
 pub fn navigate_to_positions(
-    _positions: Vec<(PathBuf, std::ops::Range<usize>)>,
-    _cx: &mut App,
+    _window: &WindowHandle<MultiWorkspace>,
+    _items: impl IntoIterator<Item = Option<Box<dyn workspace::item::ItemHandle>>>,
+    _positions: &[PathWithPosition],
+    _cx: &mut AsyncApp,
 ) {
     // DCE: remote navigation removed.
 }
 
 // ---------------------------------------------------------------------------
 // open_remote_project — always returns an error; callers must handle it.
+// Return type kept as Result<WindowHandle<MultiWorkspace>> to match upstream.
 // ---------------------------------------------------------------------------
 
 /// Stub: always fails. Remote project opening is not supported in this build.
 pub async fn open_remote_project(
     _connection_options: remote::RemoteConnectionOptions,
     _paths: Vec<PathBuf>,
-    _app_state: std::sync::Arc<AppState>,
+    _app_state: Arc<AppState>,
     _open_options: OpenOptions,
-    _cx: &mut gpui::AsyncApp,
-) -> anyhow::Result<()> {
+    _cx: &mut AsyncApp,
+) -> Result<WindowHandle<MultiWorkspace>> {
     anyhow::bail!("open_remote_project: remote connections are not supported in this build")
 }
