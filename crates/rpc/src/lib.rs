@@ -288,6 +288,12 @@ mod proto_client {
         pub fn new(client: Arc<dyn ProtoClient>) -> Self {
             Self(client)
         }
+
+        /// Convenience constructor wrapping a `NoopProtoClient`.
+        pub fn noop() -> Self {
+            Self(Arc::new(NoopProtoClient::new()))
+        }
+
         pub fn add_entity_message_handler<M, E, H, F>(&self, _: H)
         where
             M: EnvelopedMessage,

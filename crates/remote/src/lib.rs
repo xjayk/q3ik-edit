@@ -44,7 +44,7 @@ impl RemoteClient {
         true
     }
     pub fn proto_client(&self) -> rpc::AnyProtoClient {
-        rpc::AnyProtoClient::new(Arc::new(rpc::NoopProtoClient::new()))
+        rpc::AnyProtoClient::noop()
     }
     pub fn remote_connection(&self) -> Option<Arc<dyn RemoteConnection>> {
         None
@@ -98,6 +98,8 @@ pub enum RemoteConnectionOptions {
     Ssh(SshConnectionOptions),
     Wsl(WslConnectionOptions),
     Docker(DockerConnectionOptions),
+    #[cfg(any(test, feature = "test-support"))]
+    Mock(MockConnectionOptions),
 }
 
 impl RemoteConnectionOptions {
@@ -204,6 +206,12 @@ pub fn remote_connection_identity(opts: &RemoteConnectionOptions) -> RemoteConne
             name: docker.name.clone(),
             remote_user: docker.remote_user.clone(),
             container_id: docker.container_id.clone(),
+        },
+        #[cfg(any(test, feature = "test-support"))]
+        RemoteConnectionOptions::Mock(_) => RemoteConnectionIdentity::Ssh {
+            username: None,
+            host: "mock".to_string(),
+            port: None,
         },
     }
 }
