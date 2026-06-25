@@ -136,6 +136,7 @@ mod gpui_impl {
             ) -> LocalBoxFuture<'static, Result<()>>,
     >;
 
+    #[derive(Default)]
     pub struct ProtoMessageHandlerSet {
         pub entity_types_by_message_type: HashMap<TypeId, TypeId>,
         pub entities_by_type_and_remote_id: HashMap<(TypeId, u64), EntityMessageSubscriber>,
@@ -144,21 +145,9 @@ mod gpui_impl {
         pub message_handlers: HashMap<TypeId, ProtoMessageHandler>,
     }
 
-    impl Default for ProtoMessageHandlerSet {
-        fn default() -> Self {
-            Self {
-                entity_types_by_message_type: HashMap::default(),
-                entities_by_type_and_remote_id: HashMap::default(),
-                entity_id_extractors: HashMap::default(),
-                entities_by_message_type: HashMap::default(),
-                message_handlers: HashMap::default(),
-            }
-        }
-    }
-
     impl ProtoMessageHandlerSet {
         pub fn handle_message(
-            this: &Mutex<Self>,
+            _this: &Mutex<Self>,
             _: Box<dyn proto::AnyTypedEnvelope>,
             _: AnyProtoClient,
             _: AsyncApp,
@@ -241,7 +230,7 @@ mod proto_client {
     }
 
     #[derive(Clone)]
-    pub struct AnyProtoClient(Arc<dyn ProtoClient>);
+    pub struct AnyProtoClient(#[allow(dead_code)] Arc<dyn ProtoClient>);
 
     impl std::fmt::Debug for AnyProtoClient {
         fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
