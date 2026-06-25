@@ -1,20 +1,11 @@
-pub use serde_json;
 pub use telemetry_events::FlexibleEvent as Event;
 
 #[macro_export]
 macro_rules! event {
-    ($name:expr) => {
-        {
-            let _ = &$name;
-        }
-    };
+    ($name:expr) => { let _ = &$name; };
     ($name:expr, $($key:ident $(= $value:expr)?),+ $(,)?) => {
-        {
-            let _ = &$name;
-            $(
-                let _ = &$crate::serialize_property!($key $(= $value)?);
-            )+
-        }
+        let _ = &$name;
+        $( let _ = $crate::serialize_property!($key $(= $value)?); )+
     };
 }
 
@@ -29,5 +20,4 @@ macro_rules! serialize_property {
 }
 
 pub fn send_event(_event: Event) {}
-
 pub fn init(_tx: futures::channel::mpsc::UnboundedSender<Event>) {}

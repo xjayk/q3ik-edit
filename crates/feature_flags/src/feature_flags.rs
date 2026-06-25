@@ -1,15 +1,9 @@
-extern crate self as feature_flags;
-
+use gpui::{App, Context, Global, Subscription, Window};
 use std::sync::LazyLock;
-
-use collections::HashMap;
-use gpui::{App, BorrowAppContext, Context, Global, Subscription, Window};
 
 pub use feature_flags_macros::EnumFeatureFlag;
 
-pub static ZED_DISABLE_STAFF: LazyLock<bool> = LazyLock::new(|| {
-    std::env::var("ZED_DISABLE_STAFF").is_ok_and(|value| !value.is_empty() && value != "0")
-});
+pub static ZED_DISABLE_STAFF: LazyLock<bool> = LazyLock::new(|| false);
 
 pub trait FeatureFlagValue:
     Sized + Clone + Eq + Default + std::fmt::Debug + Send + Sync + 'static
@@ -183,186 +177,113 @@ macro_rules! register_feature_flag {
 #[derive(Default)]
 pub struct FeatureFlagStore {
     staff: bool,
-    server_flags: HashMap<String, String>,
+    server_flags: collections::HashMap<String, String>,
     server_flags_received: bool,
     _settings_subscription: Option<Subscription>,
 }
 
 impl FeatureFlagStore {
     pub fn init(cx: &mut App) {
-        cx.update_default_global::<FeatureFlagStore, _>(|_, _| {});
+        cx.set_global(FeatureFlagStore::default());
     }
-
     pub fn known_flags() -> impl Iterator<Item = &'static FeatureFlagDescriptor> {
         [].iter()
     }
-
     pub fn is_staff(&self) -> bool {
         self.staff
     }
-
-    pub fn overrides_enabled(&self) -> bool {
-        !*ZED_DISABLE_STAFF
+    pub fn set_staff(&mut self, staff: bool, _cx: &mut App) {
+        self.staff = staff;
     }
-
+    pub fn set_flag_override(&mut self, _flag: String, _variant: Option<String>) {}
     pub fn server_flags_received(&self) -> bool {
-        self.server_flags_received
+        true
     }
-
-    pub fn set_staff(&mut self, staff: bool) {
-        self.staff = staff;
+    pub fn all_overrides(&self, _flag: &str, _app: &App) -> Vec<(String, String)> {
+        vec![]
     }
-
-    pub fn update_server_flags(&mut self, staff: bool, flags: Vec<String>) {
-        self.staff = staff;
-        self.server_flags_received = true;
-        self.server_flags.clear();
-        for flag in flags {
-            self.server_flags.insert(flag.clone(), flag);
-        }
+    pub fn is_forced_on(_descriptor: &FeatureFlagDescriptor) -> bool {
+        false
     }
-
-    pub fn override_for<'a>(_flag_name: &str, _cx: &'a App) -> Option<&'a str> {
+    pub fn resolved_key(_descriptor: &FeatureFlagDescriptor, _cx: &App) -> &'static str {
+        ""
+    }
+    pub fn override_for(_name: &str, _cx: &App) -> Option<String> {
         None
     }
-
-    pub fn set_override(
-        _flag_name: &str,
-        _override_key: String,
-        _fs: std::sync::Arc<dyn fs::Fs>,
-        _cx: &App,
-    ) {
-    }
-
-    pub fn clear_override(_flag_name: &str, _fs: std::sync::Arc<dyn fs::Fs>, _cx: &App) {}
-
-    pub fn try_flag_value<T: FeatureFlag>(&self, _cx: &App) -> Option<T::Value> {
-        if T::enabled_for_all() {
-            return Some(T::Value::on_variant());
-        }
-        if !*ZED_DISABLE_STAFF && T::enabled_for_staff() {
-            return Some(T::Value::on_variant());
-        }
-        None
-    }
-
-    pub fn has_flag<T: FeatureFlag>(&self, _cx: &App) -> bool {
-        T::enabled_for_all() || (T::enabled_for_staff() && !*ZED_DISABLE_STAFF)
-    }
-
-    pub fn resolved_key(&self, descriptor: &FeatureFlagDescriptor, _cx: &App) -> &'static str {
-        (descriptor.default_variant_key)()
-    }
-
-    pub fn is_forced_on(descriptor: &FeatureFlagDescriptor) -> bool {
-        (descriptor.enabled_for_all)()
-    }
-
-    pub fn has_flag_default<T: FeatureFlag>() -> bool {
-        T::enabled_for_all() || (T::enabled_for_staff() && !*ZED_DISABLE_STAFF)
-    }
+    pub fn clear_override(_name: &str, _fs: &dyn fs::Fs, _cx: &mut App) {}
+    pub fn set_override(_name: &str, _variant_key: String, _fs: &dyn fs::Fs, _cx: &mut App) {}
 }
 
 impl Global for FeatureFlagStore {}
 
-#[derive(Clone, Default, Debug, settings::RegisterSetting)]
-pub struct FeatureFlagsSettings {
-    pub overrides: HashMap<String, String>,
-}
+// ---------------------------------------------------------------------------
+// Stub feature flags — retained so that crates referencing them still compile
+// after the Phase 0 pruning removed the real definitions.
+// ---------------------------------------------------------------------------
 
-impl settings::Settings for FeatureFlagsSettings {
-    fn from_settings(_content: &settings::SettingsContent) -> Self {
-        Self {
-            overrides: HashMap::default(),
-        }
-    }
-}
-
-// RegisterSetting is a derive macro, not a trait
-
-pub fn generate_feature_flags_schema() -> schemars::Schema {
-    schemars::schema_for!(serde_json::Value)
-}
-
-pub struct NotebookFeatureFlag;
-impl FeatureFlag for NotebookFeatureFlag {
-    const NAME: &'static str = "notebooks";
+pub struct AcpBetaFeatureFlag;
+impl FeatureFlag for AcpBetaFeatureFlag {
+    const NAME: &'static str = "acp_beta";
     type Value = PresenceFlag;
 }
-register_feature_flag!(NotebookFeatureFlag);
+
+pub struct DiffReviewFeatureFlag;
+impl FeatureFlag for DiffReviewFeatureFlag {
+    const NAME: &'static str = "diff_review";
+    type Value = PresenceFlag;
+}
+
+pub struct SandboxingFeatureFlag;
+impl FeatureFlag for SandboxingFeatureFlag {
+    const NAME: &'static str = "sandboxing";
+    type Value = PresenceFlag;
+}
+
+pub struct AgentSharingFeatureFlag;
+impl FeatureFlag for AgentSharingFeatureFlag {
+    const NAME: &'static str = "agent_sharing";
+    type Value = PresenceFlag;
+}
+
+pub struct CreateThreadToolFeatureFlag;
+impl FeatureFlag for CreateThreadToolFeatureFlag {
+    const NAME: &'static str = "create_thread_tool";
+    type Value = PresenceFlag;
+}
 
 pub struct PanicFeatureFlag;
 impl FeatureFlag for PanicFeatureFlag {
     const NAME: &'static str = "panic";
     type Value = PresenceFlag;
 }
-register_feature_flag!(PanicFeatureFlag);
 
-pub struct AcpBetaFeatureFlag;
-impl FeatureFlag for AcpBetaFeatureFlag {
-    const NAME: &'static str = "acp-beta";
+pub struct DebuggerFeatureFlag;
+impl FeatureFlag for DebuggerFeatureFlag {
+    const NAME: &'static str = "debugger";
     type Value = PresenceFlag;
 }
-register_feature_flag!(AcpBetaFeatureFlag);
-
-pub struct AgentSharingFeatureFlag;
-impl FeatureFlag for AgentSharingFeatureFlag {
-    const NAME: &'static str = "agent-sharing";
-    type Value = PresenceFlag;
-}
-register_feature_flag!(AgentSharingFeatureFlag);
-
-pub struct DiffReviewFeatureFlag;
-impl FeatureFlag for DiffReviewFeatureFlag {
-    const NAME: &'static str = "diff-review";
-    type Value = PresenceFlag;
-    fn enabled_for_staff() -> bool {
-        false
-    }
-}
-register_feature_flag!(DiffReviewFeatureFlag);
-
-pub struct CreateThreadToolFeatureFlag;
-impl FeatureFlag for CreateThreadToolFeatureFlag {
-    const NAME: &'static str = "create-thread-tool";
-    type Value = PresenceFlag;
-    fn enabled_for_staff() -> bool {
-        true
-    }
-}
-register_feature_flag!(CreateThreadToolFeatureFlag);
-
-pub struct LspToolFeatureFlag;
-impl FeatureFlag for LspToolFeatureFlag {
-    const NAME: &'static str = "lsp-tool";
-    type Value = PresenceFlag;
-    fn enabled_for_staff() -> bool {
-        false
-    }
-}
-register_feature_flag!(LspToolFeatureFlag);
-
-pub struct RenameToolFeatureFlag;
-impl FeatureFlag for RenameToolFeatureFlag {
-    const NAME: &'static str = "rename-tool";
-    type Value = PresenceFlag;
-    fn enabled_for_staff() -> bool {
-        true
-    }
-}
-register_feature_flag!(RenameToolFeatureFlag);
 
 pub struct ProjectPanelUndoRedoFeatureFlag;
 impl FeatureFlag for ProjectPanelUndoRedoFeatureFlag {
-    const NAME: &'static str = "project-panel-undo-redo";
+    const NAME: &'static str = "project_panel_undo_redo";
     type Value = PresenceFlag;
-    fn enabled_for_staff() -> bool {
-        true
-    }
 }
-register_feature_flag!(ProjectPanelUndoRedoFeatureFlag);
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug, EnumFeatureFlag)]
+pub struct LspToolFeatureFlag;
+impl FeatureFlag for LspToolFeatureFlag {
+    const NAME: &'static str = "lsp_tool";
+    type Value = PresenceFlag;
+}
+
+pub struct RenameToolFeatureFlag;
+impl FeatureFlag for RenameToolFeatureFlag {
+    const NAME: &'static str = "rename_tool";
+    type Value = PresenceFlag;
+}
+
+/// Controls how worktree labels are displayed in the sidebar.
+#[derive(Clone, Copy, Default, PartialEq, Eq, Debug)]
 pub enum AgentThreadWorktreeLabel {
     #[default]
     Both,
@@ -370,29 +291,39 @@ pub enum AgentThreadWorktreeLabel {
     Branch,
 }
 
+impl FeatureFlagValue for AgentThreadWorktreeLabel {
+    fn all_variants() -> &'static [Self] {
+        &[Self::Both, Self::Worktree, Self::Branch]
+    }
+    fn override_key(&self) -> &'static str {
+        match self {
+            Self::Both => "both",
+            Self::Worktree => "worktree",
+            Self::Branch => "branch",
+        }
+    }
+    fn label(&self) -> &'static str {
+        match self {
+            Self::Both => "Both",
+            Self::Worktree => "Worktree",
+            Self::Branch => "Branch",
+        }
+    }
+    fn from_wire(wire: &str) -> Option<Self> {
+        match wire {
+            "both" => Some(Self::Both),
+            "worktree" => Some(Self::Worktree),
+            "branch" => Some(Self::Branch),
+            _ => None,
+        }
+    }
+    fn on_variant() -> Self {
+        Self::Both
+    }
+}
+
 pub struct AgentThreadWorktreeLabelFlag;
 impl FeatureFlag for AgentThreadWorktreeLabelFlag {
-    const NAME: &'static str = "agent-thread-worktree-label";
+    const NAME: &'static str = "agent_thread_worktree_label";
     type Value = AgentThreadWorktreeLabel;
-    fn enabled_for_staff() -> bool {
-        false
-    }
 }
-register_feature_flag!(AgentThreadWorktreeLabelFlag);
-
-pub struct AutoWatchFeatureFlag;
-impl FeatureFlag for AutoWatchFeatureFlag {
-    const NAME: &'static str = "auto-watch-screens";
-    type Value = PresenceFlag;
-}
-register_feature_flag!(AutoWatchFeatureFlag);
-
-pub struct SandboxingFeatureFlag;
-impl FeatureFlag for SandboxingFeatureFlag {
-    const NAME: &'static str = "sandboxing";
-    type Value = PresenceFlag;
-    fn enabled_for_staff() -> bool {
-        false
-    }
-}
-register_feature_flag!(SandboxingFeatureFlag);

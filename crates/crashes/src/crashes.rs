@@ -4,25 +4,23 @@ pub struct Client;
 
 pub fn force_backtrace() {}
 
-pub fn init<F, C, S, P>(
+pub async fn init<F, C, S, P>(
     _crash_init: InitCrashHandler,
     _spawn: S,
     _socket_path: P,
     _wait_timer: C,
-) -> impl std::future::Future<Output = Arc<Client>>
+) -> Arc<Client>
 where
     F: std::future::Future<Output = ()> + Send + Sync + 'static,
     C: (Fn(std::time::Duration) -> F) + Send + Sync + 'static,
     S: FnOnce(std::pin::Pin<Box<dyn std::future::Future<Output = ()> + Send + 'static>>),
     P: FnOnce(u32) -> std::path::PathBuf,
 {
-    async { Arc::new(Client) }
+    Arc::new(Client)
 }
 
 pub fn crash_server(_socket: &std::path::Path, _logs_dir: std::path::PathBuf) {}
-
 pub fn panic_hook(_client: Arc<Client>, _message: &str, _location: Option<&std::panic::Location>) {}
-
 pub fn set_gpu_info(_client: &Arc<Client>, _specs: gpui::GpuSpecs) {}
 pub fn set_user_info(_client: &Arc<Client>, _info: UserInfo) {}
 

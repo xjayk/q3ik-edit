@@ -73,11 +73,7 @@ impl PrivateKey {
         let bytes = self
             .0
             .decrypt(oaep_sha256_padding(), &encrypted_bytes)
-            .or_else(|_err| {
-                // If we failed to decrypt using the new format, try decrypting with the old
-                // one to handle mismatches between the client and server.
-                self.0.decrypt(Pkcs1v15Encrypt, &encrypted_bytes)
-            })
+            .or_else(|_err| self.0.decrypt(Pkcs1v15Encrypt, &encrypted_bytes))
             .context("failed to decrypt string with private key")?;
         let string = String::from_utf8(bytes).context("decrypted content was not valid utf8")?;
         Ok(string)
@@ -143,17 +139,10 @@ mod tests {
 
     #[test]
     fn test_generate_encrypt_and_decrypt_token() {
-        // CLIENT:
-        // * generate a keypair for asymmetric encryption
-        // * serialize the public key to send it to the server.
         let (public, private) = keypair().unwrap();
         let public_string = String::try_from(public).unwrap();
         assert_printable(&public_string);
 
-        // SERVER:
-        // * parse the public key
-        // * generate a random token.
-        // * encrypt the token using the public key.
         let public = PublicKey::try_from(public_string).unwrap();
         let token = random_token();
         let encrypted_token = public.encrypt_string(&token, EncryptionFormat::V1).unwrap();
@@ -162,25 +151,16 @@ mod tests {
         assert_printable(&token);
         assert_printable(&encrypted_token);
 
-        // CLIENT:
-        // * decrypt the token using the private key.
         let decrypted_token = private.decrypt_string(&encrypted_token).unwrap();
         assert_eq!(decrypted_token, token);
     }
 
     #[test]
     fn test_generate_encrypt_and_decrypt_token_with_v0_encryption_format() {
-        // CLIENT:
-        // * generate a keypair for asymmetric encryption
-        // * serialize the public key to send it to the server.
         let (public, private) = keypair().unwrap();
         let public_string = String::try_from(public).unwrap();
         assert_printable(&public_string);
 
-        // SERVER:
-        // * parse the public key
-        // * generate a random token.
-        // * encrypt the token using the public key.
         let public = PublicKey::try_from(public_string).unwrap();
         let token = random_token();
         let encrypted_token = public.encrypt_string(&token, EncryptionFormat::V0).unwrap();
@@ -189,23 +169,15 @@ mod tests {
         assert_printable(&token);
         assert_printable(&encrypted_token);
 
-        // CLIENT:
-        // * decrypt the token using the private key.
         let decrypted_token = private.decrypt_string(&encrypted_token).unwrap();
         assert_eq!(decrypted_token, token);
     }
 
     #[test]
     fn test_encode_and_decode_base64_public_key() {
-        // A base64-encoded public key.
-        //
-        // We're using a literal string to ensure that encoding and decoding works across differences in implementations.
         let encoded_public_key = "MIGJAoGBAMPvufou8wOuUIF1Wlkbtn0ZMM9nC55QJ06nTZvgMfZv5esFVU9-cQO_JC1P9ZoEcMDJweFERnQuQLqzsrMDLFbkdgL128ZU43WOLiQraxaICFIZsPUeTtWMKp2D5bPWsNxs-lnCma7vCAry6fpXuj5AKQdk7cTZJNucgvZQ0uUfAgMBAAE=".to_string();
 
-        // Make sure we can parse the public key.
         let public_key = PublicKey::try_from(encoded_public_key.clone()).unwrap();
-
-        // Make sure we re-encode to the same format.
         assert_eq!(encoded_public_key, String::try_from(public_key).unwrap());
     }
 
