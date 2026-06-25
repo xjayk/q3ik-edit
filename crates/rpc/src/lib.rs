@@ -30,9 +30,7 @@ impl Connection {
 
     /// Creates a pair of in-memory connections for use in tests.
     /// Returns (client_conn, server_conn, channel) where channel is a dummy unit.
-    pub fn in_memory(
-        _executor: gpui::BackgroundExecutor,
-    ) -> (Self, Self, ()) {
+    pub fn in_memory(_executor: gpui::BackgroundExecutor) -> (Self, Self, ()) {
         (Self, Self, ())
     }
 }
@@ -143,11 +141,7 @@ impl Peer {
     pub fn send_dynamic(&self, _: ConnectionId, _: proto::Envelope) -> Result<()> {
         Ok(())
     }
-    pub fn respond<T: proto::RequestMessage>(
-        &self,
-        _: Receipt<T>,
-        _: T::Response,
-    ) -> Result<()> {
+    pub fn respond<T: proto::RequestMessage>(&self, _: Receipt<T>, _: T::Response) -> Result<()> {
         Ok(())
     }
     pub fn respond_with_unhandled_message(
