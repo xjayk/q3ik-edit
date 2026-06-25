@@ -398,7 +398,7 @@ impl Telemetry {
     }
 
     pub fn report_assistant_event(self: &Arc<Self>, event: AssistantEventData) {
-        let event_type = match event.phase {
+        let _event_type = match event.phase {
             AssistantPhase::Response => "Assistant Responded",
             AssistantPhase::Invoked => "Assistant Invoked",
             AssistantPhase::Accepted => "Assistant Response Accepted",
@@ -406,7 +406,7 @@ impl Telemetry {
         };
 
         telemetry::event!(
-            event_type,
+            _event_type,
             conversation_id = event.conversation_id,
             kind = event.kind,
             phase = event.phase,
@@ -419,7 +419,7 @@ impl Telemetry {
         );
     }
 
-    pub fn log_edit_event(self: &Arc<Self>, environment: &'static str, is_via_ssh: bool) {
+    pub fn log_edit_event(self: &Arc<Self>, environment: &'static str, _is_via_ssh: bool) {
         static LAST_EVENT_TIME: Mutex<Option<Instant>> = Mutex::new(None);
 
         let mut state = self.state.lock();
@@ -436,17 +436,17 @@ impl Telemetry {
                 return;
             }
 
-            if let Some((start, end, environment)) = period_data {
-                let duration = end
+            if let Some((start, end, _environment)) = period_data {
+                let _duration = end
                     .saturating_duration_since(start)
                     .min(Duration::from_secs(60 * 60 * 24))
                     .as_millis() as i64;
 
                 telemetry::event!(
                     "Editor Edited",
-                    duration = duration,
+                    duration = _duration,
                     environment = environment,
-                    is_via_ssh = is_via_ssh
+                    is_via_ssh = _is_via_ssh
                 );
             }
         }
@@ -462,8 +462,8 @@ impl Telemetry {
             return;
         };
 
-        for project_type in project_types {
-            telemetry::event!("Project Opened", project_type = project_type);
+        for _project_type in project_types {
+            telemetry::event!("Project Opened", project_type = _project_type);
         }
     }
 

@@ -1,3 +1,4 @@
+pub mod auth;
 pub mod notification;
 pub use notification::*;
 
@@ -26,11 +27,28 @@ impl Connection {
     pub fn new<S>(_: S) -> Self {
         Self
     }
+
+    /// Creates a pair of in-memory connections for use in tests.
+    /// Returns (client_conn, server_conn, channel) where channel is a dummy unit.
+    pub fn in_memory(
+        _executor: gpui::BackgroundExecutor,
+    ) -> (Self, Self, ()) {
+        (Self, Self, ())
+    }
 }
 
 impl From<proto::PeerId> for ConnectionId {
     fn from(_: proto::PeerId) -> Self {
         ConnectionId { owner_id: 0, id: 0 }
+    }
+}
+
+impl From<ConnectionId> for proto::PeerId {
+    fn from(id: ConnectionId) -> Self {
+        proto::PeerId {
+            owner_id: id.owner_id,
+            id: id.id,
+        }
     }
 }
 
@@ -61,6 +79,25 @@ impl Peer {
             rx.boxed(),
         )
     }
+
+    /// Test-only variant of `add_connection` that uses an in-memory `Connection`.
+    pub fn add_test_connection(
+        self: &Arc<Self>,
+        _: Connection,
+        _executor: gpui::BackgroundExecutor,
+    ) -> (
+        ConnectionId,
+        impl Future<Output = anyhow::Result<()>> + Send,
+        BoxStream<'static, Box<dyn proto::AnyTypedEnvelope>>,
+    ) {
+        let (_, rx) = futures::channel::mpsc::unbounded();
+        (
+            ConnectionId { owner_id: 0, id: 0 },
+            async { Ok(()) },
+            rx.boxed(),
+        )
+    }
+
     pub fn disconnect(&self, _: ConnectionId) {}
     pub fn teardown(&self) {}
     pub fn request<T: proto::RequestMessage>(
@@ -106,6 +143,13 @@ impl Peer {
     pub fn send_dynamic(&self, _: ConnectionId, _: proto::Envelope) -> Result<()> {
         Ok(())
     }
+    pub fn respond<T: proto::RequestMessage>(
+        &self,
+        _: Receipt<T>,
+        _: T::Response,
+    ) -> Result<()> {
+        Ok(())
+    }
     pub fn respond_with_unhandled_message(
         &self,
         _: ConnectionId,
@@ -146,6 +190,14 @@ mod gpui_impl {
     }
 
     impl ProtoMessageHandlerSet {
+        pub fn clear(&mut self) {
+            self.entity_types_by_message_type.clear();
+            self.entities_by_type_and_remote_id.clear();
+            self.entity_id_extractors.clear();
+            self.entities_by_message_type.clear();
+            self.message_handlers.clear();
+        }
+
         pub fn handle_message(
             _this: &Mutex<Self>,
             _: Box<dyn proto::AnyTypedEnvelope>,
