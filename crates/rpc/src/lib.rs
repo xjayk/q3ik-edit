@@ -85,7 +85,7 @@ impl Peer {
         _executor: gpui::BackgroundExecutor,
     ) -> (
         ConnectionId,
-        impl Future<Output = anyhow::Result<()>> + Send,
+        impl Future<Output = anyhow::Result<()>> + Send + use<>,
         BoxStream<'static, Box<dyn proto::AnyTypedEnvelope>>,
     ) {
         let (_, rx) = futures::channel::mpsc::unbounded();
